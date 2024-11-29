@@ -1,0 +1,155 @@
+﻿@using YadiYad.Pro.Core.Domain.DepositRequest
+@using YadiYad.Pro.Core.Domain.Job
+@model YadiYad.Pro.Services.DTO.DepositRequest.DepositRequestDTO
+
+@{ 
+    var isReadOnly = false;
+    isReadOnly = !(Model.Status == (int)DepositRequestStatus.Invalid || Model.Id == 0);
+}
+
+<form class="content content-payprojectdepositrequest p-4 @(Model.OffsetableAmount > 0?"mode-offsetted":"")">
+    @if (Model.OffsetableAmount > 0)
+    {
+        <div class="text-center">
+            <h4 class="text-primary text-bold">Escrow Payment</h4>
+            <br />
+            <div class="text-center">Escrow Payment Required: RM <span>@Model.Amount.ToString("#0.00")</span></div>
+            <hr />
+            <div class="bg-bermuda p-2">
+                <div>Deposit reserve <u>@Model.OffsetableEngagementCode</u>: RM @Model.OffsetableAmount.ToString("#0.00")</div>
+                <div><small>*Unutilized deposit reserve is used to offset escrow payment.</small></div>
+            </div>
+            <br />
+            <h4 class="text-bold">
+                Total: RM <span>@((Model.Amount - Model.OffsetableAmount).ToString("#0.00"))</span>
+                <br /><span class="text-sm  text-bold-400">**No service charge is incurred.</span>
+            </h4>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-primary text-center text-bold" text="Project Deposit Bank In – {{code}}"></h4>
+
+        <h6 class="text-bold">Instruction</h6>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">1. Project Deposit</label>
+            <div class="col-sm-9">
+                <input type="text" name="payAmount" class="form-control" readonly required />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 col-form-label">2. Perform bank transfer to the following bank account:</label>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-11">
+                <div class="row">
+                    <label class="col-sm-12 col-lg-3 text-bold">Bank</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <div class="">@Model.TransfereeBankName</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-12 col-lg-3 text-bold">Bank Account</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <div class="">@Model.TransfereeBankAccountNo</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-12 col-lg-3 text-bold">Reference</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <span>@T("Yadiyad.Platform.Name")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 col-form-label">3. Upload the payment slip at the form below:​</label>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-11">
+                <h6 class="text-bold">Bank Deposit Slip</h6>
+                <div class="form-group row">
+                    <label class="col-sm-12 col-lg-3 col-form-label pl-2">Bank (Payer's Bank)</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <select class="form-control select2 select"
+                                name="bankId" textName="bankName"
+                                placeholder="Bank"
+                                data-sourceurl="/api/pro/source/bank"
+                                data-id="id" data-text="name"
+                                value="@Model.BankId"
+                                value-text="@Model.bankName"
+                                @(isReadOnly ? "disabled" : "")
+                                required>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-12 col-lg-3 col-form-label pl-2">Bank Transfer Date</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <input type="text" name="bankInDate" class="form-control form-control-datepicker-tdp" value="@Model.BankInDate?.ToString("yyyy-MM-dd")" required
+                               @(isReadOnly ? "readonly" : "")  mindate="today"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-12 col-lg-3 col-form-label pl-2">Reference Info</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <input type="text" name="bankInReference" class="form-control" required value="@Model.BankInReference" maxlength="255"
+                               @(isReadOnly ? "readonly" : "") />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-12 col-lg-3 col-form-label pl-2">Bank Deposit Slip</label>
+                    <div class="col-sm-12 col-lg-9">
+                        <nop-editor asp-for="BankInSlipDownloadId" required asp-disabled="@isReadOnly" asp-showicon="@(Model.ProductStatus == (int)JobApplicationStatus.PendingPaymentVerification || Model.ProductStatus == (int)JobApplicationStatus.RevisePaymentRequired)" />
+                    </div>
+                </div>
+                @if (string.IsNullOrWhiteSpace(Model.ApproveRemarks) == false)
+                {
+                    <div class="row">
+                        <label class="col-sm-3">Remarks</label>
+                        <div class="col-sm-12  col-lg-9">
+                            @Html.Raw(Model.ApproveRemarks)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <h5>*Note</h5>
+        <div>
+            <ul style="list-style-type:disc">
+                <li>
+                    If multiple transfers are made, please include all bank deposit slip in a single document and upload.
+                </li>
+                <li>
+                    The hired freelancer will be notified about the project once funds have cleared in our account.
+                </li>
+            </ul>
+        </div>
+    }
+    @if (Model.Status == (int)DepositRequestStatus.Invalid || Model.Id == 0)
+    {
+        <div class="row">
+            <div class="col-12 text-center">
+                <input class="btn btn-primary w-auto" type="submit" value="@(Model.OffsetableAmount > 0?"Pay":"Submit")" />
+                <input class="btn btn-default w-auto" type="button" value="Cancel" data-dismiss="modal" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12 text-center">
+                <input class="btn btn-default w-auto" type="button" value="Back" data-dismiss="modal" />
+            </div>
+        </div>
+    }
+</form>
+
+<environment include="Development">
+    <script src="~/js/pro/order/payprojectdepositrequest.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/order/payprojectdepositrequest.es5.min.js" asp-append-version="true"></script>
+</environment>

@@ -1,0 +1,454 @@
+﻿@model ContactsSearchModel
+
+@{
+    //page title
+    ViewBag.PageTitle = "Reporting Contacts";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Contacts");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "NewsContentPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Reporting Contacts
+    </h1>
+    <div class="pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success">
+                <i class="fa fa-download"></i>
+               Export to Excel
+            </button>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">&nbsp;</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                @*<li>
+            <a asp-action="ExportXml">
+                <i class="fa fa-file-code-o"></i>
+                @T("Admin.Common.ExportToXml")
+            </a>
+        </li>*@
+                <li>
+                    <a id="a-export-organization" asp-action="ExportXlsxOrganization" asp-route-createdFrom="fromDate" asp-route-createdTo="toDate">
+                        <i class="fa fa-file-excel-o"></i>
+                        Organization
+                    </a>
+                </li>
+                <li>
+                    <a id="a-export-registration-only" asp-action="ExportXlsxRegistrationOnly" asp-route-createdFrom="fromDate" asp-route-createdTo="toDate">
+                        <i class="fa fa-file-excel-o"></i>
+                        Registration Only
+                    </a>
+                </li>
+                <li>
+                    <a id="a-export-registration-profile" asp-action="ExportXlsxRegistrationProfile" asp-route-createdFrom="fromDate" asp-route-createdTo="toDate">
+                        <i class="fa fa-file-excel-o"></i>
+                        Registration Profile
+                    </a>
+                </li>
+                <li>
+                    <a id="a-export-service-job" asp-action="ExportXlsxIndividualServiceJob" asp-route-createdFrom="fromDate" asp-route-createdTo="toDate">
+                        <i class="fa fa-file-excel-o"></i>
+                        Service and Job
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @*hide the entire search block if no elements are displayed*@
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>Type</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="reporting-toggle-contacts" class="form-control" asp-items="Html.GetEnumSelectList<ReportingContactsType>()"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="CreatedFrom" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="CreatedFrom"  />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="CreatedTo" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="CreatedTo"   />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="reporting-contacts-org-search" class="form-group">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-reporting-contacts" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                        <div id="reporting-registration-only-search" class="form-group">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-reporting-registration-only" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                        <div id="reporting-registration-profile-search" class="form-group">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-reporting-registration-profile" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                        <div id="reporting-service-job-search" class="form-group">
+                            <div class="col-md-7 col-md-offset-5">
+                                <button type="button" id="search-reporting-service-job-search" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reporting-contacts-org">
+                <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+               {
+                   Name = "contacts-grid",
+                   UrlRead = new DataUrl("ContactsList", "AdminReporting", null),
+                   SearchButtonId = "search-reporting-contacts",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.CreatedFrom)),
+                            new FilterParameter(nameof(Model.CreatedTo))
+                        },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(ContactsModel.Name))
+                            {
+                                Title = "Name"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.BusinessSegment))
+                            {
+                                Title = "Segment"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.CompanyRegistrationNo))
+                            {
+                                Title = "Registration No"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.EstablishedDateText))
+                            {
+                                Title = "Date Established"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.Address))
+                            {
+                                Title = "Address"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.ContactPersonName))
+                            {
+                                Title = "Contact Person Name"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.ContactPersonPosition))
+                            {
+                                Title = "Contact Person Position"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.ContactPersonEmail))
+                            {
+                                Title = "Contact Person Email"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.ContactPersonContact))
+                            {
+                                Title = "Contact Person Phone"
+                            },
+                            new ColumnProperty(nameof(ContactsModel.CreatedOnUtcText))
+                            {
+                                Title = "Created Date"
+                            },
+                   }
+               })
+                </div>
+            </div>
+            </div>
+            <div id="reporting-contacts-ind">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "registration-only-grid",
+                        UrlRead = new DataUrl("RegistrationOnlyList", "AdminReporting", null),
+                        SearchButtonId = "search-reporting-registration-only",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.CreatedFrom)),
+                                new FilterParameter(nameof(Model.CreatedTo))
+                            },
+                        ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ContactsModel.IndividualEmail))
+                                {
+                                    Title = "Email"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.CreatedOnUtcText))
+                                {
+                                    Title = "Created Date"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualEmailVerifiedText))
+                                {
+                                    Title = "Email Verified"
+                                },
+                        }
+                    })
+                    </div>
+                </div>
+            </div>
+            <div id="reporting-contacts-registration-profile">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "registration-profile-grid",
+                        UrlRead = new DataUrl("RegistrationProfileList", "AdminReporting", null),
+                        SearchButtonId = "search-reporting-registration-profile",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.CreatedFrom)),
+                                new FilterParameter(nameof(Model.CreatedTo))
+                            },
+                        ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ContactsModel.IndividualEmail))
+                                {
+                                    Title = "Email"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualFullName))
+                                {
+                                    Title = "Full Name"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualContactNumber))
+                                {
+                                    Title = "Contact Number"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualDOBText))
+                                {
+                                    Title = "Date of Birth"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.CreatedOnUtcText))
+                                {
+                                    Title = "Created Date"
+                                },
+                            }
+                    })
+                    </div>
+                </div>
+            </div>
+            <div id="reporting-contacts-service-job">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                    {
+                        Name = "service-job-grid",
+                        UrlRead = new DataUrl("IndividualServiceJobList", "AdminReporting", null),
+                        SearchButtonId = "search-reporting-service-job-search",
+                        Length = Model.PageSize,
+                        LengthMenu = Model.AvailablePageSizes,
+                        Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.CreatedFrom)),
+                                new FilterParameter(nameof(Model.CreatedTo))
+                            },
+                        ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ContactsModel.IndividualUsername))
+                                {
+                                    Title = "Username"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualFullName))
+                                {
+                                    Title = "Full Name"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualContactNumber))
+                                {
+                                    Title = "Contact Number"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.IndividualDOBText))
+                                {
+                                    Title = "Date of Birth"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.CreatedOnUtcText))
+                                {
+                                    Title = "Created Date"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.LatestServiceProfileCreatedOnUTCText))
+                                {
+                                    Title = "Latest Service Profile Created Date"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.ServiceProfileCount))
+                                {
+                                    Title = "Service Profile Count"
+                                },
+                                new ColumnProperty(nameof(ContactsModel.JobCVCreatedOnUTCText))
+                                {
+                                    Title = "Job CV Created Date"
+                                },
+                            }
+                    })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Serialize(Model));
+    $(document).ready(function () {
+        $("#reporting-toggle-contacts").change(toggleContactsTable);
+        $("#CreatedFrom").change(toggleCreatedDateExport);
+        $("#CreatedTo").change(toggleCreatedDateExport);
+        toggleContactsTable();
+        toggleCreatedDateExport();
+    });
+
+    function toggleCreatedDateExport() {
+        var dateFrom = $('#CreatedFrom').val();
+        var dateTo = $('#CreatedTo').val();
+
+        var urlOrg = `/Admin/AdminReporting/ExportXlsxOrganization?createdFrom=${dateFrom}&createdTo=${dateTo}`;
+        $('#a-export-organization').attr('href', urlOrg);
+
+        var urlRegOnly = `/Admin/AdminReporting/ExportXlsxRegistrationOnly?createdFrom=${dateFrom}&createdTo=${dateTo}`;
+        $('#a-export-registration-only').attr('href', urlRegOnly);
+
+        var urlRegProfile = `/Admin/AdminReporting/ExportXlsxRegistrationProfile?createdFrom=${dateFrom}&createdTo=${dateTo}`;
+        $('#a-export-registration-profile').attr('href', urlRegProfile);
+
+        var urlServiceJob = `/Admin/AdminReporting/ExportXlsxIndividualServiceJob?createdFrom=${dateFrom}&createdTo=${dateTo}`;
+        $('#a-export-service-job').attr('href', urlServiceJob);
+    }
+
+    function toggleContactsTable() {
+        var selectedContacts = $('#reporting-toggle-contacts').val();
+        if (selectedContacts == 1) {
+            $('#reporting-contacts-org').show();
+            $('#reporting-contacts-org-search').show();
+            $('#reporting-contacts-ind').hide();
+            $('#reporting-registration-only-search').hide();
+            $('#reporting-contacts-registration-profile').hide();
+            $('#reporting-registration-profile-search').hide();
+            $('#reporting-contacts-service-job').hide();
+            $('#reporting-service-job-search').hide();
+            $('#contacts-grid').DataTable().draw();
+        }
+        else if (selectedContacts == 2) {
+            $('#reporting-contacts-org').hide();
+            $('#reporting-contacts-org-search').hide();
+            $('#reporting-contacts-ind').show();
+            $('#reporting-registration-only-search').show();
+            $('#reporting-contacts-registration-profile').hide();
+            $('#reporting-registration-profile-search').hide();
+            $('#reporting-contacts-service-job').hide();
+            $('#reporting-service-job-search').hide();
+            $('#registration-only-grid').DataTable().draw();
+        }
+        else if (selectedContacts == 3) {
+            $('#reporting-contacts-org').hide();
+            $('#reporting-contacts-org-search').hide();
+            $('#reporting-contacts-ind').hide();
+            $('#reporting-registration-only-search').hide();
+            $('#reporting-contacts-registration-profile').show();
+            $('#reporting-registration-profile-search').show();
+            $('#reporting-contacts-service-job').hide();
+            $('#reporting-service-job-search').hide();
+            $('#registration-profile-grid').DataTable().draw();
+        }
+        else if (selectedContacts == 4) {
+            $('#reporting-contacts-org').hide();
+            $('#reporting-contacts-org-search').hide();
+            $('#reporting-contacts-ind').hide();
+            $('#reporting-registration-only-search').hide();
+            $('#reporting-contacts-registration-profile').hide();
+            $('#reporting-registration-profile-search').hide();
+            $('#reporting-contacts-service-job').show();
+            $('#reporting-service-job-search').show();
+            $('#service-job-grid').DataTable().draw();
+        }
+    }
+
+    //function toggleContactsTable() {
+    //    var selectedContacts = $('#reporting-toggle-contacts').val();
+    //    if (selectedContacts == 1) {
+    //        $('#reporting-contacts-org').show();
+    //        $('#reporting-contacts-ind').hide();
+    //        $('#reporting-contacts-registration-profile').hide();
+    //        $('#reporting-contacts-service-job').hide();
+    //        $('#contacts-grid').DataTable().draw();
+    //        $('.btn-search').attr('id', "search-reporting-contacts");
+    //    }
+    //    else if (selectedContacts == 2) {
+    //        $('#reporting-contacts-org').hide();
+    //        $('#reporting-contacts-ind').show();
+    //        $('#reporting-contacts-registration-profile').hide();
+    //        $('#reporting-contacts-service-job').hide();
+    //        $('#registration-only-grid').DataTable().draw();
+    //        $('.btn-search').attr('id', "search-reporting-registration-only");
+
+    //    }
+    //    else if (selectedContacts == 3) {
+    //        $('#reporting-contacts-org').hide();
+    //        $('#reporting-contacts-ind').hide();
+    //        $('#reporting-contacts-registration-profile').show();
+    //        $('#reporting-contacts-service-job').hide();
+    //        $('#registration-profile-grid').DataTable().draw();
+    //        $('.btn-search').attr('id', "search-reporting-registration-profile");
+
+    //    }
+    //    else if (selectedContacts == 4) {
+    //        $('#reporting-contacts-org').hide();
+    //        $('#reporting-contacts-ind').hide();
+    //        $('#reporting-contacts-registration-profile').hide();
+    //        $('#reporting-contacts-service-job').show();
+    //        $('#service-job-grid').DataTable().draw();
+    //        $('.btn-search').attr('id', "search-reporting-service-job-search");
+
+    //    }
+    //}
+</script>

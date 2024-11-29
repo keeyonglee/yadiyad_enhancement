@@ -1,0 +1,28 @@
+﻿@model ProOrderModel
+
+@using Nop.Core.Domain.Tax;
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div class="panel-body">
+    <div class="panel panel-default sub-panel">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="OrderNumber" />
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.OrderNumber</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="CustomerId" />
+                </div>
+                <div class="col-md-9">
+                    <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.CustomerId">@Model.Id</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

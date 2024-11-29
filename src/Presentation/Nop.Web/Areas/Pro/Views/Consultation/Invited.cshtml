@@ -1,0 +1,110 @@
+﻿@using YadiYad.Pro.Web.Enums
+<div class="content">
+    <div class="container">
+        @*<partial name="_Menu" model="ConsultationMenuType.Invites" />*@
+        @await Component.InvokeAsync("OrganizationConsultationMenu", YadiYad.Pro.Web.Enums.ConsultationMenuType.Invites)
+        <div class="content-consultation-candidates">
+        </div>
+    </div>
+</div>
+
+
+<script id="tmpl-consultation-job-invited" type="text/x-jsrender">
+    {^{if invitedCandidates.totalCount > 0}}
+    {^{for invitedCandidates.data}}
+    <div class="card">
+        <div class="card-body" data-link="{on 'click' ~root.showMoreCandidateDetail}">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="text-bold">{^{:serviceProfile.code}}</h5>
+                </div>
+                <div class="col-6 text-right">
+                    <h4>
+                        {^{if consultationApplicationStatus === 1}}
+                        <span class="badge badge-pill badge-info pl-4 pr-4">Pending</span>
+                        {{else consultationApplicationStatus === 3}}
+                        <span class="badge badge-pill badge-danger pl-4 pr-4">Declined</span>
+                        {{else consultationApplicationStatus === 8}}
+                    <span class="badge badge-pill badge-danger pl-4 pr-4">Declined</span>
+                        {{/if}}
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div>
+                        <small>Estimated professional fees: <b>RM {{:serviceProfile.consultationCharges}}</b> (Not Including Service Charge)</small>
+                    </div>
+                    <div>
+                        <small>Age {{:serviceProfile.age}}, {{:serviceProfile.genderName}} &Iota; {{:serviceProfile.categoryName}}</small>
+                    </div>
+                    <div>
+                        {{for serviceProfile.serviceExpertises}}
+                        <span class="badge badge-pill badge-primary-light">{{:name}}</span>
+                        {{/for}}
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div>
+                        <span class="badge badge-pill badge-gray">{{:serviceProfile.experienceYearName}}</span>
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                    <div>{{:createdOnText}}</div>
+                </div>
+            </div>
+            {{if consultationApplicationStatus === 3 && declineReasons}}
+            <hr />
+            <div class="row">
+                <div class="col-12">
+                    <h5>Reason</h5>
+                    <p class="font-italic">{{:declineReasons}}</p>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+
+    </div>
+
+    {{/for}}
+    {^{include ~root.pagination.model tmpl="#tmp-simple-pagination"/}}
+
+    {{else}}
+    <div class="card">
+        <div class="card-body text-center mt-5 mb-5">
+            <h4 class="text-primary text-bold">No Consultation Job's Candidate's Invitation</h4>
+        </div>
+    </div>
+    {{/if}}
+
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+<partial name="../SimpleForm/_Form" />
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/invited.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/invited.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

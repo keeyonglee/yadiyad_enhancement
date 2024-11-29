@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Nop.Plugin.Shipping.ShipStation
+build_property.ProjectDir = C:\Users\chong\Downloads\Yadiyad\src\Plugins\Nop.Plugin.Shipping.ShipStation\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

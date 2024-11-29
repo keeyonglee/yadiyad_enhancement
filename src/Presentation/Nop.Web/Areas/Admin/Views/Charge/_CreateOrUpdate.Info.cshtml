@@ -1,0 +1,160 @@
+@model ChargeModel
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Product Type</label>
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="ProductTypeId" asp-items="@Html.GetEnumSelectList<YadiYad.Pro.Core.Domain.Order.ProductType>()" />
+        </div>
+    </div>
+    <div id="serviceTypeEnum" class="form-group">
+        <div class="col-md-3">
+            <label>Sub Product Type</label>
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="SubProductTypeServiceEnumId" asp-items="@Html.GetEnumSelectList<YadiYad.Pro.Core.Domain.Service.ServiceType>()" />
+        </div>
+    </div>
+    <div id="jobTypeEnum" class="form-group">
+        <div class="col-md-3">
+            <label>Sub Product Type</label>
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="SubProductTypeJobEnumId" asp-items="@Html.GetEnumSelectList<YadiYad.Pro.Core.Domain.Job.JobType>()" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Value Type</label>
+
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="ValueType" asp-items="@Html.GetEnumSelectList<YadiYad.Pro.Core.Domain.Order.ChargeValueType>()" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Value</label>
+
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Value" asp-required="true" />
+            <span asp-validation-for="Value"></span>
+        </div>
+    </div>
+    @if (Model.ProductTypeId != 5)
+    {
+        <div class="form-group" id="showValidityDays">
+            <div class="col-md-3">
+                <label>Validity Days</label>
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="ValidityDays" asp-required="true" />
+                <span asp-validation-for="ValidityDays"></span>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Start Date</label>
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="StartDate" />
+        </div>
+    </div>
+    @if (Model.Id != 0)
+    {
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>No End Date</label>
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="EndDateNull" />
+            </div>
+        </div>
+        <div class="form-group" id="showEndDateCharge">
+            <div class="col-md-3">
+                <label>End Date</label>
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="EndDate" /><br />
+                <span asp-validation-for="StartDate"></span>
+
+            </div>
+        </div>
+    }
+    @if (Model.ProductTypeId == 0)
+    {
+        <div class="form-group">
+        <div class="col-md-3">
+            <label>Min Range</label>
+
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MinRange" asp-required="true" />
+            <span asp-validation-for="MinRange"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Max Range</label>
+
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MaxRange" asp-required="true" />
+            <span asp-validation-for="MaxRange"></span>
+        </div>
+    </div>
+    }
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.ProductTypeId)").change(toggleSubProduct);
+        $("#@Html.IdFor(model => model.EndDateNull)").click(toggleEndDateNull);
+
+        toggleSubProduct();
+        toggleEndDateNull();
+    });
+
+    function toggleSubProduct() {
+        var productTypeId = $("#@Html.IdFor(model => model.ProductTypeId)").val();
+        if (productTypeId == 2) {
+            $('#serviceTypeEnum').hide();
+            $('#jobTypeEnum').show();
+            $('#showValidityDays').show();
+
+        }
+        else if (productTypeId == 4) {
+            $('#serviceTypeEnum').show();
+            $('#jobTypeEnum').hide();
+            $('#showValidityDays').show();
+
+        }
+        else if (productTypeId == 5) {
+            $('#showValidityDays').hide();
+            $('#serviceTypeEnum').hide();
+            $('#jobTypeEnum').hide();
+        }
+        else {
+            $('#serviceTypeEnum').hide();
+            $('#jobTypeEnum').hide();
+            $('#showValidityDays').show();
+
+        }
+    }
+
+    function toggleEndDateNull() {
+         if ($('#@Html.IdFor(model => model.EndDateNull)').is(':checked')) {
+             $('#showEndDateCharge').hide();
+        } else {
+             $('#showEndDateCharge').show();
+        }
+    }
+
+</script>

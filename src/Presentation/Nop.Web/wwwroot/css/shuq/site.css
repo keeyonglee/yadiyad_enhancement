@@ -1,0 +1,1704 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+body.layout-top-nav {
+    background-repeat: no-repeat;
+    /*background-image: url(/img/pro/brand/background-purple-wave.png);*/
+}
+
+body {
+    font-family: 'Poppins', Open Sans;
+}
+
+    body.portal {
+        background-color: #f4f6f9;
+    }
+
+.content-wrapper .wrapper {
+    background: white !important;
+}
+
+html {
+    background-color: rgb(249,249,252);
+}
+
+
+.center {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.ratio-1-1 {
+    position: relative;
+    padding-top: 100%;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+}
+
+    .ratio-1-1 > * {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        max-width: 100%;
+        width: 100%;
+        max-height: 100%;
+        margin: auto;
+    }
+
+
+/*data table*/
+table.dataTable,
+.dataTables_scrollHeadInner {
+    min-width: 100% !important;
+    padding-right: 4px;
+}
+
+    table.dataTable.table thead th {
+        border-bottom-width: 1px;
+        border-top-width: 0;
+    }
+
+    table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {
+        background-color: rgb(0, 0, 0);
+    }
+
+    table.dataTable.selectable tbody > tr {
+        cursor: pointer;
+    }
+
+    /*sorting arrow*/
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting:before {
+        margin-right: 3px;
+    }
+
+    table.dataTable td {
+        vertical-align: top;
+    }
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: left;
+    width: 65%;
+}
+
+    div.dataTables_wrapper div.dataTables_filter > label {
+        width: 100%;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 0;
+        width: 100%;
+    }
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: left;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    float: right;
+    padding-top: 4px;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: right;
+    padding-top: 8px;
+    margin-left: 10px;
+}
+
+table.dataTable tr td.select-checkbox {
+    cursor: pointer;
+}
+
+table.dataTable tr.no-select td.select-checkbox:before {
+    display: none;
+}
+
+table.dataTable tr.selected td.select-checkbox:after {
+    margin-left: -10px;
+    margin-top: -7px;
+    text-shadow: none;
+}
+
+table td > table.table-bordered {
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(222, 226, 230) !important;
+}
+
+/*button*/
+.btn {
+    border-radius: 8px;
+}
+
+.btn-icon {
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.input-group-append .btn {
+    min-width: unset;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-primary {
+    /*background-color: #070707;*/
+}
+
+    .btn-primary:hover {
+        /*background-color: #1a1a1a;*/
+    }
+
+
+    .btn-primary.disabled, .btn-primary:disabled {
+        /*background-color: #070707;*/
+        opacity: 0.65;
+    }
+
+    .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+        background-color: #070707;
+        opacity: 0.65;
+    }
+
+/*icheck*/
+
+.icheck-primary > input:first-child:not(:checked):not(:disabled):hover + label::before,
+.icheck-primary > input:first-child:not(:checked):not(:disabled):hover + input[type="hidden"] + label::before {
+    border-color: #070707;
+}
+
+.icheck-primary > input:first-child:checked + label::before,
+.icheck-primary > input:first-child:checked + input[type="hidden"] + label::before {
+    background-color: #070707;
+    border-color: #070707;
+}
+
+
+/*form*/
+.input-group .input-group-text,
+.input-group .form-control {
+    border-radius: 0;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+/*** validator ***/
+.validation-summary-errors ul {
+    padding: 0;
+    margin: 0;
+}
+
+input.input-validation-error,
+input.input-validation-error:focus,
+input.input-validation-error:active,
+input.input-validation-error:hover,
+select.input-validation-error + .select2-container .select2-selection,
+input.input-validation-error + div.dropzone,
+textarea.input-validation-error,
+.field-validation-error + .input-group .input-group-text {
+    border-color: #a94442;
+}
+
+.field-validation-valid,
+.field-validation-error {
+    font-size: 12px;
+    min-height: 20px;
+    display: none;
+}
+
+
+    .field-validation-error ul {
+        list-style: disc;
+        margin-bottom: 0 !important;
+    }
+
+    .field-validation-error > span > p {
+        margin-bottom: 0 !important;
+    }
+
+.input-validation-error + * + .field-validation-error,
+.input-validation-error + .field-validation-error,
+.field-validation-error {
+    display: block;
+}
+
+/*** date ***/
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="date"]::-ms-clear,
+input[type="date"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+input[type="radio"].radio-checked:checked + span {
+    font-weight: bolder;
+}
+
+input[type="checkbox"].text-checked:checked + span {
+    color: #212529 !important;
+}
+
+input[type="checkbox"], .radio label {
+    cursor: pointer !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    width: auto !important;
+    outline-color: #ced4da;
+    vertical-align: middle !important;
+}
+
+label.form-check-label {
+    height: auto !important;
+}
+
+label.form-control {
+    font-weight: 400 !important;
+}
+
+    label.form-control[placeholder].empty {
+        color: rgb(153, 153, 153);
+    }
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple .select2-selection__clear {
+    display: none;
+}
+
+.form-control.bootstrap-tagsinput {
+    width: auto;
+    min-width: 100%;
+    height: auto;
+}
+
+    .form-control.bootstrap-tagsinput.disabled {
+        background-color: #eee;
+        cursor: default;
+    }
+
+    .form-control.bootstrap-tagsinput .tag.badge {
+        font-size: 1em;
+        font-family: inherit;
+        font-weight: inherit;
+    }
+
+    .form-control.bootstrap-tagsinput .tag [data-role="remove"]:after {
+        content: "x";
+        padding: 0px 2px;
+    }
+
+    .form-control.bootstrap-tagsinput.disabled [data-role="remove"],
+    .form-control.bootstrap-tagsinput.disabled input {
+        display: none;
+    }
+
+.datepicker.datepicker-dropdown {
+    z-index: 1100 !important;
+}
+
+/*Modal*/
+.modal.no-title .modal-header [type="button"] {
+    padding-top: 0.5em;
+    padding-bottom: 0em;
+}
+
+.modal.no-title .modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal.retain-background {
+    opacity: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.faq-text {
+    color: black;
+}
+
+/* dropzone */
+div.dropzone {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    cursor: default;
+}
+
+.dropzone .btn,
+.dropzone.dz-clickable .btn {
+    cursor: pointer;
+}
+
+.dropzone .dz-preview {
+    margin: 2em 16px;
+}
+
+    .dropzone .dz-preview .dz-details .dz-size {
+        margin-bottom: 2em;
+    }
+
+    .dropzone .dz-preview .dz-remove {
+        position: absolute;
+        font-size: 0px;
+        color: #fff;
+        font-weight: bolder;
+        width: 20px;
+        height: 20px;
+        background-color: #ed5565;
+        top: -5px;
+        right: -5px;
+        z-index: 21;
+        border-radius: 20px;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        color: #fff;
+        font-family: "Font Awesome 5 Free";
+    }
+
+        .dropzone .dz-preview .dz-remove:hover {
+            background-color: #ed4758;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .dropzone .dz-preview .dz-remove:before {
+            content: "\f00d";
+            font-size: 13px;
+        }
+
+    .dropzone .dz-preview.dz-image-preview {
+        border-radius: 20px;
+    }
+
+
+
+    /* for dropzone */
+    .dropzone .dz-preview.dz-success .dz-success-mark {
+        -webkit-animation: fade-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+        -moz-animation: fade-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+        -ms-animation: fade-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+        -o-animation: fade-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+        animation: fade-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+        opacity: 1;
+    }
+
+    /* hide dropzone file progress before start upload */
+    .dropzone .dz-preview:not(.dz-processing) .dz-progress,
+    .dropzone .dz-file-preview:not(.dz-processing) .dz-progress {
+        display: none;
+    }
+
+
+/* sortable list */
+
+ul.sortable {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+    ul.sortable > li {
+        margin-bottom: 10px;
+        font-size: 16px;
+        padding: 5px 10px;
+        background: #fafafa;
+    }
+
+        ul.sortable > li .btn-sort {
+            cursor: move;
+        }
+
+
+
+/*cursor*/
+.cursor-pointer:not(.selected) {
+    cursor: pointer !important;
+}
+
+.cursor-default {
+    cursor: default !important;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed !important;
+}
+
+
+/* tui-calendar */
+.tui-full-calendar-floating-layer.tui-view-18,
+.tui-full-calendar-floating-layer.tui-view-15 {
+    position: fixed !important;
+    z-index: 1045 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+
+    .tui-full-calendar-floating-layer.tui-view-15 .tui-full-calendar-popup {
+        position: absolute !important;
+        max-width: 500px !important;
+        margin: auto !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        right: 0 !important;
+    }
+
+    .tui-full-calendar-floating-layer.tui-view-18 .tui-full-calendar-popup {
+        position: relative !important;
+        margin: auto !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        right: 0 !important;
+    }
+
+    .tui-full-calendar-floating-layer.tui-view-18 .tui-full-calendar-popup-container,
+    .tui-full-calendar-floating-layer.tui-view-15 .tui-full-calendar-popup-container {
+        max-width: 500px !important;
+        margin: auto !important;
+    }
+
+
+.tui-full-calendar-dayname-container {
+    overflow: auto;
+}
+
+
+/* badge */
+.badge-position-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    position: absolute;
+    right: 0;
+}
+
+.badge {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* rating */
+.rating {
+    background: url('/Themes/DefaultClean/Content/images/rating1.png') repeat-x;
+    width: 95px;
+    height: 14px;
+}
+
+    .rating div {
+        background: url('/Themes/DefaultClean/Content/images/rating2.png') repeat-x;
+        height: 14px;
+    }
+
+.rating-input .fa {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.rating-input {
+    cursor: pointer;
+}
+
+
+/* drop down menu */
+.dropdown-menu {
+    z-index: 1050;
+}
+
+.dropdown-menu-lg {
+    min-width: 200px !important;
+}
+
+/** bootstrap switch **/
+.bootstrap-switch .bootstrap-switch-handle-off,
+.bootstrap-switch .bootstrap-switch-handle-on,
+.bootstrap-switch .bootstrap-switch-label {
+    display: inline-block !important;
+}
+
+/*** component ***/
+/*ol, ul {
+    list-style: none;
+}*/
+
+/*** pagination ***/
+
+.pager {
+    margin: 0 0 20px;
+}
+
+    .pager ul {
+        text-align: center;
+        font-size: 0;
+        padding-inline-start: 0px;
+    }
+
+    .pager li {
+        display: inline-block;
+        margin: 0 5px;
+        vertical-align: top;
+    }
+
+        .pager li a,
+        .pager li span {
+            border-radius: 100%;
+            display: block;
+            min-width: 35px;
+            height: 35px;
+            border: 0 solid rgba(0,0,0,.125);
+            box-shadow: 0 0 1px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.2);
+            background-color: #fff;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px; /*reset zeroing*/
+            cursor: pointer;
+        }
+
+        .pager li.current-page span {
+            color: #fff;
+            background-color: #9900CC;
+        }
+
+        .pager li span {
+            border-color: transparent;
+            border-color: #000;
+        }
+
+        .pager li.previous-page *,
+        .pager li.next-page *,
+        .pager li.first-page *,
+        .pager li.last-page * {
+            background-position: center;
+            background-repeat: no-repeat;
+            font-size: 0;
+            color: #fff;
+        }
+
+        .pager li.previous-page * {
+            background-image: url(https://static.yadiyad.com/Assets/Images/Pagination/prev.png);
+        }
+
+        .pager li.next-page * {
+            background-image: url(https://static.yadiyad.com/Assets/Images/Pagination/next.png);
+        }
+
+        .pager li.first-page * {
+            background-image: url(https://static.yadiyad.com/Assets/Images/Pagination/first.png);
+        }
+
+        .pager li.last-page * {
+            background-image: url(https://static.yadiyad.com/Assets/Images/Pagination/last.png);
+        }
+
+        .pager li a:hover {
+            border-color: transparent;
+            background-color: #ddd;
+        }
+
+
+
+
+/* alert */
+
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    background-color: #dedede;
+    color: #292929;
+    font-weight: 400;
+    min-width: 12em;
+}
+
+    .swal-button:not([disabled]):hover {
+        background-color: #9900CC;
+        color: #fff;
+    }
+
+.swal-text {
+    font-weight: 600;
+}
+
+.swal-title {
+    color: #9900CC !important;
+    font-weight: bolder;
+    padding-top: 0;
+}
+
+.swal-icon--success__ring {
+    border: 2px solid #9900CC !important;
+}
+
+.swal-icon--success__line {
+    height: 10px;
+    background-color: #9900CC !important;
+}
+
+.swal-icon:first-child {
+    margin-bottom: 0;
+}
+
+/*extension*/
+.btn-tertiary {
+    color: #fff;
+    background-color: #4caeab;
+    border-color: #4caeab;
+    box-shadow: none;
+}
+
+.text-tertiary {
+    color: #4caeab !important;
+}
+
+/*header*/
+.brand-image {
+    width: auto;
+    height: 60px !important;
+}
+
+.search-box-text {
+    border-radius: .25rem !important;
+}
+
+.custom-search-button {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    padding: 6px;
+    margin-left: -50px;
+}
+
+.master-wrapper-page {
+    background-image: url("/img/pro/brand/background-purple-wave.png");
+    background-size: cover;
+}
+
+.center-1 {
+    margin: 0;
+}
+
+.header-upper {
+    background: #CDF5DB;
+}
+
+.reference-header-divider {
+    border-right: 1px solid #3a0365;
+    height: 30px;
+    width: 1px;
+    display: none;
+    vertical-align: middle;
+    margin: 5px 0;
+}
+
+@media all and (min-width: 481px) {
+    .reference-header-divider {
+        display: inline-block;
+    }
+}
+
+.translate-wrap {
+    border-left: 1px solid #3a0365;
+}
+
+.reference-header > a {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0px;
+}
+
+.reference-header img {
+    width: 35px;
+}
+
+.smallcard-circle {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+    .smallcard-circle img {
+        margin-top: 20px;
+    }
+
+.shuq-sub-card-inner-1 {
+    background-image: url(/img/shuq/home/Shuq-Eats-Intro-Image.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    height: 300px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.shuq-sub-card-inner-2 {
+    background-color: #F0FFFF;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 400px;
+}
+
+.shuq-sub-card-inner-3 {
+    background-image: url(/img/shuq/home/Shuq-Mart-Intro-Image.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    height: 300px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.product-box-vendor {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 450px) {
+    .shuq-sub-card-inner-4 {
+        background-color: #F0FFFF;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        height: 500px;
+    }
+}
+@media (min-width : 450px) {
+    .shuq-sub-card-inner-4 {
+        background-color: #F0FFFF;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        height: 400px;
+    }
+}
+
+.eats-background-text {
+    color: #36CFC4;
+}
+
+.overflow-vendor {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 300px;
+    height: 1.2em;
+    white-space: nowrap;
+}
+
+.explore-button {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: transparent;
+    color: black;
+    padding: 7px 14px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .explore-button:hover {
+        background: black;
+        color: white;
+    }
+
+.explore {
+    border-color: #57145E;
+    color: #57145E;
+    bottom: 10px;
+    left: 35%;
+    position: absolute;
+}
+
+@media (max-width: 767px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+
+        .carousel-inner .carousel-item > div:first-child {
+            display: block;
+        }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+        transform: translateX(25%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+        transform: translateX(-25%);
+    }
+}
+
+.carousel-inner .carousel-item-end,
+.carousel-inner .carousel-item-start {
+    transform: translateX(0);
+}
+
+
+.eats-background {
+    background-image: url("/img/shuq/home/Shuq-Eats-Section-Intro-Background.jpg");
+    background-size: cover;
+}
+
+@media (min-width: 1001px) {
+    .eats-background-container {
+        width: 980px;
+        margin: auto;
+    }
+}
+
+.shuq-logo{
+    object-fit: contain;
+    height:100px;
+}
+.mart-background {
+    background-image: url("/img/shuq/home/Shuq-Mart-Section-Intro-Background.jpg");
+    background-size: cover;
+}
+
+@media (min-width: 1001px) {
+    .mart-background-container {
+        width: 980px;
+        margin: auto;
+    }
+}
+
+/*home*/
+.home-content-1 {
+    border-radius: 25px;
+    border: 2px solid #380063;
+}
+
+.home-detail-ico {
+    height: 4.5em
+}
+
+.home-detail-ico-2 {
+    height: 3em
+}
+
+@media (max-width: 991.98px) {
+    .home-detail-ico-2 {
+        height: 4.5em
+    }
+}
+
+.home-detail-ico-3 {
+    height: 10.5em
+}
+
+.home-table-header {
+    background: #380063;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.home-table-content {
+    background: #F1E7E0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+@media (min-width: 992px) {
+    .home-table-content {
+        height: 220px;
+    }
+}
+
+.home-table-content li {
+    list-style-type: disc;
+}
+
+.home-section-background {
+    background: #F1E7E0;
+}
+
+.home-content-card {
+    border-radius: 10px;
+    background: #380063;
+}
+
+@media (min-width: 992px) {
+    .home-content-card {
+        margin-top: -100px;
+    }
+}
+
+.home-content-card h3 {
+    min-height: 70px;
+}
+
+
+
+.home-part-1 {
+    background-image: url(https://static.yadiyad.com/Assets/Images/HomeInfo/bg-home-1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+    min-height: 500px;
+}
+
+@media (min-width: 1200px) {
+    .home-part-1 > .container {
+        max-width: 1180px;
+    }
+}
+
+.home-part-2 {
+    background-color: #7CD8BF;
+}
+
+    .home-part-2 .carousel-control-prev, .home-part-2 .carousel-control-next {
+        width: initial;
+    }
+
+    .home-part-2 .carousel-control-next-icon,
+    .home-part-2 .carousel-control-prev-icon {
+        filter: none;
+    }
+
+@media (min-width: 991.98px) {
+    .home-part-3 {
+        background-image: url(https://static.yadiyad.com/Assets/Images/HomeInfo/home-individual-1.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom;
+        height: 650px;
+        border-radius: 10px;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .home-main-3 h1 {
+        color: #380063 !important;
+    }
+}
+
+@media (min-width: 991.98px) {
+    .home-part-4 {
+        background-image: url(https://static.yadiyad.com/Assets/Images/HomeInfo/home-organization-1.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+        height: 600px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    .home-main-4 {
+        background: #380063;
+    }
+}
+
+.home-part-5 {
+    border: 2px solid #7CD8BF;
+    border-radius: 10px;
+}
+
+.home-part-6 {
+    background-color: #FFFEE0;
+}
+
+.home-individual-1 {
+    background-image: url(https://static-stage.yadiyad.com/individual-1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 25% top;
+    min-height: 500px;
+    padding-top: 100px !important;
+}
+
+.home-individual-2 {
+    background-color: #380063;
+}
+
+.home-individual-3 {
+    background-color: #FFFEE0;
+}
+
+.home-individual-4 {
+    background-color: #7CD8BF;
+}
+
+.home-organization-1 {
+    background-image: url(https://static.yadiyad.com/Assets/Images/HomeOrganization/organization-1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right 25% bottom 95%;
+    min-height: 500px;
+    padding-top: 100px !important;
+}
+
+    .home-organization-1 a {
+        width: 250px;
+    }
+
+.home-organization-2 {
+    background-color: #380063;
+}
+
+.home-organization-3 {
+    background-color: #FFFEE0;
+}
+
+.home-organization-4 {
+    background-color: #7CD8BF;
+}
+
+.home-about-1 {
+    background-image: url(https://static.yadiyad.com/Assets/Images/HomeAboutUs/about-1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 15%;
+    min-height: 500px;
+    padding-top: 100px !important;
+}
+
+.home-about-2 {
+    background-color: #7CD8BF;
+}
+
+.home-part-first {
+    margin-top: 86px;
+}
+
+@media(max-width: 1200px) {
+    .home-part-first {
+        margin-top: 146px !important;
+    }
+}
+
+.home-service-card-content-1 {
+    height: 100px;
+}
+
+.skiptranslate + #navbar + .wrapper .home-part-first {
+    margin-top: 86px !important;
+}
+
+.skiptranslate[style*="display: none;"] + #navbar + .wrapper .home-part-first {
+    margin-top: 86px !important;
+}
+
+@media (max-width: 1200px) {
+    .skiptranslate + #navbar + .wrapper .home-part-first {
+        margin-top: 120px !important;
+    }
+
+    .skiptranslate[style*="display: none;"] + #navbar + .wrapper .home-part-first {
+        margin-top: 146px !important;
+    }
+}
+
+.home-master-txt-1 {
+    font-size: 48px;
+    line-height: 48px;
+}
+
+.about-banner-btn-1 {
+    width: 200px;
+}
+
+@media(max-width: 991.98px) {
+    .about-sub-card-parent-1 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media(min-width: 992px) {
+    .about-sub-card-parent-1 {
+        padding-right: 0 !important;
+    }
+
+    .about-sub-card-parent-2 {
+        padding-left: 0 !important;
+    }
+
+    .about-sub-card-parent-3 {
+        padding-right: 0 !important;
+    }
+
+    .about-sub-card-parent-4 {
+        padding-left: 0 !important;
+    }
+
+    .about-sub-card-inner-1 {
+        border-top-left-radius: 10px;
+    }
+
+    .about-sub-card-inner-2 {
+        border-top-right-radius: 10px;
+    }
+
+    .about-sub-card-inner-3 {
+        border-bottom-left-radius: 10px;
+    }
+
+    .about-sub-card-inner-4 {
+        border-bottom-right-radius: 10px;
+    }
+}
+
+.about-sub-card-inner-1 {
+    background-color: #380063;
+    height: 300px;
+}
+
+.about-sub-card-inner-2 {
+    background-image: url(https://static.yadiyad.com/Assets/Images/HomeAboutUs/about-2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    height: 300px;
+}
+
+.about-sub-card-inner-3 {
+    background-image: url(https://static.yadiyad.com/Assets/Images/HomeAboutUs/about-3.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    height: 300px;
+}
+
+.about-sub-card-inner-4 {
+    background-color: #380063;
+    height: 300px;
+}
+
+.header-links ul {
+    margin-bottom: 0;
+}
+
+.header-btn {
+    padding: 7px 20px;
+    border-radius: 10px;
+    line-height: initial !important;
+}
+
+    .header-btn:hover {
+        opacity: 0.9;
+    }
+
+    .header-btn.primary {
+        background: white;
+    }
+
+    .header-btn.secondary {
+        border: 1px solid #3a0365;
+    }
+
+
+.header-shopping-cart > img {
+    width: 30px;
+}
+
+.header-shopping-cart > .cart-qty {
+    color: #b2b2b2;
+    position: absolute;
+    margin-left: -12px;
+    background: white;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.header-selectors-wrapper {
+    justify-content: space-evenly;
+}
+
+.order-progress{
+    margin:0;
+}
+.flyout-cart{
+    margin-top:-20px;
+}
+/*footer*/
+.footer {
+    background-image: url("/img/shuq/footer/FooterBackground_exceptHomepage-01.svg");
+    background-color: #fcf4ff;
+    background-size: cover;
+    padding-top: 450px;
+    margin-top:-225px;
+}
+
+@media(min-width: 1001px) {
+    .footer-block {
+        width: 220px;
+    }
+}
+
+.reference-footer img {
+    width: 50px;
+}
+
+/*googletranslate*/
+.goog-te-gadget img, .goog-te-gadget span {
+    display: none;
+}
+
+.goog-te-gadget-simple {
+    height: 35px;
+    width: 35px;
+    background-image: url(https://static.yadiyad.com/Assets/Icons/ico-google-translate.webp);
+    background-position: center;
+    background-size: contain;
+    border: none !important;
+    position: relative !important;
+}
+
+.goog-te-gadget {
+    height: 35px;
+    width: 35px;
+    background-image: url(https://static.yadiyad.com/Assets/Icons/ico-google-translate.webp);
+    background-position: center;
+    background-size: contain;
+    border: none !important;
+    font-size: 0 !important;
+    position: relative !important;
+}
+
+    .goog-te-gadget > div {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+.goog-te-combo {
+    opacity: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+}
+
+.goog-te-button {
+    display: none !important;
+}
+
+.goog-tooltip {
+    display: none !important;
+}
+
+.skiptranslate + #navbar {
+    top: 40px;
+}
+
+.skiptranslate[style*="display: none;"] + #navbar {
+    top: 0px !important;
+}
+
+.skiptranslate + #navbar + .wrapper .home-part-first {
+    margin-top: 86px !important;
+}
+
+.skiptranslate[style*="display: none;"] + #navbar + .wrapper .home-part-first {
+    margin-top: 86px !important;
+}
+
+@media (max-width: 1200px) {
+    .skiptranslate + #navbar + .wrapper .home-part-first {
+        margin-top: 120px !important;
+    }
+
+    .skiptranslate[style*="display: none;"] + #navbar + .wrapper .home-part-first {
+        margin-top: 146px !important;
+    }
+}
+
+/*product detail*/
+.overview .product-name {
+    margin: initial;
+    padding: initial;
+    border: none;
+}
+
+.product-reviews-overview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+    .product-reviews-overview div, .product-reviews-overview a {
+        color: #4caeab;
+        text-decoration: none;
+    }
+
+.product-review-box {
+    margin: initial;
+    margin-right: 10px;
+}
+
+.product-review-txt {
+    margin-right: 10px;
+    border-right: 1px solid black;
+    padding-right: 10px;
+}
+
+.product-price {
+    color: #4caeab !important;
+    font-size: 40px !important;
+    font-weight: 600 !important;
+}
+
+.qty-input, .add-to-cart-button, .cart-qty-txt {
+    float: none !important;
+}
+
+.overview .qty-input, .variant-overview .qty-input {
+    width: initial;
+    margin-left: 20px;
+}
+
+.overview .add-to-cart-button, .variant-overview .add-to-cart-button {
+    background: #9900CC;
+    margin-left: 20px;
+    width: 200px;
+}
+
+.overview .add-to-wishlist-button, .variant-overview .add-to-wishlist-button {
+    background-image: url("/img/shuq/product/AddtoWishlist-01.svg");
+    background-size: contain;
+    background-color: white;
+    padding: 22px;
+    font-size: 1px;
+    background-position: center;
+    background-size: 30px;
+}
+
+.add-to-cart-wrap {
+    margin-top: 20px;
+}
+
+.item-box .product-box-add-to-cart-button {
+    background: #9900CC;
+}
+
+.item-box .add-to-wishlist-button {
+    background-image: url("/img/shuq/product/AddtoWishlist-01.svg");
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+}
+
+.product-grid .title {
+    border: none;
+    text-align: center;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    margin: 0;
+}
+
+.product-detail-title {
+    font-size: 30px;
+}
+
+.product-reviews-overview {
+    display: inline-flex;
+}
+
+.product-merchant-product {
+    position: absolute;
+    top: 50%;
+    max-width: 100%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.product-product-card {
+    position: relative;
+    width: 45%;
+    height: 0;
+    margin-right: 5px;
+    display: inline-block;
+    padding-top: 45%;
+}
+
+.product-merchant-logo {
+    position: absolute;
+    top: 50%;
+    max-width: calc(100% - 15px);
+    padding: 5px;
+    transform: translateY(-50%);
+}
+
+.product-merchant-card {
+    position: relative;
+    width: 150px !important;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: initial;
+}
+
+
+@media all and (min-width: 769px) {
+    .product-product-card {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin-right: 5px;
+        padding-top: unset;
+    }
+}
+
+/*review*/
+.review-item-head {
+    background-color: transparent !important;
+    padding: 10px 0 !important;
+}
+
+.review-content {
+    padding: 0 0 10px 0 !important;
+}
+
+.product-review-item {
+    margin: 0 20px !important;
+}
+
+.product-review-list {
+    margin-bottom: 50px;
+}
+
+.product-no-reviews {
+    margin: 0;
+}
+
+/*vendor page*/
+.merchant-desc-img-main {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/*shoppng cart*/
+
+.cart-button {
+    background-color: #9900CC !important;
+    border-color: #9900CC !important;
+}
+
+    .cart-button:hover {
+        background-color: #294a73 !important;
+        border-color: #294a73 !important;
+    }
+
+
+
+.btn-remove {
+    font-size: 12px;
+    color: #444 !important;
+    border: none;
+    background: none;
+}
+
+    .btn-remove img {
+        width: 20px;
+    }
+
+.cart th {
+    border-width: 0 0 1px 0;
+    background-color: white;
+    text-align: center;
+}
+
+.cart tfoot td {
+    border-top: 1px solid #ddd;
+}
+
+.cart td {
+    border: none;
+    text-align: center;
+}
+
+.shopping-cart-page .common-buttons {
+    background: none;
+}
+
+.order-summary-content .table-wrapper, .confirm-order-next-step-button {
+    border-radius: 10px;
+}
+
+.continue-shopping-button {
+    color: #9900CC !important;
+    background-color: initial !important;
+    border: 1px solid #9900CC !important;
+}
+
+    .continue-shopping-button:hover {
+        color: white !important;
+        background-color: #294a73 !important;
+        border: 1px solid #294a73 !important;
+    }
+
+.checkout-button {
+    color: white !important;
+    background-color: #9900CC !important;
+    border: 1px solid #9900CC !important;
+}
+
+    .checkout-button:hover {
+        color: white !important;
+        background-color: #294a73 !important;
+        border: 1px solid #294a73 !important;
+    }
+
+.shopping-cart-summary-info {
+    background: white;
+}
+
+.cart-footer {
+    background: white;
+    border-radius: 10px;
+    margin: 0;
+    border-top: 0px;
+}
+
+    .cart-footer .totals {
+        background: none;
+    }
+
+        .cart-footer .totals .total-info {
+            border: none;
+        }
+
+.cart-total .order-total {
+    color: initial;
+}
+
+.cart tr {
+    background: white;
+}
+
+.cart td.remove-from-cart {
+    margin: 0 !important;
+}
+
+.checkout-button:disabled,
+.checkout-button[disabled] {
+    border: 1px solid #999999 !important;
+    background-color: #cccccc !important;
+    color: #666666 !important;
+}
+
+/*checkout*/
+.order-progress, .checkout-page .address-item ul, .enter-address .edit-address, .order-review-data > div, .enter-address {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.order-review-data > div, .table-wrapper, .cart-footer, .checkout-page .address-item ul, .enter-address {
+    border: 1px solid lightgrey;
+    border-top: 1px solid lightgrey !important;
+}
+
+@media (min-width: 769px) {
+    .cart tr {
+        width: 100%;
+        margin: 0 0 20px 0;
+        border-radius: 10px;
+    }
+}
+
+@media (min-width: 481px) {
+    .cart tr {
+        width: 100%;
+        margin: 0 0 20px 0;
+        border-radius: 10px;
+    }
+
+
+    .header-shopping-cart > img {
+        width: 40px;
+    }
+
+    .header-shopping-cart > .cart-qty{
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 1000px) {
+    .table-wrapper {
+        border: none;
+    }
+
+    .checkout-page .cart-footer .totals {
+        max-width: initial !important;
+        float: none;
+        width: 100%;
+    }
+}
+
+.checkout-page .button-1 {
+    color: white !important;
+    background-color: #9900CC !important;
+    border: 1px solid #9900CC !important;
+}
+
+    .checkout-page .button-1:hover {
+        color: white !important;
+        background-color: #294a73 !important;
+        border: 1px solid #294a73 !important;
+    }
+
+@media (min-width: 769px) {
+    .checkout-page .cart-footer .totals {
+        max-width: 400px;
+    }
+}
+
+.cart tr {
+    margin: 0;
+    border-radius: 0;
+}
+
+.btn-download-refund-statement{
+    float:right;
+}

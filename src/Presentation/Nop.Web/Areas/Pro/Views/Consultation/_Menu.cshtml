@@ -1,0 +1,15 @@
+﻿@using YadiYad.Pro.Web.Enums
+@model ConsultationMenuType
+<div class="row align-items-center mb-4 mt-4">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-consultation-job-org-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ConsultationMenuType.CurrentPostings?"btn-primary":"btn-default")" href="@Url.Action("List","Consultation", new { Area = "Pro" }).ToLower()">Current Postings</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ConsultationMenuType.Invites?"btn-primary":"btn-default")" href="@Url.Action("Invited","Consultation", new { Area = "Pro" }).ToLower()">Invites (<span text="{{noInvitation}}">0</span>)</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ConsultationMenuType.Applicants?"btn-primary":"btn-default")" href="@Url.Action("Applicant","Consultation", new { Area = "Pro" }).ToLower()">Applicants (<span text="{{noApplicant}}">0</span>)</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ConsultationMenuType.ConfirmedOrders?"btn-primary":"btn-default")" href="@Url.Action("ConfirmedOrder","Consultation", new { Area = "Pro" }).ToLower()">Confirmed Orders (<span text="{{noConfirmedOrder}}">0</span>)</a>
+        </div>
+    </div>
+</div>

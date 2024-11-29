@@ -1,0 +1,306 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@model YadiYad.Pro.Web.Models.Job.JobAdsHeaderModel
+
+<form class="content" method="post" action="/api/pro/job/search">
+    <div class="container">
+        @*<partial name="../Job/_JobAdsMenu" model="@Model" />*@
+        @await Component.InvokeAsync("OrganizationJobMenu", Model)
+        <div class="card section-subscription-pay hidden">
+            <div class="card-body">
+                <span class="text-bold">
+                    *Full profile viewing and Invitations are only available after activating PVI
+                    <a data-toggle="modal" class="cursor-pointer"
+                       data-target="#modal-PVI"
+                       data-keyboard="false"><i class="far fa-question-circle"></i></a>. Please click
+                    <input type="button" class="btn btn-sm btn-secondary btn-renew w-auto" value="here"
+                           data-toggle="modal" data-target="#modal-organization-apply-view-subscription"
+                           data-keyboard="false"
+                           href="/pro/order/applyview" />
+                    to activate.
+                </span>
+            </div>
+        </div>
+        <div class="row content-job-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Candidate (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body list-job-candidate">
+                    </div>
+                </div>
+                <div class="pagination-job-candidate-list">
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-job-candidate">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-organization-apply-view-subscription",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<div aria-hidden="true" aria-labelledby="modal-action-store-label" role="dialog" id="modal-PVI" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content text-center p-2">
+            <h4>Pay-to-View-and-Invite (PVI)</h4>
+            <div>
+                <a href="/fee-and-charges#2_1" target="_blank">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="template-card-job-candidate-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">No Candidate</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-content-job-candidate-response-empty" type="text/x-jsrender">
+    <div class="content-job-candidate">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No candidate</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-candidate-response-detail" type="text/x-jsrender">
+    <div class="card cursor-pointer content container content-job-candidate" data-entity-id="{{:id}}">
+        <div class="card-body row">
+            {{if showFullProfile === true}}
+            <div class="col-sm-12 text-right">
+                <input class="btn btn-primary btn-invite float-right" value="Invite" type="button" />
+            </div>
+            {{/if}}
+            <div class="col-sm-12">
+                <h4 class="font-weight-bolder">Personal Info</h4>
+            </div>
+            {{if showFullProfile === true}}
+            <label class="col-sm-3">Full Name as per IC</label><div class="col-sm-9">{{:name}}</div>
+            <label class="col-sm-3">Nick Name</label><div class="col-sm-9">{{:nickName}}</div>
+            {{/if}}
+            <label class="col-sm-3">Gender</label><div class="col-sm-9">{{:genderName}}</div>
+            <label class="col-sm-3">Age</label><div class="col-sm-9">{{:age}}</div>
+            {{if showFullProfile === true}}
+            <label class="col-sm-3">Email Address</label><div class="col-sm-9">{{:email}}</div>
+            <label class="col-sm-3">Contact No</label><div class="col-sm-9">{{:contactNo}}</div>
+            <label class="col-sm-3">Nationality</label><div class="col-sm-9">{{:nationalityName}}</div>
+            {{/if}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{if showFullProfile === true}}
+            <h4 class="col-12 font-weight-bolder">Place of Residence</h4>
+            <label class="col-sm-3">Address</label><div class="col-sm-9">{{:address}}</div>
+            <label class="col-sm-3">City</label><div class="col-sm-9">{{:stateProvinceName}}</div>
+            <label class="col-sm-3">Country</label><div class="col-sm-9">{{:countryName}}</div>
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <h4 class="col-12 font-weight-bolder">Professional Skills & Expertise</h4>
+            <label class="col-12">{{:categories[0].categoryName}}</label>
+            <div class="col-12">
+                {{for categories[0].categoryExpertises}}
+                <span class="badge badge-pill badge-gray">{{:name}}</span>
+                {{/for}}
+            </div>
+            <div class="col-12">
+                <span class="badge badge-pill badge-primary">{{:categories[0].yearExperienceName}}</span>
+            </div>
+            {{if showFullProfile === true}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 font-weight-bolder">Employment Info</h4>
+            <label class="col-sm-3">Employment Status</label><div class="col-sm-9">{{:employmentStatusName}}</div>
+            {{if cv}}
+            {{for cv}}
+            {{if downloadId !== null}}
+                <label class="col-sm-3">Job CV</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+            {{/if}}
+            {{/for}}
+            {{/if}}
+            
+            {{if employmentStatus == 1}}
+            <label class="col-sm-3">Company</label><div class="col-sm-9">{{:company}}</div>
+            <label class="col-sm-3">Position</label><div class="col-sm-9">{{:position}}</div>
+            <label class="col-sm-3">Tenure</label><div class="col-sm-9">{{:tenureStart}} - {{if tenureEnd != null}}{{:tenureEnd}}{{/if}} {{if tenureEnd == null}}Present{{/if}}</div>
+            <label class="col-sm-3">Achievements / Awards</label><div class="col-sm-9">{{:achievementAward}}</div>
+            {{/if}}
+            {{/if}}
+            {{if licenseCertificates.length > 0}}
+            {{if academicQualifications.length > 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 font-weight-bolder">Education</h4>
+            {{for academicQualifications}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>            {{/if}}
+            <label class="col-sm-3">Qualification</label><div class="col-sm-9">{{:academicQualificationTypeName}}</div>
+            <label class="col-sm-3">Qualification Name</label><div class="col-sm-9">{{:academicQualificationName}}</div>
+            <label class="col-sm-3">Institution</label><div class="col-sm-9">{{:academicInstitution}}</div>
+            {{/for}}
+            {{/if}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 font-weight-bolder">Licenses &amp; Certification</h4>
+            {{for licenseCertificates}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <label class="col-sm-3">Professional Membership</label><div class="col-sm-9">{{:professionalAssociationName}}</div>
+            <label class="col-sm-3">Licences &amp; Certificates</label><div class="col-sm-9">{{:licenseCertificateName}}</div>
+            {{if downloadId !== null}}
+            <label class="col-sm-3">Document</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+            {{/if}}
+            {{/for}}
+            {{/if}}
+
+            {{if languageProficiencies.length > 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 font-weight-bolder">Languages</h4>
+            {{for languageProficiencies}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>            {{/if}}
+            <label class="col-sm-3">Language</label><div class="col-sm-9">{{:languageName}}</div>
+            <label class="col-sm-3">Proficiency (spoken)</label><div class="col-sm-9">{{:proficiencyLevelName}}</div>
+            <label class="col-sm-3">Proficiency (written)</label><div class="col-sm-9">{{:proficiencyWrittenLevelName}}</div>
+            {{/for}}
+            {{/if}}
+
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 font-weight-bolder">My Job Seeking Availability</h4>
+            <label class="col-sm-3">Job Type</label><div class="col-sm-9">{{:jobTypeNames}}</div>
+            <label class="col-sm-3">Job Model</label><div class="col-sm-9">{{:jobModelNames}}</div>
+            {{if (isOnSite || isPartialOnSite) && preferredLocations && preferredLocations.length === 1}}
+            <label class="col-sm-3">Location</label>
+            <div class="col-sm-9">
+                <span class='badge badge-pill badge-primary'>
+                    {{:preferredLocations[0].cityName || 'All City'}},
+                    {{:preferredLocations[0].stateProvinceName || 'All State'}},
+                    {{:preferredLocations[0].countryName || 'All Country'}}
+                </span>
+            </div>
+            {{/if}}
+            <label class="col-sm-3">Asking Pay</label>
+            <div class="col-sm-9">
+                {{if isFreelanceHourly }}
+                <div><span>RM {{:hourlyPayAmount}}</span> (Per Hour - Hourly Basis)</div>
+                {{/if}}
+                {{if isFreelanceDaily }}
+            <div><span>RM {{:dailyPayAmount}}</span> (Per Day - Daily Basis)</div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-candidate-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No candidate</h4>
+    </div>
+</script>
+<script id="template-card-job-candidate" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-job-candidate shadow-none {{:isSelected=== true?"selected":""}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <span>{{:createdOn}}</span>
+            <h4 class="text-bold">{{:index}}.&nbsp;{{:name}}</h4>
+            {{if  isFreelanceHourly }}
+            <div><span class="text-bold">RM {{:hourlyPayAmount}}</span> (Per Hour - Hourly Basis)</div>
+            {{/if}}
+            {{if isFreelanceDaily }}
+            <div><span class="text-bold">RM {{:dailyPayAmount}}</span> (Per Day - Daily Basis)</div>
+            {{/if}}
+            <span class='badge badge-pill badge-primary'>{{:categories[0].yearExperienceName}}</span>
+            <div>
+                {{if (isOnSite || isPartialOnSite) && preferredLocations && preferredLocations.length === 1}}
+                <span class='badge badge-pill badge-primary'>
+                    {{:preferredLocations[0].cityName || 'All City'}},
+                    {{:preferredLocations[0].stateProvinceName || 'All State'}},
+                    {{:preferredLocations[0].countryName || 'All Country'}}
+                </span>
+                {{/if}}
+            </div>
+            <div>
+                {{if isFreelanceDaily == true}}
+                <span class="badge badge-pill badge-gray">Freelance (Daily)</span>
+                {{/if}}
+                {{if isFreelanceHourly == true}}
+                <span class="badge badge-pill badge-gray">Freelance (Hourly)</span>
+                {{/if}}
+                {{if isProjectBased == true}}
+                <span class="badge badge-pill badge-gray">Project-Based</span>
+                {{/if}}
+            </div>
+            <div>
+                {{if isOnSite == true}}
+                <span class="badge badge-pill badge-gray">Onsite</span>
+                {{/if}}
+                {{if isPartialOnSite == true}}
+                <span class="badge badge-pill badge-gray">Partial onsite</span>
+                {{/if}}
+                {{if isRemote == true}}
+                <span class="badge badge-pill badge-gray">Remote</span>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/candidate.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/candidate.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

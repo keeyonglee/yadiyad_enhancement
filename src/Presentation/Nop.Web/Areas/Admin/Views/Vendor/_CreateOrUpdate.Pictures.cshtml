@@ -1,0 +1,199 @@
+@model VendorModel
+<div class="panel-body">
+    @if (Model.Id > 0)
+    {
+    <div class="sub-panel">
+
+        @await Html.PartialAsync("Table", new DataTablesModel
+   {
+       Name = "vendorpictures-grid",
+       UrlRead = new DataUrl("VendorPictureList", "Vendor", new RouteValueDictionary { [nameof(Model.VendorPictureSearchModel.VendorId)] = Model.VendorPictureSearchModel.VendorId }),
+       UrlDelete = new DataUrl("VendorPictureDelete", "Vendor", null),
+       UrlUpdate = new DataUrl("VendorPictureUpdate", "Vendor", null),
+       Length = Model.VendorPictureSearchModel.PageSize,
+       LengthMenu = Model.VendorPictureSearchModel.AvailablePageSizes,
+       ColumnCollection = new List<ColumnProperty>
+                {
+                    new ColumnProperty(nameof(VendorPictureModel.PictureUrl))
+                    {
+                        Title = T("Admin.Vendors.Pictures.Fields.Picture").Text,
+                        Render = new RenderCustom("renderPicturesColumnVendorPictureUrl")
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.VendorPictureTypeName))
+                    {
+                        Title = T("Admin.Vendors.Pictures.Fields.VendorPictureType").Text,
+                        Width = "150",
+                        ClassName = NopColumnClassDefaults.CenterAll,
+                        Editable = false,
+                        EditType = EditType.Number
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.DisplayOrder))
+                    {
+                        Title = T("Admin.Vendors.Pictures.Fields.DisplayOrder").Text,
+                        Width = "150",
+                        ClassName = NopColumnClassDefaults.CenterAll,
+                        Editable = true,
+                        EditableExpression = "function(data){ return data.VendorPictureType !== 1}",
+                        EditType = EditType.Number
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.OverrideAltAttribute))
+                    {
+                        Title = T("Admin.Vendors.Pictures.Fields.OverrideAltAttribute").Text,
+                        Width = "200",
+                        Editable = true,
+                        EditType = EditType.String
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.OverrideTitleAttribute))
+                    {
+                        Title = T("Admin.Vendors.Pictures.Fields.OverrideTitleAttribute").Text,
+                        Width = "200",
+                        Editable = true,
+                        EditType = EditType.String
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.Id))
+                    {
+                        Title = T("Admin.Common.Edit").Text,
+                        Width = "200",
+                        ClassName =  NopColumnClassDefaults.Button,
+                        Render = new RenderButtonsInlineEdit()
+                    },
+                    new ColumnProperty(nameof(VendorPictureModel.Id))
+                    {
+                        Title = T("Admin.Common.Delete").Text,
+                        Width = "100",
+                        Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                        ClassName = NopColumnClassDefaults.Button
+                    }
+                }
+   })
+        
+        <script>
+            function renderPicturesColumnVendorPictureUrl(data, type, row, meta) {
+                return '<a href="' + row.PictureUrl + '" target="_blank"><img alt="' + row.PictureId + '" src="' + row.PictureUrl + '" width="150" /></a>';
+            }
+        </script>
+    </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Admin.Vendors.Pictures.AddNew")
+            </div>
+            <div class="panel-body">
+                <script>
+                    $(document).ready(function() {
+                        $('#addVendorPicture').click(function() {
+                            var pictureId = $("#@Html.IdFor(model => model.AddPictureModel.PictureId)").val();
+                            var overrideAltAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideAltAttribute)").val();
+                            var overrideTitleAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideTitleAttribute)").val();
+                            var displayOrder = $("#@Html.IdFor(model => model.AddPictureModel.DisplayOrder)").val();
+                            var vendorPictureType = $("#@Html.IdFor(model => model.AddPictureModel.VendorPictureType)").val();
+
+                            if (pictureId == 0) {
+                                $("#addVendorPictureAlert").click();
+                                return;
+                            }
+
+                            $('#addVendorPicture').attr('disabled', true);
+
+                            var postData = {
+                                pictureId: pictureId,
+                                displayOrder: displayOrder,
+                                overrideAltAttribute: overrideAltAttribute,
+                                overrideTitleAttribute: overrideTitleAttribute,
+                                vendorPictureType: vendorPictureType,
+                                vendorId: '@Model.Id'
+                            };
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("VendorPictureAdd", "Vendor"))",
+                                data: postData,
+                                success: function (data, textStatus, jqXHR) {
+                                    if (!data.Result) {
+                                        var nameVendorPictureType = "@Html.NameFor(model => model.AddPictureModel.VendorPictureType)";
+                                        var $valMsg = $('[data-valmsg-for="' + nameVendorPictureType+'"]');
+                                        $valMsg.text(data.Data && data.Data[nameVendorPictureType]);
+                                        $valMsg.addClass('field-validation-error');
+                                        return;
+                                    }
+                                    updateTable('#vendorpictures-grid');
+                                    var namePictureId = "@Html.NameFor(model => model.AddPictureModel.PictureId)";
+                                    $('[name="' + namePictureId + '"]').closest('div').next()
+                                        .find('.remove-image-button .btn').click();
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    $("#vendorPictureAddAlert").click();
+                                },
+                                complete: function (jqXHR, textStatus) {
+                                    $('#addVendorPicture').attr('disabled', false);
+                                }
+                            });
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddPictureModel.PictureId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddPictureModel.PictureId" />
+                        <span asp-validation-for="AddPictureModel.PictureId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddPictureModel.VendorPictureType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="AddPictureModel.VendorPictureType" asp-items="Model.AvailableVendorPictureTypes" />
+                        <span asp-validation-for="AddPictureModel.VendorPictureType"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddPictureModel.DisplayOrder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddPictureModel.DisplayOrder" />
+                        <span asp-validation-for="AddPictureModel.DisplayOrder"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddPictureModel.OverrideAltAttribute" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddPictureModel.OverrideAltAttribute" />
+                        <span asp-validation-for="AddPictureModel.OverrideAltAttribute"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AddPictureModel.OverrideTitleAttribute" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AddPictureModel.OverrideTitleAttribute" />
+                        <span asp-validation-for="AddPictureModel.OverrideTitleAttribute"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <button type="button" id="addVendorPicture" class="btn btn-primary">@T("Admin.Vendors.Pictures.AddButton")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.Vendors.Pictures.SaveBeforeEdit")
+            </div>
+        </div>
+    }
+</div>
+<nop-alert asp-alert-id="addVendorPictureAlert" asp-alert-message="@T("Admin.Vendors.Pictures.Alert.AddNew")" />
+<nop-alert asp-alert-id="vendorPictureAddAlert" asp-alert-message="@T("Admin.Vendors.Pictures.Alert.PictureAdd")" />

@@ -1,0 +1,46 @@
+﻿
+<div class="content content-repropose-service">
+    <form id="form-repropose-service">
+        @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "Repropose Service Request" })
+        <div class="modal-body form-horizontal form-group row">
+            <div class="col-12">
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Start Date</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-datepicker-tdp"
+                               name="startDate" mindate="5" required />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 form-group-duration hidden">
+                <div class="form-group row">
+                    <label for="" class="col-sm-3 col-form-label">Duration</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control"
+                               name="duration" required />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="0" />
+        @await Html.PartialAsync("_ModalFooter", new ModalFooterModel { })
+    </form>
+</div>
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+}
+
+<environment include="Development">
+    <script src="~/js/pro/serviceApplication/repropose.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/serviceApplication/repropose.es5.min.js" asp-append-version="true"></script>
+</environment>

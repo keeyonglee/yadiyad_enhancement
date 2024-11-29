@@ -1,0 +1,40 @@
+﻿@model WidgetZoneModel
+@using Nop.Web.Framework.UI
+
+@{
+    Layout = "";
+
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jquery.nivo.slider.js");
+    Html.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/nivoslider/nivo-slider.css");
+    Html.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/nivoslider/themes/custom/custom.css");
+    Html.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
+}
+
+@if (Model.IsVerticalView == false)
+{
+    <div class="slider-wrapper theme-custom">
+        <div id="nivo-slider-@Model.Id" class="nivoSlider">
+        
+            @foreach (var slide in Model.Slides)
+            {
+                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Public/_PublicInfo.SliderLine.cshtml", slide)
+            }
+        </div>
+    </div>
+    <script asp-location="Footer">
+        $(window).on('load', function () {
+            $('#nivo-slider-@Model.Id').nivoSlider();
+        });
+    </script>
+}
+else
+{
+    <div class="vertical-listed-banner row">
+        @foreach (var slide in Model.Slides)
+        {
+            <div class="col-6 col-lg-12">
+                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Public/_PublicInfo.SliderLine.cshtml", slide)
+            </div>
+        }
+    </div>
+}

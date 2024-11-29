@@ -1,0 +1,127 @@
+﻿@model ModeratorConsultationCancelModel
+
+@using YadiYad.Pro.Core.Domain.Common
+
+<div class="content content-facilitating-cancel">
+    <input type="hidden" asp-for="Id" />
+    <form class="form-facilitating-cancel">
+        @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "Cancellation" })
+        <div class="modal-body form-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Cancelled by</label>
+                        <div class="col-sm-9">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="radio" name="cancelledBy" value="Buyer" checked required>
+                                    Organization
+                                </label>
+                            </div>
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="radio" name="cancelledBy" value="Seller">
+                                    Consultant
+                                </label>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-9">
+                            @foreach (EngagementParty option in Enum.GetValues(typeof(EngagementParty)))
+                            {
+                                if (option.GetDescription() != "Moderator")
+                                {
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="radio" name="cancelledById" value="@((int)option)" required>
+                                            @option.GetDescription() 
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>*@
+                    </div>
+                    <div class="form-group row" id="divBuyerReasons">
+                        <label for="" class="col-sm-3 col-form-label">Reason</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 select"
+                                    name="reasonIdBuyer"
+                                    placeholder="Reason"
+                                    data-sourceurl="/api/pro/source/ConsultationReasonBuyer"
+                                    data-id="id" data-text="name" required
+                                    id="idBuyerReasons">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divSellerReasons">
+                        <label for="" class="col-sm-3 col-form-label">Reason</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 select"
+                                    name="reasonIdSeller"
+                                    placeholder="Reason"
+                                    data-sourceurl="/api/pro/source/ConsultationReasonSeller"
+                                    data-id="id" data-text="name" required
+                                    id="idSellerReasons">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divReasonOthersBuyer">
+                        <label for="" class="col-sm-3 col-form-label">Others</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="reasonOthersBuyer" class="form-control" placeholder="Please specify" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divReasonOthersSeller">
+                        <label for="" class="col-sm-3 col-form-label">Others</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="reasonOthersSeller" class="form-control" placeholder="Please specify" required></textarea>
+                        </div>
+                    </div>
+                    @*<div class="form-group row" id="divNextStep">
+                        <label for="" class="col-sm-3 col-form-label">Organization opt for</label>
+                        <div class="col-sm-9">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="radio" name="rehire" value="true" checked required>
+                                    Rehire
+                                </label>
+                            </div>
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="radio" name="rehire" value="false">
+                                    Refund
+                                </label>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Remarks</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="moderatorRemarks" class="form-control" placeholder="Additional comments (Optional)" maxlength="255"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input name="serviceProfileId" hidden />
+        @await Html.PartialAsync("_ModalFooter", new ModalFooterModel { })
+    </form>
+</div>
+<partial name="_FormComponent" />
+
+<environment include="Development">
+    <script src="~/js/pro/consultation/cancel.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/consultation/cancel.es5.min.js" asp-append-version="true"></script>
+</environment>
+
+<script>
+    $(document).ready(function () {
+        //$('#divNextStep').hide();
+        $('#divSellerReasons').hide();
+        $('#divReasonOthersBuyer').hide();
+        $('#divReasonOthersSeller').hide();
+
+    });
+</script>

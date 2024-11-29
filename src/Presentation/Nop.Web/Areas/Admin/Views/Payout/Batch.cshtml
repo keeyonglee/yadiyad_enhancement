@@ -1,0 +1,223 @@
+@model PayoutBatchSearchModel
+@inject IWorkContext workContext
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Customers.Payout").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Payout");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "NewsContentPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Payout Batch
+    </h1>
+    <div class="pull-right">
+        <button id="btn-generate" class="btn bg-green">
+            Generate
+        </button>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @*hide the entire search block if no elements are displayed*@
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                        <div class="row">
+                            @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>User</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="CustomerIds" />
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>Generated Date</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="GeneratedDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Status" asp-items="Model.StatusList" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-10">
+                                <button type="button" id="search-payout-batch" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+               {
+                   Name = "payout-batch-grid",
+                   UrlRead = new DataUrl("BatchList", "Payout", null),
+                   SearchButtonId = "search-payout-batch",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                   {
+                       new FilterParameter(nameof(Model.CustomerIds)),
+                       new FilterParameter(nameof(Model.GeneratedDate)),
+                       new FilterParameter(nameof(Model.Status))
+                   },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(PayoutBatchModel.PayoutBatchNumber))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.BatchNo").Text
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.PlatformText))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Platform").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.GeneratedDateTime))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.DateGenerated").Text,
+                                Width = "130",
+                                Render = new RenderDate{ isUTC = true }
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.PayoutGroupCount))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.PayoutRecords").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.StatusText))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Status").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.StatusRemarks))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.StatusRemarks").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.DownloadDateTime))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.DownloadDate").Text,
+                                Width = "130",
+                                Render = new RenderDate{ isUTC = true }
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.ReconDateTime))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.ReconDate").Text,
+                                Width = "130",
+                                Render = new RenderDate{ isUTC = true }
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.Amount))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Amount").Text,
+                                Render = new RenderCustom("renderAmount"),
+                                ClassName = "text-right",
+                                Width = "100"
+                            },
+
+                            new ColumnProperty(nameof(PayoutBatchModel.Id))
+                            {
+                                Title = T("Admin.Common.View").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonView(new DataUrl("Group"))
+                            },
+
+                            new ColumnProperty(nameof(PayoutBatchModel.Id))
+                            {
+                                Title = T("Admin.Common.ExportToCsv").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderCustom("renderColumnDownload")
+                            },
+                            new ColumnProperty(nameof(PayoutBatchModel.Id))
+                            {
+                                Title = T("Admin.Common.Action").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderCustom("renderColumnEdit")
+                            }
+                        }
+               })
+
+                    <script>
+                        function renderColumnEdit(data, type, row, meta) {
+                            if (row.Status !== 3 && row.Status !== 4) {
+                                return '<a class="btn btn-default" href="/Admin/Payout/Edit/' + data + '"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</a>';
+                            } else {
+                                return '<a class="btn btn-default" href="@(Url.Action("DownloadFile", "Download"))?downloadGuid=' + row.ReconFileDownloadGuid + '" target="_blank"><i class="fa fa-download"></i>@T("Admin.Common.DownloadUploadedReconFile")</a>';
+                            }
+                        }
+                        function renderColumnDownload(data, type, row, meta) {
+                            return '<a class="btn btn-default" href="@Url.Content("~/Admin/Payout/Download/")' + data + '" onclick="refreshTable(' + meta.row + ')" target="_blank">'
+                                +'<i class="fa fa-download"></i>@T("Common.FileUploader.DownloadUploadedFile")</a>';
+                        }
+                        function renderAmount(data, type, row, meta) {
+                            return $.fn.dataTable.render.number(',', '.', 2, 'RM ').display(data);
+                        }
+
+                        function refreshTable(rowNo) {
+                            var table = $('#payout-batch-grid').DataTable();
+                            var temp = table.row(rowNo).data();
+                            temp["DownloadDateTime"] = moment.utc(new Date());
+                            $('#payout-batch-grid').dataTable().fnUpdate(temp,rowNo,undefined,false);
+
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btn-generate").click(function () {
+        var settings = {
+            "url": "/api/pro/payoutBatch/generate",
+            "method": 'POST',
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        };
+
+        $.ajax(settings).done(function (response) {
+            if (response.status.code === 1) {
+
+            } else {
+                alert(response.status.message);
+            }
+            var $table = $('#payout-batch-grid').DataTable();
+
+            $table.ajax.reload();
+        });
+    })
+
+</script>

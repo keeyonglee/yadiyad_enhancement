@@ -1,0 +1,48 @@
+﻿@model IPay88PaymentResultModel
+
+@using Nop.Plugin.Payments.IPay88.Models
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.UI;
+
+@{
+    Path = ViewBag.Path ?? "~/Areas/Pro/Views/";
+    Layout = ViewBag.Layout ?? "Shared/_Layout.cshtml";
+
+    //title
+    //Html.AddTitleParts(T("PageTitle.Checkout").Text);
+    Html.AddTitleParts("Payment Failure");
+    //page class
+    Html.AppendPageCssClassParts("html-checkout-page");
+    Html.AppendPageCssClassParts("html-order-completed-page");
+}
+@*@if (!Model.OnePageCheckoutEnabled)
+    {
+        @Html.Action("CheckoutProgress", "Checkout", new { step = CheckoutProgressStep.Complete })
+    }*@
+
+
+<div class="content">
+    <div class="container">
+        <div class="mt-3 mb-3">
+            <h1 class="text-center font-weight-bolder">Payment Failure</h1>
+        </div>
+        <div class="card">
+            <div class="card-body topic text-center">
+                <div class="title">
+                    <strong>The payment information is wrongly inserted. Please try to make payment again for your order.</strong>
+                </div>
+                <div>
+                    <a class="btn btn-primary" href="@(ViewBag.GotoURL??"/")">Go to @(ViewBag.GotoPage??"Home Page")</a>
+                </div>
+                @*@if (Model.OrderId > 0)
+                {
+                    <ul class="details">
+                        <li>
+                            <a href="@Url.RouteUrl("OrderDetails", new { orderID = Model.OrderId })">@T("Checkout.PlacedOrderDetails")</a>
+                        </li>
+                    </ul>
+                }*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+﻿
+<div class="content content-request-service">
+    <form class="form-request-service">
+        @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "New Request" })
+        <div class="modal-body form-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Start Date</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="startDate" class="form-control form-control-datepicker-tdp"  mindate="5" required />
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-duration hidden">
+                        <label for="" class="col-sm-3 col-form-label">Expected Duration</label>
+                        <div class="col-sm-6">
+                            <input type="number" name="duration" min="1" max="120" class="form-control" required />
+                        </div>
+                        <div class="col-sm-3">
+                            months
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-requiredTime hidden">
+                        <label for="" class="col-sm-3 col-form-label">Required Time</label>
+                        <div class="col-sm-6">
+                            <input type="number" name="required" min="1" max="40" class="form-control" required />
+                        </div>
+                        <div class="col-sm-3 label-requiredTime">
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-location hidden">
+                        <label for="stateId" class="col-sm-3 col-form-label">Country</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 select"
+                                    name="countryId" textName="countryName"
+                                    placeholder="Country"
+                                    data-sourceurl="/api/pro/source/country"
+                                    data-id="id" data-text="name"
+                                    required
+                                    disabled>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-location hidden">
+                        <label for="stateId" class="col-sm-3 col-form-label">State</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 select"
+                                    name="stateProvinceId" textName="stateProvinceName"
+                                    placeholder="State"
+                                    required
+                                    data-sourceurl="/api/pro/source/stateProvince"
+                                    data-dependent="countryId:countryId"
+                                    data-id="id" data-text="name">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-location hidden">
+                        <label for="cityId" class="col-sm-3 col-form-label">City</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 select"
+                                    name="cityId" textName="cityName"
+                                    placeholder="City"
+                                    data-sourceurl="/api/pro/source/city"
+                                    data-dependent="countryId:countryId;stateProvinceId:stateProvinceId"
+                                    required
+                                    data-id="id" data-text="name">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-location hidden">
+                        <label for="" class="col-sm-3 col-form-label">Location</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="location" class="form-control" maxlength="200" required />
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-location hidden">
+                        <label for="" class="col-sm-3 col-form-label">Postcode</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="zipPostalCode" class="form-control" maxlength="5" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required />
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="radio d-inline-block mr-4">
+                                    <label class="col-form-label form-check-label">
+                                        <input type="checkbox" name="isEscrow">
+                                        Opt in for Escrow payment
+                                    </label>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <input name="serviceProfileId" hidden />
+        @await Html.PartialAsync("_ModalFooter", new ModalFooterModel { })
+    </form>
+</div>
+
+<environment include="Development">
+    <script src="~/js/pro/serviceApplication/request.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/serviceApplication/request.es5.min.js" asp-append-version="true"></script>
+</environment>
+

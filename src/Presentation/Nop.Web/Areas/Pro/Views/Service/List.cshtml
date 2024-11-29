@@ -1,0 +1,437 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+<form class="content" method="post" action="/api/pro/service/search">
+    <div class="container">
+        @await Component.InvokeAsync("ServiceSellerMenu", YadiYad.Pro.Web.Enums.ServiceSellerMenuType.MyServiceProfiles)
+        @*<partial name="_ServiceSellerMenu" model="YadiYad.Pro.Web.Enums.ServiceSellerMenuType.MyServiceProfiles" />*@
+        <div class="row content-service-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Your Service Offerings (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <a class="btn btn-round w-auto btn-default" href="@Url.Action("Details","Service", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i>&nbsp;New Service Profile</a>
+                        </div>
+                        <div class="list-service-list">
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination-service-list">
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-service-list-response">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script id="template-card-service-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">Create Your New Services Profile</h4>
+                <a class="btn btn-round w-auto btn-outline-primary" href="@Url.Action("Details","Service", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-list-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No service profile</h4>
+    </div>
+</script>
+<script id="template-card-service-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-service-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <h5 class="text-bold">{{:categoryName}}</h5>
+            <h6 class="text-bold">{{:serviceTypeName}}</h6>
+            <div><span>{{:serviceModelName}}</span></div>
+            <div>
+                {{if serviceTypeId == 1}}
+                <span class="text-bold">RM {{:freelancingCharges}}</span> per hour&nbsp;
+                {{/if}}
+                {{if serviceTypeId == 2}}
+                <span class="text-bold">RM {{:partTimeCharges}}</span> per day&nbsp;
+                {{/if}}
+                {{if serviceTypeId == 3}}
+                <span class="text-bold">RM {{:consultationCharges}}</span> per session&nbsp;
+                {{/if}}
+            </div>
+            <div>
+                <div class="float-left font-italic text-xs  mt-3">
+                    last updated on {{:updatedOn}}
+                </div>
+                <div class="action-panel float-right {{:(#index === 0?"selected":"")}}">
+                    <button type="button" class="btn-icon btn-primary btn-edit" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                    <button type="button" class="btn-icon btn-secondary btn-delete" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-list-response-empty" type="text/x-jsrender">
+    <div class="content-service-list-response">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No service profile</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-list-response" type="text/x-jsrender">
+    <div class="content-service-list-response" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Skills &amp; Expertise</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <div class="">{{:categoryName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Years of Experience</label>
+                            <div class="col-sm-9">
+                                <div class="">{{:experienceYearName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                            <div class="col-sm-9 area-expertise">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Service Model &amp; Site</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Service Model</label>
+                            <div class="col-sm-9">
+                                <div>{{:serviceTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Service Site</label>
+                            <div class="col-sm-9">
+                                <div>{{:serviceModelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceModelId == 1 || serviceModelId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Location</label>
+                            <div class="col-sm-9">
+                                <span class='badge badge-pill badge-primary'>{{if cityId != null}}{{:cityName}}{{/if}}{{if cityId == null}}All City{{/if}}, {{if stateProvinceId != null}}{{:stateProvinceName}}{{/if}}{{if stateProvinceId == null}}All State{{/if}}, {{if countryId != null}}{{:countryName}}{{/if}}{{if countryId == null}}All Country{{/if}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Employment Info</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Employment Status</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    {{:employmentStatusName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if employmentStatus == 1}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Company</label>
+                            <div class="col-sm-9">
+                                <div>{{:company}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Position</label>
+                            <div class="col-sm-9">
+                                <div>{{:position}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Tenure</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    {{:tenureStart}} - {{if tenureEnd != null}}{{:tenureEnd}}{{/if}}{{if tenureEnd == null}}Present{{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-12">
+            <div class="form-group row">
+                <label for="" class="col-sm-3 col-form-label">Achievements / Awards</label>
+                <div class="col-sm-9">
+                    <label class="col-form-label">{{:achievementAward}}</label>
+                </div>
+            </div>
+        </div>*@
+                    {{/if}}
+
+                    {{if serviceAcademicQualifications.length > 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Education</h4>
+                    </div>
+                    {{for serviceAcademicQualifications}}
+                    {{if #index !== 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Qualification</label>
+                            <div class="col-sm-9">
+                                <div>{{:academicQualificationTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Qualification Name</label>
+                            <div class="col-sm-9">
+                                <div>{{:academicQualificationName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Institution</label>
+                            <div class="col-sm-9">
+                                <div>{{:academicInstitution}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/for}}
+                    {{/if}}
+
+                    {{if serviceLicenseCertificates.length > 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Licenses &amp; Certification</h4>
+                    </div>
+                    {{for serviceLicenseCertificates}}
+                    {{if #index !== 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Professional Membership</label>
+                            <div class="col-sm-9">
+                                <div>{{:professionalAssociationName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Licences &amp; Certificates</label>
+                            <div class="col-sm-9">
+                                <div>{{:licenseCertificateName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if downloadId != null}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Document</label>
+                            <div class="col-sm-9">
+                                <a class="col-form-label text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/for}}
+                    {{/if}}
+
+
+                    {{if serviceLanguageProficiencies.length > 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Languages</h4>
+                    </div>
+                    {{for serviceLanguageProficiencies}}
+                    {{if #index !== 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Language</label>
+                            <div class="col-sm-9">
+                                <div>{{:languageName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Proficiency (spoken)</label>
+                            <div class="col-sm-9">
+                                <div>{{:proficiencyLevelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Proficiency (written)</label>
+                            <div class="col-sm-9">
+                                <div>{{:proficiencyWrittenLevelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/for}}
+                    {{/if}}
+                    {^{if achievementAward}}
+                    <div class="col-12 hidden form-group-charges">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Achievements / Awards</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Description</label>
+                            <div class="col-sm-9">
+                                <div>{{:achievementAward}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    <div class="col-12 hidden form-group-charges">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12 hidden form-group-charges">
+                        <h4 class="font-weight-bolder">Professional Fees</h4>
+                    </div>
+                    <div class="col-12 hidden form-group-consultation">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Consultation</label>
+                            <div class="col-sm-9">
+                                RM {{:consultationCharges}} per session
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 hidden form-group-freelancing">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Freelance (Hourly)</label>
+                            <div class="col-sm-9">
+                                RM {{:freelancingCharges}} per hour
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 hidden form-group-part-time">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Freelance (Daily)</label>
+                            <div class="col-sm-9">
+                                RM {{:partTimeCharges}} per day - 8 hours a day
+                            </div>
+                        </div>
+                    </div>
+                    {{if (serviceModelId == 1 || serviceModelId == 2) && serviceTypeId !== 4 && onsiteCharges != null && onsiteCharges != 0}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Additional Onsite Fees</label>
+                            <div class="col-sm-9">
+                                RM {{:onsiteCharges}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col-12 hidden form-group-freelancing form-group-part-time">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12 hidden form-group-freelancing form-group-part-time">
+                        <h4 class="font-weight-bolder">Availability</h4>
+                    </div>
+                    <div class="col-12 hidden form-group-freelancing">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Availability</label>
+                            <div class="col-sm-9">
+                                {{:freelancingAvailability}} hours per week
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 hidden form-group-part-time">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Availability</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label">{{:partTimeAvailability}}</label> days per month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+@await Component.InvokeAsync("SimplePagination")
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/seller-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/service/list.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/seller-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/service/list.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

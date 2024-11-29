@@ -1,0 +1,78 @@
+﻿@model OrderSearchModel 
+@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    const string panelId = "top-returned-product-box";
+    const string hidePanelAttributeName = "Reports.HideTopReturnedProductPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
+    var gridPageSize = 5;
+}
+
+<div class="box box-info @if(hidePanel){<text>collapsed-box</text>}" id="@panelId">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-cart-plus"></i>
+            Top Returned Products
+            <a asp-controller="Product" asp-action="List" class="btn btn-xs btn-info btn-flat margin-l-10">View All Products</a>
+        </h3>
+        <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse">
+                @if (hidePanel)
+                {
+                    <text><i class="fa fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fa fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        <div class="" id="select-return-days">
+            <nop-select asp-for="Days" asp-items="Model.AvailableDays" />
+        </div>
+
+        @await Html.PartialAsync("Table", new DataTablesModel
+       {
+           Name = "top-products-returned-grid",
+           UrlRead = new DataUrl("TopReturnedProducts", "Order", null),
+           Length = gridPageSize,
+           SearchButtonId = "select-return-days",
+           Dom = "<'row'<'col-md-12't>>" +
+                      "<'row margin-t-5'" +
+                        "<'col-lg-10 col-xs-12'<'float-lg-left'p>>" +
+                        "<'col-lg-2 col-xs-12'<'float-lg-right text-center'i>>" +
+                      ">",
+           Filters = new List<FilterParameter>
+                {
+                    new FilterParameter(nameof(Model.Days))
+                },
+           ColumnCollection = new List<ColumnProperty>
+                {
+                new ColumnProperty(nameof(VendorProductSummaryModel.ProductId))
+                {
+                    Title = "Product #",
+                    Width = "60"
+                },
+                new ColumnProperty(nameof(VendorProductSummaryModel.ProductName))
+                {
+                    Title = "Product Name",
+                    Width = "150"
+                },
+                new ColumnProperty(nameof(VendorProductSummaryModel.Count))
+                {
+                    Title = "Quantity",
+                    Width = "60"
+                },
+                new ColumnProperty(nameof(VendorProductSummaryModel.LastCreatedTime))
+                {
+                    Title = "Order Time",
+                    Width = "120",
+                    Render = new RenderDate()
+                }
+            }
+        })
+    </div>
+</div>

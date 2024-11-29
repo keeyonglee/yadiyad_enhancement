@@ -1,0 +1,78 @@
+﻿@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderBefore })
+
+@using Nop.Core
+@inject IWorkContext workContext
+
+<div class="header-upper">
+    <div class="header">
+
+        <div class="header-selectors-wrapper">
+            <div class="follow-us mr-3">
+                <div class="social">
+                    <span class="title">@T("Header.FollowUsOn")</span>
+                    <ul class="networks">
+                        <li class="facebook">
+                            <a href="https://www.facebook.com/yadiyadglobal" target="_blank" rel="noopener noreferrer"></a>
+                        </li>
+                        <li class="instagram">
+                            <a href="https://www.instagram.com/yadiyadglobal/" target="_blank" rel="noopener noreferrer"></a>
+                        </li>
+                        <li class="linkedin">
+                            <a href="https://www.linkedin.com/company/74335011" target="_blank" rel="noopener noreferrer"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @if (workContext.CurrentVendor == null){
+                <span class="reference-header-divider"></span>
+                <div class="header-links">
+                    <ul>
+                        <li>
+                            <a href="@(string.IsNullOrWhiteSpace(workContext.CurrentCustomer.Username) ?Url.RouteUrl("Login") : Url.RouteUrl("ApplyVendorAccount") )">@T("Header.SellAtPlatform")</a>
+                        </li>
+                    </ul>
+                </div>
+            }
+
+            @*@await Component.InvokeAsync("TaxTypeSelector")
+                @await Component.InvokeAsync("CurrencySelector")
+                @await Component.InvokeAsync("LanguageSelector")
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderSelectors })*@
+        </div>
+        <div class="header-links-wrapper">
+            @await Component.InvokeAsync("HeaderLinks")
+        </div>
+    </div>
+</div>
+
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderMiddle })
+<div class="header-lower" id="header">
+    <div class="header">
+        <div class="header-logo">
+            @await Component.InvokeAsync("Logo")
+        </div>
+        <div class="search-box store-search-box hidden">
+            @await Component.InvokeAsync("SearchBox")
+        </div>
+        <div class="header-links-wrapper">
+            @await Component.InvokeAsync("ShoppingCart")
+            @await Component.InvokeAsync("FlyoutShoppingCart")
+
+        </div>
+    </div>
+</div>
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderAfter })
+<script>
+    window.onscroll = function () { myFunction() };
+
+    var header = document.getElementById("header");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky-top");
+        } else {
+            header.classList.remove("sticky-top");
+        }
+    }
+</script>

@@ -1,0 +1,22 @@
+﻿@model BootstrapModel
+
+<div aria-hidden="true" aria-labelledby="@Model.AreaLabeledId" role="dialog" id="@Model.ID" class="modal fade @Model.AdditionalClass">
+    @if (Model.IsVerticalAlign)
+    {
+        <div class="vertical-alignment-container">
+            <div class="modal-dialog vertical-align-center @Model.ModalSizeClass">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-dialog @Model.ModalSizeClass">
+            <div class="modal-content">
+            </div>
+        </div>
+    }
+</div>
+
+

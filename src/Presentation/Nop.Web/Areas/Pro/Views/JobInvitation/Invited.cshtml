@@ -1,0 +1,292 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@model YadiYad.Pro.Web.Models.Job.JobAdsHeaderModel
+
+<form class="content" method="post" action="/api/pro/job/search">
+    <div class="container">
+        @*<partial name="../Job/_JobAdsMenu" model="@Model" />*@
+        @await Component.InvokeAsync("OrganizationJobMenu", Model)
+        <div class="row content-job-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Invited (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body list-job-invited">
+                    </div>
+                </div>
+                <div class="pagination-jobinvitation-invited-list">
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-job-invited">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script id="template-card-job-invite-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">No Invitation</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-content-job-invite-response-empty" type="text/x-jsrender">
+    <div class="content-job-invited">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No invitation</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-invite-response-detail" type="text/x-jsrender">
+    <div class="content-job-invited">
+        <div class="card">
+            <div class="card-body">
+                {^{if jobInvitationStatus == 1}}
+                <h4 class="text-bold">Your invite is sent to the jobseeker</h4>
+                <hr />
+                <p>Pending for the jobseeker to accept your invite</p>
+                {{/if}}
+                {^{if jobInvitationStatus == 2}}
+                <h4 class="text-bold">Invitation has been accepted</h4>
+                <hr />
+                <p class="text-bold">Please go to Applicants list to see the application</p>
+                {{/if}}
+                {^{if jobInvitationStatus == 3}}
+                <h4 class="text-bold">Invitation has been rejected</h4>
+                {{/if}}
+                {^{if jobInvitationStatus == 4}}
+                <h4 class="text-bold">Invitation is expired</h4>
+                {{/if}}
+            </div>
+        </div>
+        {^{if jobInvitationStatus != 4}}
+        {{/if}}
+        <div class="card cursor-pointer content container card-job-profile" data-entity-id="{{:id}}">
+            <div class="card-body row">
+                {^{if jobInvitationStatus != 4}}
+                <h4 class="col-12 text-bold">Personal Info</h4>
+                <label class="col-sm-3 col-form-label">Full Name as per IC</label><div class="col-sm-9">{{:serviceIndividualProfile.fullName}}</div>
+                <label class="col-sm-3 col-form-label">Nick Name</label><div class="col-sm-9">{{:serviceIndividualProfile.nickName}}</div>
+                <label class="col-sm-3 col-form-label">Gender</label><div class="col-sm-9">{{:serviceIndividualProfile.genderText}}</div>
+                <label class="col-sm-3 col-form-label">Date of Birth</label><div class="col-sm-9">{{:serviceIndividualProfile.dateOfBirth}}</div>
+                <label class="col-sm-3 col-form-label">Email Address</label><div class="col-sm-9">{{:serviceIndividualProfile.email}}</div>
+                <label class="col-sm-3 col-form-label">Contact No</label><div class="col-sm-9">{{:serviceIndividualProfile.contactNo}}</div>
+                <label class="col-sm-3 col-form-label">Nationality</label><div class="col-sm-9">{{:serviceIndividualProfile.nationalityName}}</div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">Place of Residence</h4>
+                <label class="col-sm-3 col-form-label">Address</label><div class="col-sm-9">{{:serviceIndividualProfile.address}}</div>
+                <label class="col-sm-3 col-form-label">City</label><div class="col-sm-9">{{:serviceIndividualProfile.stateProvinceName}}</div>
+                <label class="col-sm-3 col-form-label">Country</label><div class="col-sm-9">{{:serviceIndividualProfile.countryName}}</div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+
+                <h4 class="col-12 text-bold">My Professional Skills & Expertise</h4>
+                <label class="col-12">{{:jobProfile.categoryName}}</label>
+                <div class="col-12">
+                    {{for jobSeekerProfile.serviceExpertises}}
+                    <span class="badge badge-pill badge-gray">{{:name}}</span>
+                    {{/for}}
+                </div>
+                <div class="col-12">
+                    <span class="badge badge-pill badge-primary">{{:jobProfile.preferredExperienceName}}</span>
+                </div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">Employment Info</h4>
+                <label class="col-sm-3 col-form-label">Employment Status</label><div class="col-9">{{:jobSeekerProfile.employmentStatusName}}</div>
+                {{if jobSeekerProfile.cv}}
+                {{for jobSeekerProfile.cv}}
+                {{if downloadId !== null}}
+                    <label class="col-sm-3">Job CV</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+                {{/if}}
+                {{/for}}
+                {{/if}}
+                {{if jobSeekerProfile.employmentStatus == 1}}
+                <label class="col-sm-3 col-form-label">Company</label><div class="col-sm-9">{{:jobSeekerProfile.company}}</div>
+                <label class="col-sm-3 col-form-label">Position</label><div class="col-sm-9">{{:jobSeekerProfile.position}}</div>
+                <label class="col-sm-3 col-form-label">Tenure</label><div class="col-sm-9">{{:jobSeekerProfile.tenureStart}} - {{if jobSeekerProfile.tenureEnd != null}}{{:jobSeekerProfile.tenureEnd}}{{/if}} {{if jobSeekerProfile.tenureEnd == null}}Present{{/if}}</div>
+                <label class="col-sm-3 col-form-label">Achievements / Awards</label><div class="col-sm-9">{{:jobSeekerProfile.achievementAward}}</div>
+                {{/if}}
+                {{if jobSeekerProfile.academicQualifications.length > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">Education</h4>
+                {{for jobSeekerProfile.academicQualifications}}
+                {{if #index !== 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <label class="col-sm-3 col-form-label">Qualification</label><div class="col-sm-9">{{:academicQualificationTypeName}}</div>
+                <label class="col-sm-3 col-form-label">Qualification Name</label><div class="col-sm-9">{{:academicQualificationName}}</div>
+                <label class="col-sm-3 col-form-label">Institution</label><div class="col-sm-9">{{:academicInstitution}}</div>
+                {{/for}}
+                {{/if}}
+
+                {{if jobSeekerProfile.licenseCertificates.length > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">Licenses &amp; Certification</h4>
+                {{for jobSeekerProfile.licenseCertificates}}
+                {{if #index !== 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <label class="col-sm-3 col-form-label">Professional Membership</label><div class="col-sm-9">{{:professionalAssociationName}}</div>
+                <label class="col-sm-3 col-form-label">Licences &amp; Certificates</label><div class="col-sm-9">{{:licenseCertificateName}}</div>
+                {{if downloadId !== null}}
+                <label class="col-sm-3 col-form-label">Document</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+                {{/if}}
+                {{/for}}
+                {{/if}}
+
+
+                {{if jobSeekerProfile.languageProficiencies.length > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">Languages</h4>
+                {{for jobSeekerProfile.languageProficiencies}}
+                {{if #index !== 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <label class="col-sm-3 col-form-label">Language</label><div class="col-sm-9">{{:languageName}}</div>
+                <label class="col-sm-3 col-form-label">Proficiency (spoken)</label><div class="col-sm-9">{{:proficiencyLevelName}}</div>
+                <label class="col-sm-3 col-form-label">Proficiency (written)</label><div class="col-sm-9">{{:proficiencyWrittenLevelName}}</div>
+                {{/for}}
+                {{/if}}
+
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <h4 class="col-12 text-bold">My Job Seeking Availability</h4>
+                <label class="col-sm-3 col-form-label">Job Type</label><div class="col-sm-9">{{:jobSeekerProfile.jobTypeNames}}</div>
+                <label class="col-sm-3 col-form-label">Job Model</label><div class="col-sm-9">{{:jobSeekerProfile.jobModelNames}}</div>
+                {{if jobSeekerProfile.isOnSite || jobSeekerProfile.isPartialOnSite}}
+                <label class="col-sm-3 col-form-label">Location</label>
+                <div class="col-sm-9">
+                    <span class='badge badge-pill badge-primary'>
+                        {{:jobSeekerProfile.preferredLocations[0].cityName || 'All City'}},
+                        {{:jobSeekerProfile.preferredLocations[0].stateProvinceName || 'All State'}},
+                        {{:jobSeekerProfile.preferredLocations[0].countryName || 'All Country'}}
+                    </span>
+                </div>
+                {{/if}}
+                {{if (jobProfile.jobType === 1 && jobSeekerProfile.isFreelanceHourly) || (jobProfile.jobType === 2 && jobSeekerProfile.isFreelanceDaily)}}
+                <label class="col-sm-3 col-form-label">Asking Pay</label>
+                <div class="col-sm-9">
+                    {{if jobProfile.jobType === 1 && jobSeekerProfile.isFreelanceHourly }}
+                    <span class="text-bold">RM {{:jobSeekerProfile.hourlyPayAmount}}</span><span> (per hour)</span>
+                    {{/if}}
+                    {{if jobProfile.jobType === 2 && jobSeekerProfile.isFreelanceDaily }}
+                    <span class="text-bold">RM {{:jobSeekerProfile.dailyPayAmount}}</span><span> (per day)</span>
+                    {{/if}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-invite-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No invitation</h4>
+    </div>
+</script>
+<script id="template-card-job-invite" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-job-invite shadow-none {{:isSelected=== true?"selected":""}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <span>{{:createdOn}}</span>
+            {{if jobInvitationStatus == 1}}
+            <span class="badge badge-pill badge-gray float-right">{{:jobInvitationStatusName}}</span>
+            {{/if}}
+            {{if jobInvitationStatus == 2}}
+            <span class="badge badge-pill badge-secondary float-right">{{:jobInvitationStatusName}}</span>
+            {{/if}}
+            {{if jobInvitationStatus == 3}}
+            <span class="badge badge-pill badge-danger float-right">{{:jobInvitationStatusName}}</span>
+            {{/if}}
+            {{if jobInvitationStatus == 4}}
+            <span class="badge badge-pill badge-warning float-right">{{:jobInvitationStatusName}}</span>
+            {{/if}}
+            {{if jobInvitationStatus != 4}}
+            <h4 class="text-bold">{{:serviceIndividualProfile.fullName}}</h4>
+            {{/if}}
+            {{if jobInvitationStatus == 4}}
+            <h4 class="text-bold">{{:code}}</h4>
+            {{/if}}
+            {{if  jobType == 1 && jobSeekerProfile.isFreelanceHourly }}
+            <div><span class="text-bold">RM {{:jobSeekerProfile.hourlyPayAmount}}</span> (per hour)</div>
+            {{else jobType == 2 && jobSeekerProfile.isFreelanceDaily }}
+            <div><span class="text-bold">RM {{:jobSeekerProfile.dailyPayAmount}}</span> (per day)</div>
+            {{/if}}
+            <div>
+                {{if (jobSeekerProfile.isOnSite || jobSeekerProfile.isPartialOnSite) && jobSeekerProfile.preferredLocations && jobSeekerProfile.preferredLocations.length === 1}}
+                <span class='badge badge-pill badge-primary'>
+                    {{:jobSeekerProfile.preferredLocations[0].cityName || 'All City'}},
+                    {{:jobSeekerProfile.preferredLocations[0].stateProvinceName || 'All State'}},
+                    {{:jobSeekerProfile.preferredLocations[0].countryName || 'All Country'}}
+                </span>
+                {{/if}}
+            </div>
+            <div>
+                {{if jobSeekerProfile.isOnSite == true}}
+                <span class="badge badge-pill badge-gray">Onsite</span>
+                {{/if}}
+                {{if jobSeekerProfile.isPartialOnSite == true}}
+                <span class="badge badge-pill badge-gray">Partial onsite</span>
+                {{/if}}
+                {{if jobSeekerProfile.isRemote == true}}
+                <span class="badge badge-pill badge-gray">Remote</span>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobInvitation/invited.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobInvitation/invited.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

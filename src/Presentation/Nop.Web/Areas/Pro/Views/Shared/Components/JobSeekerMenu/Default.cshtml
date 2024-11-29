@@ -1,0 +1,28 @@
+﻿@using YadiYad.Pro.Web.Models.Job
+@using YadiYad.Pro.Web.Enums
+@model JobSeekerMenuModel
+<div class="row align-items-center mb-4 mt-4 partial-header">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-job-seeker-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.JobSeekerMenuType == JobSeekerMenuType.MyJobseekerProfile?" btn-primary":"btn-default")" href="@Url.Action("Index","JobSeeker", new { Area="Pro" }).ToLower()">Job CV</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.JobSeekerMenuType == JobSeekerMenuType.SearchFreelanceJobs?" btn-primary":"btn-default")" href="@Url.Action("Search","Job", new { Area="Pro" }).ToLower()">Search Jobs</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.JobSeekerMenuType == JobSeekerMenuType.Invites?" btn-primary":"btn-default")" href="@Url.Action("Invites","JobInvitation", new { Area="Pro" }).ToLower()">
+                <span>Invites</span>
+                @if (Model.IndividualAttentionDTO.HasFreelanceJobInvitesAttention)
+                {
+                    <span class="fas fa-circle fa-xs icon-attention"></span>
+                }
+            </a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.JobSeekerMenuType == JobSeekerMenuType.Applied?" btn-primary":"btn-default")" href="@Url.Action("List","JobApplication", new { Area="Pro" }).ToLower()">
+                <span>Applied</span>
+                @if (Model.IndividualAttentionDTO.HasFreelanceJobAppliedAttention)
+                {
+                    <span class="fas fa-circle fa-xs icon-attention"></span>
+                }
+            </a>
+        </div>
+    </div>
+</div>

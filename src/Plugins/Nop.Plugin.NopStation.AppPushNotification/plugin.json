@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station App Push Notification",
+  "SystemName": "NopStation.AppPushNotification",
+  "Version": "4.3.2",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop Station Team",
+  "DisplayOrder": 2,
+  "FileName": "Nop.Plugin.NopStation.AppPushNotification.dll",
+  "Description": "This plugin allows to enable nopStation mobile app push notification.",
+  "DependsOnSystemNames": [ "NopStation.Core", "NopStation.WebApi" ]
+}

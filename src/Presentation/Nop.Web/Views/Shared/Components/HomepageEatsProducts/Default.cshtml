@@ -1,0 +1,114 @@
+﻿@model IList<ProductOverviewModel>
+@using Nop.Core
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Orders
+@using Nop.Core.Domain.Tax
+
+@inject CatalogSettings catalogSettings
+@inject IWorkContext workContext
+<style>
+    .center {
+        text-align: center;
+    }
+</style>
+
+
+@{
+    var inclTax = workContext.TaxDisplayType == TaxDisplayType.IncludingTax;
+    var addToCartText = T("ShoppingCart.AddToCart").Text;
+}
+
+@if (Model.Count > 0)
+{
+    <div class="product-grid home-page-product-grid theme-shuq-eats" style="text-align: center;">
+        <div class="item-grid">
+            @foreach (var item in Model)
+            {
+                <div id="eats-item" class="item-box">
+                    @await Html.PartialAsync("_ProductBox", item)
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<script id="template-card-eats-list" type="text/x-jsrender">
+    <div class="item-box">
+        <div class="product-item" data-productid="{{:Id}}">
+            <div class="picture">
+                <a href="/{{:seName}}" title="{{:defaultPictureModel.title}}">
+                    <img alt="{{:defaultPictureModel.alternateText}}" src="{{:defaultPictureModel.imageUrl}}" title="{{:defaultPictureModel.title}}"
+                         onerror="loadDefaultImage(event)" />
+                </a>
+            </div>
+            <div class="details">
+                <h2 class="product-title">
+                    <a href="/{{:seName}}"><b>{{:name}}</b></a>
+                </h2>
+                {{if sku != ""}}
+                @if (catalogSettings.ShowSkuOnCatalogPages)
+                {
+                    <div class="sku">
+                        {{:sku}}
+                    </div>
+                }
+                {{/if}}
+                {{if reviewOverviewModel.allowCustomerReviews}}
+                {{if reviewOverviewModel.totalReviews != 0}}
+                <div class="product-rating-box" title="Total Reviews {{:reviewOverviewModel.totalReviews}}">
+                    <div class="rating d-inline-block">
+                        <div style="width: {{:reviewOverviewModel.ratingPercent}}%">
+                        </div>
+                    </div>
+                    <span> </span>
+                    <span>{{:((5.00*reviewOverviewModel.ratingPercent)/100)}}</span>
+                </div>
+                {{/if}}
+                {{/if}}
+                <div class="description">
+                    {{:shortDescription}}
+                </div>
+                <div class="add-info">
+                    <div class="prices ">
+                        {{if productPrice.oldPrice != null && productPrice.oldPrice != ""}}
+
+                        <span class="price old-price ">{{:productPrice.oldPrice}}</span>
+                        {{/if}}
+                        <span class="price actual-price "><b>{{:productPrice.price}}</b></span>
+                        {{if productPrice.displayTaxShippingInfo}}
+                        <span class="tax-shipping-info">
+                            @T(inclTax ? "Products.Price.TaxShipping.InclTax" : "Products.Price.TaxShipping.ExclTax", Url.RouteUrl("Topic", new { SeName = Html.GetTopicSeName("shippinginfo") }))
+                        </span>
+                        {{/if}}
+                        {{if productPrice.basePricePAngV != null && productPrice.basePricePAngV != ""}}
+                        <div class="base-price-pangv ">
+                            <b>{{:productPrice.basePricePAngV}}</b>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{if vendorName != null && vendorName != ""}}
+                    <div class="vendor-name">
+                        @*<img class="ml-2 mr-2 product-box-vendor" style="width: 20px; height: 20px; " src="~/img/shuq/home/location-shuq-eats.svg" loading="lazy">*@
+                        <span class="product-box-vendor">{{:vendorName}}</span>
+                    </div>
+                    {{/if}}
+                    <div class="buttons">
+                        <a href="/{{:seName}}">
+                            <input type="button" value="Buy Now" class="btn btn-primary " />
+                        </a>
+                        {{if productPrice.disableBuyButton && false}}
+                        {{if productPrice.isRental}}
+                        @addToCartText = "Rent";
+                        {{/if}}
+                        {{if productPrice.availableForPreOrder}}
+                        @addToCartText = "Pre Order";
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+

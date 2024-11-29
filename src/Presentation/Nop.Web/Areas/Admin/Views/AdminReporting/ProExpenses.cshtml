@@ -1,0 +1,181 @@
+﻿@model RevenueExpenseSearchModel
+
+@{
+    //page title
+    ViewBag.PageTitle = "Pro Expenses";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("ProExpenses");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "NewsContentPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Pro Expenses
+    </h1>
+
+<div class="pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success">
+                <i class="fa fa-download"></i>
+                @T("Admin.Common.Export")
+            </button>
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">&nbsp;</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                
+
+                <li>
+                    <a id="a-export-proexpenses" asp-action="ExportXlsxProExpenses" asp-route-createdFrom="fromDate" asp-route-createdTo="toDate">
+                        <i class="fa fa-file-excel-o"></i>
+                        @T("Admin.Common.ExportToExcel")
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @*hide the entire search block if no elements are displayed*@
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="CreatedFrom" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="CreatedFrom" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="CreatedTo" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="CreatedTo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-10">
+                                <button type="button" id="search-proexpenses" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+               {
+                   Name = "proexpenses-grid",
+                   UrlRead = new DataUrl("ProExpensesList", "AdminReporting", null),
+                   SearchButtonId = "search-proexpenses",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                        {
+                             new FilterParameter(nameof(Model.CreatedFrom)),
+                            new FilterParameter(nameof(Model.CreatedTo))
+                        },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(RevenueExpenseModel.CreatedDateText))
+                            {
+                                Title = "Date"
+                            },
+                            new ColumnProperty(nameof(RevenueExpenseModel.ProductType))
+                            {
+                                Title = "Type"
+                            },
+                            new ColumnProperty(nameof(RevenueExpenseModel.InvoiceNo))
+                            {
+                                Title = "Invoice No"
+                            },
+                            new ColumnProperty(nameof(RevenueExpenseModel.InvoiceTo))
+                            {
+                                Title = "Invoice To"
+                            },
+                            new ColumnProperty(nameof(RevenueExpenseModel.InvoiceAmount))
+                            {
+                                Title = "Invoice Amount",
+                                ClassName = "text-right"
+                            },
+                        }
+               })
+
+                    <script>
+                        function renderColumnComments(data, type, row, meta) {
+                            var link = "NewsComments?filterByNewsItemId=" + data;
+                            var title = '@T("Admin.ContentManagement.News.NewsItems.Fields.Comments")';
+                            var countComments = row.ApprovedComments + row.NotApprovedComments;
+                            return '<a class="btn btn-default" href="' + link + '">' + title + ' - ' + countComments + ' (' + row.NotApprovedComments + ')' + '</a>';
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var model = @Html.Raw(Json.Serialize(Model));
+    $(document).ready(function () {
+        $("#reporting-toggle-contacts").change(toggleContactsTable);
+        $("#CreatedFrom").change(toggleCreatedDateExport);
+        $("#CreatedTo").change(toggleCreatedDateExport);
+        toggleContactsTable();
+        toggleCreatedDateExport();
+    });
+
+    function toggleCreatedDateExport() {
+        var dateFrom = $('#CreatedFrom').val();
+        var dateTo = $('#CreatedTo').val();
+
+        var urlOrg = `/Admin/AdminReporting/ExportXlsxProExpenses?createdFrom=${dateFrom}&createdTo=${dateTo}`;
+        $('#a-export-proexpenses').attr('href', urlOrg);
+
+        
+    }
+
+    function toggleContactsTable() {
+        var selectedContacts = $('#reporting-toggle-contacts').val();
+        if (selectedContacts == 1) {
+            $('#reporting-contacts-org').show();
+            $('#reporting-contacts-org-search').show();
+            $('#reporting-contacts-ind').hide();
+            $('#reporting-registration-only-search').hide();
+            $('#reporting-contacts-registration-profile').hide();
+            $('#reporting-registration-profile-search').hide();
+            $('#reporting-contacts-service-job').hide();
+            $('#reporting-service-job-search').hide();
+            $('#contacts-grid').DataTable().draw();
+        }
+        
+    }
+
+
+</script>

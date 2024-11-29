@@ -1,0 +1,46 @@
+@model VendorModel
+@inject IPermissionService permissionService
+@using Nop.Services.Security
+@{
+    var canManageVendors = permissionService.Authorize(StandardPermissionProvider.ManageVendors);
+}
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Vendors.EditVendorDetails").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Vendors");
+}
+
+<form asp-controller="Vendor" asp-action="Edit" method="post" id="form-vendor">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Vendors.EditVendorDetails") - @Model.Name
+            @if (canManageVendors)
+            {
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.Vendors.BackToList")</a>
+            </small>
+            }
+        </h1>
+        <div class="pull-right">
+            @await Html.PartialAsync("_PreviewShop")
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+            <span id="vendor-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.Common.Delete")
+            </span>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.VendorDetailsButtons, additionalData = Model })
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="vendor-delete" />

@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "";
+}
+
+@using Nop.Plugin.Payments.IPay88.Models
+@using Nop.Web.Framework;
+
+@model IPay88PostPaymentModel
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="origin">
+    <title>Payment In Progress</title>
+</head>
+<body>
+
+    <div>
+        <h3>Processing your payment, please do not close the browser or refresh.</h3>
+    </div>
+
+    <div style="display:none">
+        <form id="ePaymentForm" role="form" method="post" name="ePayment" action="@Model.PaymentURL">
+            @*action="https://www.mobile88.com/ePayment/entry.asp">*@
+
+            <input type="text" name="MerchantCode" value="@Model.MerchantCode" />
+            @*<input type="text" name="PaymentId" value="@Model.PaymentId" />*@
+            <input type="text" name="PaymentId" value="" />
+            <input type="text" name="RefNo" value="@Model.RefNo" />
+            <input type="text" name="Amount" value="@Model.Amount" />
+            <input type="text" name="Currency" value="@Model.Currency" />
+            <input type="text" name="ProdDesc" value="@Model.ProdDesc" />
+            <input type="text" name="UserName" value="@Model.UserName" />
+            <input type="text" name="UserEmail" value="@Model.UserEmail" />
+            <input type="text" name="UserContact" value="@Model.UserContact" />
+            <input type="text" name="Signature" value="@Model.Signature" />
+            <input type="text" name="SignatureType" value="@Model.SignatureType" />
+            <input type="text" name="Remark" value="@Model.Remark" />
+            <input type="text" name="ResponseURL" value="@Model.ResponseURL" />
+            <input type="text" name="BackendURL" value="@Model.BackendURL" />
+
+            <input type="button" id="btnSubmitPayment" value="Submit Payment" />
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            //do work
+            document.getElementById("ePaymentForm").submit();
+        });
+
+        document.getElementById("btnSubmitPayment").addEventListener("click", function () {
+            document.getElementById("ePaymentForm").submit();
+        });
+
+    </script>
+</body>
+
+</html>

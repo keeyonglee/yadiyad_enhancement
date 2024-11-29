@@ -1,0 +1,32 @@
+﻿@using Nop.Web.Areas.Pro.Models.CampaignManagement
+
+@model CampaignManagementModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Charge").Text;
+
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Campaign Management");
+}
+
+
+<form asp-controller="CampaignManagement" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Edit Campaign Management
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">back to list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.NewsDetailsButtons, additionalData = Model })
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

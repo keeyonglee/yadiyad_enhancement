@@ -1,0 +1,49 @@
+﻿@model GroupReturnRequestModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <form asp-controller="ReturnRequest" asp-action="EditGroup" method="post">
+            <div class="content-header clearfix">
+                <h1 class="pull-left">
+                    @T("Admin.ReturnRequests.EditReturnRequestDetails")
+                    <small>
+                        <i class="fa fa-arrow-circle-left"></i>
+                        <a asp-action="List">@T("Admin.ReturnRequests.BackToList")</a>
+                    </small>
+                </h1>
+                <div class="pull-right">
+                    @if ((Model.ApproveStatusId == (int)ApproveStatusEnum.Pending) || 
+                        (Model.ApproveStatusId == (int)ApproveStatusEnum.Approved && Model.ReturnConditionId == (int)ReturnConditionEnum.Pending))
+                    {
+                        <button type="submit" name="save" class="btn bg-blue">
+                            <i class="fa fa-floppy-o"></i>
+                            @T("Admin.Common.Save")
+                        </button>
+                        <button type="submit" name="save-continue" class="btn bg-blue">
+                            <i class="fa fa-floppy-o"></i>
+                            @T("Admin.Common.SaveContinue")
+                        </button>
+                    }
+                    @if (Model.ApproveStatusId == (int)ApproveStatusEnum.Approved && Model.NeedReturnShipping == true)
+                    {
+                        <span class="btn bg-blue">
+                            <a href="/Admin/ReturnRequest/ReturnOrderList/@Model.Id" style="color:white;">View Return Order</a>
+                        </span>
+                    }
+
+
+                    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsButtons, additionalData = Model })
+                </div>
+            </div>
+            @await Html.PartialAsync("_CreateOrUpdate.GroupReturnRequest", Model)
+        </form>
+        @await Html.PartialAsync("_CreateOrUpdate.ReturnRequests", Model)
+    </div>
+</div>
+    

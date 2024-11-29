@@ -1,0 +1,46 @@
+@model VendorModel.VendorBreadcrumbModel
+@using Nop.Core.Domain.Common
+@inject CommonSettings commonSettings
+@{
+    var breadcrumbDelimiter = commonSettings.BreadcrumbDelimiter;
+}
+@if (Model.Enabled)
+{
+    <div class="breadcrumb">
+            <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.VendorBreadcrumbBefore, additionalData = Model })
+                <li>
+                    <span>
+                        <a href="@Url.RouteUrl("Homepage")">
+                            <span>@T("Vendors.Breadcrumb.Top")</span>
+                        </a>
+                    </span>
+                    <span class="delimiter">@breadcrumbDelimiter</span>
+                </li>
+                @{ int position = 1; }
+                @foreach (var category in Model.CategoryBreadcrumb)
+                {
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        @*<a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" itemprop="item">
+                            <span itemprop="name">@category.Name</span>
+                        </a>*@
+                        <span itemprop="item">
+                            <span itemprop="name">@category.Name</span>
+                        </span>
+                        <span class="delimiter">@breadcrumbDelimiter</span>
+                        <meta itemprop="position" content="@position" />
+                    </li>
+                    position++;
+                }
+                
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <strong class="current-item" itemprop="name">@Model.VendorName</strong>
+                    <span itemprop="item" itemscope itemtype="http://schema.org/Thing" 
+                          id="@Url.RouteUrl("Vendor", new { SeName = Model.VendorSeName })">
+                    </span>
+                    <meta itemprop="position" content="@position" />
+                    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.VendorBreadcrumbAfter, additionalData = Model })
+                </li>
+            </ul>
+    </div>
+}

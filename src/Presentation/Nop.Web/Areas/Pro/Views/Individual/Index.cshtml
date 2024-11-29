@@ -1,0 +1,346 @@
+﻿@using YadiYad.Pro.Core.Domain.Common
+
+<div class="content content-individual-profile">
+    <div class="container">
+        <partial name="_IndividualMenu" />
+        <div id="driver-profile-area" class="row content-service-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="lets-start-1 text-bold m-0">Let's start:</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-left mb-4">
+                            <a class="btn btn-round w-auto btn-default mb-2 btn-block" href="@Url.Action("Index", "Jobseeker", new { Area = "Pro" }).ToLower()">Seek Freelance Jobs&nbsp;&nbsp;<img src="~/img/pro/profile/9-91228_how-next-icon-png-green-clipart.png" class="profile-next-ico-1 pull-right" /></a>
+                            <a class="btn btn-round w-auto btn-default mb-2 btn-block" href="@Url.Action("List", "Service", new { Area = "Pro" }).ToLower()">Sell Services&nbsp;&nbsp;<img src="~/img/pro/profile/9-91228_how-next-icon-png-green-clipart.png" class="profile-next-ico-1 pull-right" /></a>
+                            <a class="btn btn-round w-auto btn-default mb-2 btn-block" href="@Url.Action("Search", "Service", new { Area = "Pro" }).ToLower()">Buy Services&nbsp;&nbsp;<img src="~/img/pro/profile/9-91228_how-next-icon-png-green-clipart.png" class="profile-next-ico-1 pull-right" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="font-weight-bolder">Personal Info</h4>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Title</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{titleName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Full Name</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{fullName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Nick Name</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{nickName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Gender</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{genderText}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Date of Birth</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{dateOfBirthText}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Email Address</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{email}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Contact No</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{contactNo}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Nationality</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{nationalityName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr class="mb-4" />
+                            </div>
+                            <div class="col-12">
+                                <h4 class="font-weight-bolder">Place of Residence</h4>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Country</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{countryName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                 <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">State</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{stateProvinceName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">City</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{cityName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Address Line 1</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{address1}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Address Line 2</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{address2}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Postcode</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{zipPostalCode}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr class="mb-4" />
+                            </div>
+                            <div class="col-12">
+                                <h4 class="font-weight-bolder">Billing Address</h4>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Country</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingCountryName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">State</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingStateProvinceName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">City</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingCityName}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Address Line 1</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingAddress1}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Address Line 2</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingAddress2}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Postcode</label>
+                                    <div class="col-sm-9">
+                                        <div class="col-form-label" text="{{billingZipPostalCode}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr class="mb-4" />
+                            </div>
+                            <div class="col-12">
+                                <h4 class="font-weight-bolder">Other Info</h4>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Interest &amp; Hobbies</label>
+                                    <div class="col-sm-9 area-interest">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button id="driver-edit-profile" class="btn btn-primary btn-edit">Edit Profile</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <br />
+        </div>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/drivertour/driver.min.css">
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/lib/drivertour/driver.min.js"></script>
+}
+
+@section Scripts{
+
+    <script>
+        let backgroundColourHighlight = "@T("pro.individual.tour.highlight.colour")";
+        const driver = new Driver({
+            allowClose: false,
+            keyboardControl: false,
+            onReset: () => { submitTour() },
+        });
+
+        let submitTour = function () {
+            $.ajax({
+                "url": '/api/pro/individual/submitTour',
+                "method": 'get',
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            }).done(console.log("success"));
+        }
+
+        const stepProfileArea = {
+            element: '#driver-profile-area',
+            popover: {
+                title: "Profile Area",
+                description: "@T("pro.individual.tour.profilearea")",
+                position: "@T("pro.individual.tour.profilearea.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepSeekFreelanceJob = {
+            element: '#driver-seek-freelance-job',
+            popover: {
+                title: "Seek Freelance Job",
+                description: "@T("pro.individual.tour.seekfreelancejob")",
+                position: "@T("pro.individual.tour.seekfreelancejob.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepSellServices = {
+            element: '#driver-sell-services',
+            popover: {
+                title: "Sell Services",
+                description: "@T("pro.individual.tour.sellservices")",
+                position: "@T("pro.individual.tour.sellservices.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepBuyServices = {
+            element: '#driver-buy-services',
+            popover: {
+                title: "Buy Services",
+                description: "@T("pro.individual.tour.buyservices")",
+                position: "@T("pro.individual.tour.buyservices.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepOnlineOffline = {
+            element: '#driver-online-offline',
+            popover: {
+                title: "Online / Offline",
+                description: "@T("pro.individual.tour.onlineoffline")",
+                position: "@T("pro.individual.tour.onlineoffline.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepMainMenu = {
+            element: '#driver-main-menu',
+            popover: {
+                title: "Main Menu",
+                description: "@T("pro.individual.tour.mainmenu")",
+                position: "@T("pro.individual.tour.mainmenu.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+        };
+
+        const stepFacebookMessengerButton = {
+            element: '#driver-facebook-iframe',
+            popover: {
+                title: "Facebook Messenger button",
+                description: "@T("pro.individual.tour.facebookmessengerbutton")",
+                position: "@T("pro.individual.tour.facebookmessengerbutton.position")"
+            },
+            stageBackground: backgroundColourHighlight,
+            onHighlighted: (Element) => {
+                $(window).scroll(function () {
+                    driver.reset();
+                });
+            },
+        };
+
+    </script>
+    <environment include="Development">
+        <script src="~/js/pro/individual/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/individual/index.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

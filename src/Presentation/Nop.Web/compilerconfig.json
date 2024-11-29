@@ -1,0 +1,22 @@
+﻿[
+  {
+    "outputFile": "wwwroot/lib/sweetalert/2.0/css/sweetalert.css",
+    "inputFile": "wwwroot/lib/sweetalert/2.0/css/sweetalert.scss"
+  },
+  {
+    "outputFile": "wwwroot/js/shuq/returnRequest/returnRequest_Customer.es5.js",
+    "inputFile": "wwwroot/js/shuq/returnRequest/returnRequest_Customer.js"
+  },
+  {
+    "outputFile": "wwwroot/js/shuq/Order/orderCancellation.es5.js",
+    "inputFile": "wwwroot/js/shuq/Order/orderCancellation.js"
+  },
+  {
+    "outputFile": "wwwroot/js/shuq/Review/shuqItemReview.es5.js",
+    "inputFile": "wwwroot/js/shuq/Review/shuqItemReview.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/chartjs-plugins/chartjs-plugin-datalabels.es5.js",
+    "inputFile": "wwwroot/lib/chartjs-plugins/chartjs-plugin-datalabels.js"
+  }
+]

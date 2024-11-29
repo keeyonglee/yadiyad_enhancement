@@ -1,0 +1,152 @@
+﻿@model SliderSearchModel
+@{
+    ViewBag.PageTitle = T("Admin.NopStation.WebApi.Sliders.List").Text;
+
+    Html.SetActiveMenuItemSystemName("WebApiSlider");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "WebApiSlider.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="WebApiSlider" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.WebApi.Sliders.List")
+        </h1>
+        <div class="pull-right">
+            <button type="button" id="delete-selected" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.NopStation.WebApi.Sliders.DeleteSelected")
+            </button>
+            <nop-action-confirmation asp-button-id="delete-selected" />
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                @T("Admin.Common.AddNew")
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="SelectedSliderTypes" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="SelectedSliderTypes" asp-items="Model.AvailableSliderTypes" asp-multiple="true" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button type="button" id="search-slider" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "slider-grid",
+                            UrlRead = new DataUrl("GetList", "WebApiSlider", null),
+                            SearchButtonId = "search-slider",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SelectedSliderTypes))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(SliderModel.Id))
+                                {
+                                    IsMasterCheckBox = true,
+                                    Render = new RenderCheckBox("checkbox_slider"),
+                                    ClassName =  NopColumnClassDefaults.CenterAll,
+                                    Width = "50",
+                                },
+                                new ColumnProperty(nameof(SliderModel.PictureUrl))
+                                {
+                                    Title = T("Admin.NopStation.WebApi.Sliders.Fields.Picture").Text,
+                                    Render = new RenderPicture(),
+                                    Width = "100"
+                                },
+                                new ColumnProperty(nameof(SliderModel.SliderTypeStr))
+                                {
+                                    Title = T("Admin.NopStation.WebApi.Sliders.Fields.SliderType").Text,
+                                    Width = "100"
+                                },
+                                new ColumnProperty(nameof(SliderModel.ActiveStartDate))
+                                {
+                                    Title = T("Admin.NopStation.WebApi.Sliders.Fields.ActiveStartDate").Text,
+                                    Width = "100",
+                                    Render = new RenderDate()
+                                },
+                                new ColumnProperty(nameof(SliderModel.ActiveEndDate))
+                                {
+                                    Title = T("Admin.NopStation.WebApi.Sliders.Fields.ActiveEndDate").Text,
+                                    Width = "100",
+                                    Render = new RenderDate()
+                                },
+                                new ColumnProperty(nameof(SliderModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "55",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                }
+                            }
+                        })
+
+
+                        <script>
+                            $(document).ready(function() {
+                                //"delete selected" button
+                                $("#delete-selected-action-confirmation-submit-button").bind("click", function () {
+                                    var postData = {
+                                        selectedIds: selectedIds
+                                    };
+                                    addAntiForgeryToken(postData);
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("DeleteSelected", "WebApiSlider"))",
+                                        data: postData,
+                                        traditional: true,
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            $('#deleteSelectedFailed-info').text(errorThrown);
+                                            $("#deleteSelectedFailed").click();
+                                        },
+                                        complete: function (jqXHR, textStatus) {
+                                            updateTable('#slider-grid');
+                                        }
+                                    });
+                                    $('#delete-selected-action-confirmation').modal('toggle');
+                                    return false;
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<nop-alert asp-alert-id="deleteSelectedFailed" />

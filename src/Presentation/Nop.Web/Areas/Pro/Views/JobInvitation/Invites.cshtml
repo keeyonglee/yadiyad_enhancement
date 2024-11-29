@@ -1,0 +1,603 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@using YadiYad.Pro.Web.Contexts
+@inject AccountContext accountContext
+
+
+<div class="content">
+    <div class="container">
+        @await Component.InvokeAsync("JobSeekerMenu", YadiYad.Pro.Web.Enums.JobSeekerMenuType.Invites)
+        @*<partial name="../Job/_JobSeekerMenu" model="YadiYad.Pro.Web.Enums.JobSeekerMenuType.Invites" />*@
+        <div class="content-job-invites">
+        </div>
+    </div>
+</div>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-job-invitation-accept",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Small,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-decline-job",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-jobseeker-apply-job-subscription",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Small,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="template-card-job-invites-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">No Invitation</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="tmpl-content-job-invites" type="text/x-jsrender">
+    <div class="row">
+        <div class="col-lg-4 col-sm-12">
+            <div class="card">
+                <div class="card-header text-center p-2 bg-gray-dark">
+                    <h6 class="text-bold m-0">Invites({^{:jobInvitesList.totalCount}})</h6>
+                </div>
+                <div class="card-body">
+                    {^{if jobInvitesList.totalCount > 0}}
+                    {^{for jobInvitesList.data}}
+                    {{if #index !== 0}}
+                    <hr />
+                    {{/if}}
+                    <div data-link="class{:'card cursor-pointer shadow-none '+(selected?'selected':'')}">
+
+                        <div class="card-body" data-link="{on 'click' ~root.setSelectedJobInvite #data}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <span>{{:createdOn}}</span>
+                                </div>
+                                <div class="col-6 text-right">
+                                    {{if consultationProfile}}
+                                    {{if jobInvitationStatus == 1}}
+                                    <span class="badge badge-pill badge-gray ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 2 && isApproved === null}}
+                                    <span class="badge badge-pill badge-info float-right">Reviewing</span>
+                                    {{else jobInvitationStatus == 2 && isApproved === false}}
+                                    <span class="badge badge-pill badge-danger float-right">Update Required</span>
+                                    {{else jobInvitationStatus == 2 && isApproved === true}}
+                                    <span class="badge badge-pill badge-secondary ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 3}}
+                                    <span class="badge badge-pill badge-danger ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 4}}
+                                    <span class="badge badge-pill badge-warning ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 8}}
+                                    <span class="badge badge-pill badge-warning ">{{:jobInvitationStatusName}}</span>
+                                    {{/if}}
+                                    {{else}}
+                                    {{if jobInvitationStatus == 1}}
+                                    <span class="badge badge-pill badge-gray ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 2}}
+                                    <span class="badge badge-pill badge-secondary ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 3}}
+                                    <span class="badge badge-pill badge-danger ">{{:jobInvitationStatusName}}</span>
+                                    {{else jobInvitationStatus == 4}}
+                                    <span class="badge badge-pill badge-warning ">{{:jobInvitationStatusName}}</span>
+                                    {{/if}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    {{if jobInvitationStatus != 4}}
+                                    <h4 class="text-bold">{{:organizationName}}</h4>
+                                    {{/if}}
+                                    {{if jobInvitationStatus == 4}}
+                                    <h4 class="text-bold">{{:code}}</h4>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                            {{if jobProfile}}
+                            <h4 class="text-bold">{{:jobProfile.jobTitle}}</h4>
+                            <div><span>{{:jobProfile.jobTypeText}}</span></div>
+                            <div>
+                                <span class="text-bold">RM {{:jobProfile.payAmount}}</span>&nbsp;/
+                                <span>
+                                    {{if jobProfile.jobType == 1}}
+                                    <span> (per hour)</span>
+                                    {{/if}}
+                                    {{if jobProfile.jobType == 2}}
+                                    <span> (per day)</span>
+                                    {{/if}}
+                                    {{if jobProfile.jobType == 3}}
+                                    <span>for entire project</span>
+                                    {{/if}}
+                                </span>
+                            </div>
+                            <div>
+                                {{if jobProfile.isOnsite == true || jobProfile.isPartialOnsite == true}}
+                                <span class='badge badge-pill badge-primary'>
+                                    {{:jobProfile.cityName||"All City"}},
+                                    {{:jobProfile.stateProvinceName||"All State"}},
+                                    {{:jobProfile.countryName||"All Country"}}
+                                </span>
+                                {{/if}}
+                                {{if jobProfile.isOnsite == true}}
+                                <span class="badge badge-pill badge-gray">Onsite</span>
+                                {{/if}}
+                                {{if jobProfile.isPartialOnsite == true}}
+                                <span class="badge badge-pill badge-gray">Partial onsite</span>
+                                {{/if}}
+                                {{if jobProfile.isRemote == true}}
+                                <span class="badge badge-pill badge-gray">Remote</span>
+                                {{/if}}
+                            </div>
+                            {{/if}}
+                            {{if consultationProfile}}
+                            <h4 class="text-bold">Consultation Job #{{:consultationProfile.id}}</h4>
+                            <div><span>Consultant</span></div>
+                            <div>
+                                <span class="badge badge-pill badge-primary">{{:serviceProfile.categoryName}}</span>
+                                <span class="badge badge-pill badge-gray">{{:serviceProfile.experienceYearName}}</span>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/for}}
+                    {{else}}
+                    <div class="text-center">
+                        <h4>No invitation</h4>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+            {^{include ~root.pagination.model tmpl="#tmp-simple-pagination"/}}
+        </div>
+        <div class="col-lg-8 col-sm-12">
+            {^{if selectedJobInvite  ~item=selectedJobInvite}}
+            {^{if ~item.jobInvitationStatus === 3}}
+            <div class="card">
+                <div class="card-body">
+                    {^{if ~item.consultationProfile}}
+                    <h4 class="text-bold text-primary">You have declined this consultation job invite.</h4>
+                    {{else}}
+                    <h4 class="text-bold text-primary">You have declined this job invite.</h4>
+                    {{/if}}
+                    <hr />
+                    <p>Thank you for your response.</p>
+                </div>
+            </div>
+            {{/if}}
+            {{if ~item.consultationProfile ~consultationProfile=~item.consultationProfile}}
+            {^{if selectedJobInvite.isApproved === false && selectedJobInvite.approvalRemarks}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="badge badge-pill badge-warning ">Attention</span>
+                            <span class="align-top">
+                                {{:selectedJobInvite.approvalRemarks}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-bold text-primary">Consultation Job #{{:~consultationProfile.id}}</h4>
+                            {^{if selectedJobInvite.showQuestionnaire}}
+                            <div>Candidate completes screening questions</div>
+                            {{/if}}
+                        </div>
+                        <div class="col-12">
+                            <hr class="" />
+                        </div>
+                    </div>
+
+                    {^{if !selectedJobInvite.showQuestionnaire}}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Segment</label>
+                                <div class="col-sm-9">
+                                    <span>{{:~consultationProfile.segmentName}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Topic</label>
+                                <div class="col-sm-9">
+                                    <span>{{:~consultationProfile.topic}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Objective</label>
+                                <div class="col-sm-9">
+                                    <span>{{:~consultationProfile.objective}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="text-bold">Session</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Duration</label>
+                                <div class="col-sm-9">
+                                    <span>{{:~consultationProfile.duration}} hour(s)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Time Zone</label>
+                                <div class="col-sm-9">
+                                    <span>{{:~consultationProfile.timeZoneName}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Time</label>
+                                <div class="col-sm-9">
+                                    {{for ~consultationProfile.timeSlots}}
+                                    <div class="row {{:(selected)}}">
+                                        <div class="col-sm-3">
+                                            <div>{{:startDateText}}</div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div>{{:startTimeText}} - {{:endTimeText}}</div>
+                                        </div>
+                                    </div>
+                                    {{/for}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="text-bold">Screening Questionnaire:</h4>
+                        </div>
+                        <div class="col-12">
+                            {{for ~item.consultantReplys}}
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Question {{:('Q'+(#index+1))}}</label>
+                                <div class="col-sm-9 col-form-label">
+                                    <div><span><i>{{:title}}</i></span></div>
+                                    <div><span>{{:answers}}</span></div>
+                                </div>
+                            </div>
+                            {{/for}}
+                        </div>
+                        {{if ~item.ratesPerSession}}
+                        <div class="col-12">
+                            <hr class="" />
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Rate Per Session</label>
+                                <div class="col-sm-9 col-form-label">
+                                    <span>RM {{:(~item.ratesPerSession.toFixed(2))}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{else ~model=selectedJobInvite.consultantReplys}}
+                    <form class="form-job-invitation row" form-validation-alert>
+                        <div class="col-12">
+                            <h4 class="text-bold">Screening Questionnaire:</h4>
+                        </div>
+                        <div class="col-12">
+                            {^{include tmpl="#tmp-simple-form"/}}
+                        </div>
+                        <div class="col-12">
+                            <hr class="" />
+                        </div>
+                        @*<div class="col-12">
+                            <div class="border border-top-0 tui-full-calendar-compact-header" id="calendar">
+                            </div>
+                        </div>*@
+                        <div class="col-12 mt-4">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Time</label>
+                                <div class="col-sm-9">
+                                    {{for  ~consultationProfile.timeSlots}}
+                                    <label class="form-check-label d-block cursor-pointer radio">
+                                        <input class="mr-2 radio-checked" name="consultantAvailableTimeSlots" data-link="{on 'click' ~root.selectConsultationTimeSlot #data}"
+                                               {{:(selected?'checked':'')}}
+                                               type="checkbox" required />
+                                        <span>{{:(~consultationProfile.timeZoneName)}}, {{:startDateText}} {{:startTimeText}} - {{:endTimeText}}</span>
+                                    </label>
+                                    {{/for}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="" />
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Rate Per Session</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">RM</span>
+                                        </div>
+                                        <input type="number" class="form-control" data-link="~item.ratesPerSession" name="ratesPerSession" min="0" max="1000000" required />
+                                    </div>
+                                    @T("Pro.ConsultationJob.MinSessionRateByYearsOfExperience")
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+            <p>
+                Note: Please respond  within 5 working days, if there's no response from you, we'll assume that you've declined this request or not available.
+            </p>
+            {^{if ~item.jobInvitationStatus === 1}}
+            @if (accountContext.CurrentAccount.IsEntitledApplyJob == false)
+            {
+                <p>
+                    *To apply for this job, you'll need to pay a monthly subscription fee. Click
+                    <input type="button" class="btn btn-sm btn-secondary btn-subcribe-apply-job w-auto" value="here"
+                           data-toggle="modal" data-target="#modal-jobseeker-apply-job-subscription"
+                           data-keyboard="false"
+                           href="/pro/order/applyjob" /> to pay.
+                </p>
+            }
+            <div class="text-right">
+                @if (accountContext.CurrentAccount.IsEntitledApplyJob == true)
+                {
+                    <input class="btn btn-secondary mb-2" type="button" value="Accept" data-link="{on 'click' ~root.replyJobInvite 2}" />
+                }
+                <input class="btn btn-default mb-2" value="Decline" type="button"
+                       data-toggle="modal" data-target="#modal-decline-job"
+                       data-keyboard="false"
+                       href="/pro/jobInvitation/decline" />
+            </div>
+            {{else ~item.isApproved == false}}
+            <div class="text-right">
+                <input class="btn btn-secondary mb-2" type="button" value="Update" data-link="{on 'click' ~root.replyJobInvite 2}" />
+            </div>
+            {{/if}}
+            {{/if}}
+
+            {{if ~item.jobProfile ~jobProfile=~item.jobProfile}}
+            {^{if selectedJobInvite.jobInvitationStatus == 1}}
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="text-bold">You have received an invitation to apply from the organization</h4>
+                    <hr />
+                    <p>The organization may contact you directly if you are selected.</p>
+                    @if (accountContext.CurrentAccount.IsEntitledApplyJob == false)
+                    {
+                        <p>
+                            *To apply for this job, you'll need to pay a monthly subscription fee. Click
+                            <input type="button" class="btn btn-sm btn-secondary btn-subcribe-apply-job w-auto" value="here"
+                                   data-toggle="modal" data-target="#modal-jobseeker-apply-job-subscription"
+                                   data-keyboard="false"
+                                   href="/pro/order/applyjob" /> to pay.
+                        </p>
+                    }
+                    <div class="text-right">
+                        @if (accountContext.CurrentAccount.IsEntitledApplyJob == true)
+                        {
+                            <input class="btn btn-secondary mb-2" value="Accept" type="button"
+                                   data-toggle="modal" data-target="#modal-job-invitation-accept"
+                                   data-keyboard="false"
+                                   href="/pro/jobInvitation/accept" />
+                        }
+                        <input class="btn btn-default mb-2" type="button" value="Decline" data-link="{on 'click' ~root.replyJobInvite 3}" />
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+
+            <div class="card card-job-profile">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <div>Organization's information</div>
+                            {{if selectedJobInvite.jobInvitationStatus != 4}}
+                            <h4 class="text-bold">{{:selectedJobInvite.organizationName}}</h4>
+                            {{/if}}
+                            {{if selectedJobInvite.jobInvitationStatus == 4}}
+                            <h4 class="text-bold">{{:selectedJobInvite.code}}</h4>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <hr />
+                    <h4 class="text-bold">{{:~jobProfile.jobTitle}}</h4>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Category</label>
+                        <div class="col-sm-9">
+                            <div>{{:~jobProfile.categoryName}}</div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Required Skills &amp; Expertises</label>
+                        <div class="col-sm-9">
+                            {{for ~jobProfile.requiredExpertises}}
+                            <span class="badge badge-pill badge-primary-light">{{:name}}</span>
+                            {{/for}}
+                            <div>
+                                <span class="badge badge-pill badge-gray">{{:~jobProfile.preferredExperienceName}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Job Model</label>
+                        <div class="col-sm-9">
+                            <span>{{:~jobProfile.jobTypeText}}</span>
+                        </div>
+                    </div>
+                    {{if ~jobProfile.jobType != 3}}
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Job Schedule</label>
+                            <div class="col-sm-9">
+                                <span>{{:~jobProfile.jobScheduleText}}</span>
+                            </div>
+                        </div>
+                    {{/if}}
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Job Site</label>
+                        <div class="col-sm-9">
+                            {{if ~jobProfile.isOnsite == true}}
+                            <span class="badge badge-pill badge-gray">Onsite</span>
+                            {{/if}}
+                            {{if ~jobProfile.isPartialOnsite == true}}
+                            <span class="badge badge-pill badge-gray">Partial onsite</span>
+                            {{/if}}
+                            {{if ~jobProfile.isRemote == true}}
+                            <span class="badge badge-pill badge-gray">Remote</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{if ~jobProfile.isOnsite == true || ~jobProfile.isPartialOnsite == true}}
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Location</label>
+                        <div class="col-sm-9">
+                            <span class='badge badge-pill badge-primary'>
+                                {{:~jobProfile.cityName||"All City"}},
+                                {{:~jobProfile.stateProvinceName||"All State"}},
+                                {{:~jobProfile.countryName||"All Country"}}
+                            </span>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if ~jobProfile.jobType == 3 && ~jobProfile.jobMilestones.length > 0}}
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label class="col-form-label">Milestone</label>
+                        </div>
+                        <div class="col-9">
+                            {{for ~jobProfile.jobMilestones}}
+                            <div class="form-group row">
+                                <span class='col-sm-3 badge badge-pill badge-gray h-100 mt-2'>Phase {{:sequence + 1}}</span>
+                                <span for="" class="col-sm-6 col-form-label">{{:description}}</span>
+                                <div class="col-sm-3">
+                                    <span class="col-form-label">RM {{:amount}}</span>
+                                </div>
+                            </div>
+                            {{/for}}
+
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Professional Fees</label>
+                        <div class="col-sm-9">
+                            <span>RM {{:~jobProfile.payAmount}}</span>&nbsp;
+                            <span>
+                                {{:~jobProfile.jobPaymentPhaseName}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Time Frame</label>
+                        <div class="col-sm-9">
+                            <span>{{:~jobProfile.jobRequired}}</span>&nbsp;{{:jobRequired}}
+                            {{if ~jobProfile.jobType == 1}}
+                            hours per week
+                            {{/if}}
+                            {{if ~jobProfile.jobType == 2}}
+                            days per month
+                            {{/if}}
+                            {{if ~jobProfile.jobType == 3}}
+                            month
+                            {{/if}}
+                            <br />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Start Date</label>
+                        {{if ~jobProfile.startDate != null}}
+                        <div class="col-sm-9">
+                            {{:~jobProfile.startDateText}}
+                        </div>
+                        {{/if}}
+                        {{if ~jobProfile.startDate == null}}
+                        <div class="col-sm-9">
+                            Immediately
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            {{else}}
+            @*show empty*@
+            <div class="content-job-invited">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4>No invitation</h4>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</script>
+
+@await Component.InvokeAsync("SimplePagination")
+
+<partial name="../SimpleForm/_Form" />
+@section StyleLibs{
+    <link href="~/lib/tui-calendar/1.13.0/tui-calendar.css" rel="stylesheet" />
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+    <script src="~/lib/chancejs/1.0.13/chance.min.js"></script>
+    <script src="~/lib/tui-calendar/1.13.0/tui-calendar.js"></script>
+
+    <script src="~/js/pro/scheduler/calendars.js"></script>
+
+    <script src="/lib/decimaljs/10.2.0/decimal.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/seeker-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/scheduler/weeklyscheduler.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobInvitation/invites.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/seeker-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/scheduler/weeklyscheduler.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobInvitation/invites.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

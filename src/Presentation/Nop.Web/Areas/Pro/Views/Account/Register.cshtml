@@ -1,0 +1,162 @@
+﻿@model RegisterProModel
+
+@{
+    ViewData["Layout"] = "Blank";
+    ViewData["Theme"] = "signup";
+}
+
+<style>
+    .content-account-type {
+        max-width: 50em;
+    }
+
+    /*.chk-account-type:not(:checked) + div > .chk-account-type-deselected {
+        display: block;
+    }
+
+    .chk-account-type:not(:checked) + div > .chk-account-type-selected {
+        display: none;
+    }
+
+    .chk-account-type:checked + div > .chk-account-type-deselected {
+        display: none;
+    }
+
+    .chk-account-type:checked + div > .chk-account-type-selected {
+        display: block;
+    }*/
+
+    .chk-account-type:not(:hover) + div > .chk-account-type-deselected {
+        display: block;
+    }
+
+    .chk-account-type:not(:hover) + div > .chk-account-type-selected {
+        display: none;
+    }
+
+    .chk-account-type:hover + div > .chk-account-type-deselected {
+        display: none;
+    }
+
+    .chk-account-type:hover + div > .chk-account-type-selected {
+        display: block;
+    }
+
+    .card-content-signup {
+        height: 192px;
+    }
+
+    /*.chk-account-type:checked + div {
+        border-color: #380063!important;
+    }*/
+
+    .chk-account-type:hover + div {
+        border-color: #380063 !important;
+    }
+
+
+    .btn:disabled {
+        background-color: lightgray;
+        border-color: lightgray;
+    }
+</style>
+
+<div class="content content-account-sign-up">
+    <div class="container">
+        <header class="pt-5 pb-5">
+            <div class="text-center">
+                <img class="logo-sign-up" src="/img/pro/brand/logo-pro-filled.png" alt="YadiYad Pro Logo" />
+            </div>
+        </header>
+        <form asp-controller="Account" asp-action="Register" method="post" autocomplete="off" id="form_reg">
+            <div class="content-account-type ml-auto mr-auto  @(Model.Type != null?"hidden":"")">
+                <h2 class="text-center mt-2 text-bold mb-5">I want to sign up as:</h2>
+                <div class="row">
+                    <div class="position-relative mb-4 col-md-6">
+                        <input type="radio" asp-for="Type" value="Individual" required
+                               class="invisible-overlap cursor-pointer chk-account-type ">
+                        <div class="card text-center border shadow-none cursor-pointer">
+                            <div class="card-header chk-account-type-deselected bg-gray-medium">
+                                <h2>Individual</h2>
+                            </div>
+                            <div class="card-header bg-primary chk-account-type-selected">
+                                <h2>Individual</h2>
+                            </div>
+                            <div class="card-body p-0 card-content-signup">
+                                <h5 class="p-3"><img src="/img/pro/brand/green-tick.png" width="22">&nbsp;Seeking Jobs</h5>
+                                <h5 class="p-3"><img src="/img/pro/brand/green-tick.png" width="22">&nbsp;Buying Services</h5>
+                                <h5 class="p-3"><img src="/img/pro/brand/green-tick.png" width="22">&nbsp;Selling Services</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-relative mb-4 col-md-6">
+                        <input type="radio" asp-for="Type" value="Organization" required
+                               class="invisible-overlap cursor-pointer chk-account-type ">
+                        <div class="card text-center border shadow-none cursor-pointer">
+                            <div class="card-header chk-account-type-deselected bg-gray-medium">
+                                <h2>Organization</h2>
+                            </div>
+                            <div class="card-header bg-primary chk-account-type-selected">
+                                <h2>Organization</h2>
+                            </div>
+                            <div class="card-body p-0 card-content-signup">
+                                <h5 class="p-3"><img src="/img/pro/brand/green-tick.png" width="22">&nbsp;Offering Jobs</h5>
+                                <h5 class="p-3"><img src="/img/pro/brand/green-tick.png" width="22">&nbsp;Seeking Consultants</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div>
+                    <input type="button" class="btn btn-info btn-lg btn-next w-100" disabled value="Next" />
+                </div>*@
+            </div>
+            <div class="card p-3 col-lg-6 ml-auto mr-auto col-lg-6 bg-primary-light content-sign-up-form  @(Model.Type != null?"":"hidden")">
+                <h2 class="text-center mt-2 text-primary text-bold">Create An Account</h2>
+                <div class="text-center mb-4 text-bold">
+                    Already have an account? <a class="text-center text-primary" href="~/Pro/Account/Login">Sign In</a>
+                </div>
+                <div class="card p-3 m-0">
+                    <h4 asp-for="Email" class="mt-3 text-bold text-center">Sign Up as <span id="signUpAs"></span></h4>
+
+
+                    <div asp-validation-summary="ModelOnly" class="text-center text-danger"></div>
+                    <label asp-for="Email" class="mt-3">Email Address</label>
+                    <input asp-for="Email" type="text" class="form-control" placeholder="Email" required="" autofocus="">
+
+                    <label asp-for="Password" class="mt-3">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" required="" autofocus="">
+
+                    <label asp-for="ConfirmPassword" class="mt-3">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" required="" autofocus="">
+
+                    <div class="col-sm-12 text-center mt-4">
+                        <div class="radio d-inline-block mr-4">
+                            <label class="col-form-label form-check-label">
+                                <input type="checkbox" name="agreement" required>
+                                <span>By registering I agree to the <a class="link-ref" href="/terms-of-service" target="_blank">Terms of Service</a></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-4 mb-4">
+                        If you do not receive the confirmation message within a few minutes of signing up, please check your Junk E-mail folder just in case the confirmation email got delivered there instead of your inbox.
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Register</button>
+                    <button class="w-100 btn btn-lg btn-default mt-3 mb-3 btn-back" type="button">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section StyleLibs{
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/account/signup.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/account/signup.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -1,0 +1,184 @@
+﻿
+<div class="content content-organization-profile">
+    <div class="container">
+        <partial name="_OrganizationMenu" />
+        <div class="row content-service-search">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Company Info</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Name</label>
+                                <div class="col-sm-9">
+                                    <div text="{{name}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Registration No</label>
+                                <div class="col-sm-9">
+                                    <div text="{{registrationNo}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Segment</label>
+                                <div class="col-sm-9">
+                                    <div text="{{segmentName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Listed Company</label>
+                                <div class="col-sm-9">
+                                    <div class="radio d-inline-block mr-4">
+                                        <div text="{{isListedCompany}}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Date Established</label>
+                                <div class="col-sm-9">
+                                    <div text="{{dateEstablishedText}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Website</label>
+                                <div class="col-sm-9">
+                                    <div text="{{website}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Size</label>
+                                <div class="col-sm-9">
+                                    <div text="{{companySizeName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Location</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Country</label>
+                                <div class="col-sm-9">
+                                    <div text="{{countryName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">State</label>
+                                <div class="col-sm-9">
+                                    <div text="{{stateProvinceName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address</label>
+                                <div class="col-sm-9">
+                                    <div text="{{address}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Contact Person</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Individual Title</label>
+                                <div class="col-sm-9">
+                                    <div text="{{contactPersonTitleName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Full Name</label>
+                                <div class="col-sm-9">
+                                    <div text="{{contactPersonName}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Position</label>
+                                <div class="col-sm-9">
+                                    <div text="{{contactPersonPosition}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Email</label>
+                                <div class="col-sm-9">
+                                    <div text="{{contactPersonEmail}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Contact No</label>
+                                <div class="col-sm-9">
+                                    <div text="{{contactPersonContact}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-edit">Edit Profile</button>
+            </div>
+        </div>
+        <div class="col-12">
+            <br />
+        </div>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/organization/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/organization/index.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

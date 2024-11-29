@@ -1,0 +1,44 @@
+@model BankAccountModel
+@inject IDownloadService downloadService
+
+@using Nop.Core;
+@using Nop.Services.Media
+@using Nop.Web.Framework.UI;
+
+@{
+    var download = downloadService.GetDownloadById(Model.BankStatementDownloadId);
+}
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div style="clear: both;">
+                                <div class="d-inline-block mr-5 mt-2">
+                                    @if (download != null)
+                                    {
+                                        if (download.ContentType.Contains("image"))
+                                        {
+                                            <div>
+                                                <img class="preview-img" src="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))" />
+                                            </div>
+                                        }
+                                        if (download.ContentType.Contains("pdf"))
+                                        {
+                                            <nop-editor asp-for="BankStatementDownloadId" />
+                                        }
+                                        <a class='btn btn-default margin-t-5' href="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))" target="_blank"><i class='fa fa-download'></i>@T("Admin.Download.DownloadUploadedFile")</a>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

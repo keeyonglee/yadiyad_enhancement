@@ -1,0 +1,134 @@
+﻿@model GroupReturnRequestModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="panel-group">
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsTop, additionalData = Model })
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @if ((Model.ApproveStatusId == (int)ApproveStatusEnum.Approved && Model.NeedReturnShipping == true) || 
+            (Model.NeedReturnShipping == true && Model.ReturnConditionId != (int)ReturnConditionEnum.Pending))
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="control-label" for="ReturnConditionId">Return Condition</label></div>
+                    </div>
+                    <div class="col-md-9">
+                        @if (Model.ReturnConditionId == (int)ReturnConditionEnum.Pending)
+                        {
+                            <nop-select asp-for="ReturnConditionId" asp-items="@(((ReturnConditionEnum)Model.ReturnConditionId).ToSelectList())" />
+                        }
+                        else
+                        {
+                            <nop-select asp-for="ReturnConditionId" asp-items="@(((ReturnConditionEnum)Model.ReturnConditionId).ToSelectList())" asp-disabled="true" />
+                        }
+                        <span asp-validation-for="ReturnConditionId"></span>
+                    </div>
+                </div>
+                @if (Model.ReturnConditionId != (int)ReturnConditionEnum.Pending)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper"><label class="control-label" for="ApproveStatusId">Refund Decision</label></div>
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ApproveStatusId" asp-items="@(((ApproveStatusEnum)Model.ApproveStatusId).ToSelectList())" asp-disabled="true" />
+                            <span asp-validation-for="ApproveStatusId"></span>
+                        </div>
+                    </div>
+                }
+                @if (Model.ReturnConditionId == (int)ReturnConditionEnum.Defect)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper"><label class="control-label">Dispute</label></div>
+                        </div>
+                        <div class="col-md-9">
+                            <a class="btn btn-default btn-dispute" href="/Admin/ReturnRequest/EditDispute/@Model.Id">Raise Dispute</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                @if (Model.IsCategoryValid == true && Model.IsOrderShipped == true)
+                {
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <div class="label-wrapper"><label class="control-label" for="NeedReturnShipping">Need to return</label></div>
+                        </div>
+                        @if (Model.CanProductShip == true && Model.ReturnConditionId == 0 && Model.ApproveStatusId == (int)ApproveStatusEnum.Pending)
+                        {
+                            <div class="col-md-9">
+                                <nop-editor asp-for="NeedReturnShipping" />
+                                <span asp-validation-for="NeedReturnShipping"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-9">
+                                <nop-editor asp-for="NeedReturnShipping" asp-disabled="true" />
+                                <span asp-validation-for="NeedReturnShipping"></span>
+                            </div>
+                            @if (Model.CanProductShip == false)
+                            {
+                                <div class="col-md-9">
+                                    No Product is available to ship
+                                </div>
+                            }
+                        }
+
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="control-label" for="ApproveStatusId">Refund Decision</label></div>
+                    </div>
+                    <div class="col-md-9">
+                        @if (Model.ApproveStatusId == (int)ApproveStatusEnum.InDispute)
+                        {
+                            <nop-select asp-for="ReturnConditionId" asp-items="@(((ReturnConditionEnum)Model.ReturnConditionId).ToSelectList())" asp-disabled="true" />
+                        }
+                        else if (Model.ApproveStatusId == (int)ApproveStatusEnum.NotApproved)
+                        {
+                            <nop-select asp-for="ApproveStatusId" asp-items="@(((EditApproveStatusEnum)Model.ApproveStatusId).ToSelectList())" asp-disabled="true" />
+                        }
+                        else if (Model.ApproveStatusId != (int)ApproveStatusEnum.Approved)
+                        {
+                            <nop-select asp-for="ApproveStatusId" asp-items="@(((EditApproveStatusEnum)Model.ApproveStatusId).ToSelectList())" />
+                        }
+                        else
+                        {
+                            <nop-select asp-for="ApproveStatusId" asp-items="@(((EditApproveStatusEnum)Model.ApproveStatusId).ToSelectList())" asp-disabled="true" />
+                        }
+                        <span asp-validation-for="ApproveStatusId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="control-label">Dispute</label></div>
+                    </div>
+                    <div class="col-md-9">
+                        <a class="btn btn-default btn-dispute" href="/Admin/ReturnRequest/EditDispute/@Model.Id">Raise Dispute</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsBottom, additionalData = Model })
+</div>
+
+<script>
+    $(document).ready(function () {
+        if(@Model.ApproveStatusId == 20){
+            $(".btn-dispute").removeAttr("href");
+            $(".btn-dispute").attr("disabled", "disabled");
+        }
+    });
+
+</script>

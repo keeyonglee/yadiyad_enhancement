@@ -1,0 +1,99 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@using YadiYad.Pro.Web.Enums
+@inject AccountContext accountContext
+
+<style>
+    #entitled_job_date {
+        font-weight: normal !important;
+    }
+</style>
+
+@if (accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Name) == false)
+{
+    <div class="row d-none d-lg-flex">
+        <div class="col-4">
+            <div class="mr-1">
+                <div class="ratio-1-1 rounded bg-gray-light border border-light profile-img">
+                    <img class="w-100 h-100 profile-img" src="@accountContext.CurrentAccount.AccountImageURL" />
+                </div>
+            </div>
+        </div>
+        <div id="driver-online-offline" class="col-8">
+            @if (accountContext.CurrentAccount.AccountType == AccountType.Individual)
+            {
+                <div><small>@accountContext.CurrentAccount.Salutation</small></div>
+                <h4 class="mb-0">@accountContext.CurrentAccount.Name</h4>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#online_status').bootstrapToggle({
+                            on: 'Online',
+                            off: 'Offline'
+                        });
+
+                        $('#online_status').change(function () {
+                            if (this.checked) {
+                                window.location = '/pro/Account/passwordchange';
+                                return false;
+                            } else {
+                                window.location = '/pro/Account/passwordchange';
+                                return false;
+                            }
+                        });
+
+                        window.addEventListener("pageshow", function (event) {
+                            var historyTraversal = event.persisted || (typeof window.performance != "undefined" && window.performance.navigation.type === 2);
+                            if (historyTraversal) {
+                                window.location.reload();
+                            }
+                        });
+                    });
+                </script>
+                if (@accountContext.CurrentAccount.Status == "Online")
+                {
+                    <input   type="checkbox" checked id="online_status">
+                }
+                else
+                {
+                    <input  type="checkbox" id="online_status">
+                }
+
+                @if (accountContext.CurrentAccount.IsEntitledApplyJob == true)
+                {
+                    <script>
+                        function formatDate(date) {
+                            var d = new Date(date),
+                                month = '' + (d.getMonth() + 1),
+                                day = '' + d.getDate(),
+                                year = d.getFullYear();
+
+                            if (month.length < 2)
+                                month = '0' + month;
+                            if (day.length < 2)
+                                day = '0' + day;
+
+                            return [month, day, year].join('/');
+                        }
+
+                        $(document).ready(function () {
+                            var x = document.getElementById("entitled_job_date");
+
+                            x.innerHTML = "PAJ: Active until " + formatDate('@Html.Raw(accountContext.CurrentAccount.ApplyJobEntitledEndDateTime?.ToString("dd MMM yyyy HH:mm:ss")+ " GMT+0000")');
+                        });
+                    </script>
+                    <label id="entitled_job_date"></label>
+                }
+            }
+            else
+            {
+            <div><small class="text-primary">@accountContext.CurrentAccount.OrgRegNo</small></div>
+            <h4 class="mb-0">@accountContext.CurrentAccount.Name</h4>
+            <div><small>@accountContext.CurrentAccount.OrgOfficeState</small></div>
+            }
+        </div>
+
+
+    </div>
+}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

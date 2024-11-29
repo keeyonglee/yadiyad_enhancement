@@ -1,0 +1,144 @@
+﻿@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    Html.AppendScriptParts("~/lib/chartjs/Chart.min.js");
+    Html.AppendScriptParts("~/lib/chartjs-plugins/chartjs-plugin-datalabels.js");
+    //Html.AppendScriptParts("~/lib/chartjs-plugins/chartjs-plugin-colorschemes.min.js");
+    const string prefix = "top-cv-segments";
+    const string hidePanelAttributeName = "Reports.HideOrderStatisticsPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
+}
+
+<div class="box box-info @if (hidePanel){<text>collapsed-box</text>}" id="@(prefix)-box">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-shopping-cart"></i>
+            @T("Admin.Dashboard.Pro.TopJobCVSegments")
+        </h3>
+        <div class="box-tools pull-right">
+            @*<button class="btn btn-xs btn-info btn-flat margin-r-5" @if (hidePanel) { <text> disabled="disabled" </text> } data-chart-role="toggle-chart" data-chart-period="year">@T("Admin.SalesReport.OrderStatistics.Year")</button>*@
+            <button class="btn btn-xs btn-info btn-flat margin-r-5" @if (hidePanel) { <text> disabled="disabled" </text> } data-chart-role="toggle-chart" data-chart-period="profile">Profile</button>
+            <button class="btn btn-xs btn-info btn-flat" @if (hidePanel) { <text> disabled="disabled" </text> } data-chart-role="toggle-chart" data-chart-period="charge">Charge</button>
+            <button class="btn btn-box-tool margin-l-10" data-widget="collapse">
+                @if (hidePanel)
+                {
+                    <text><i class="fa fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fa fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="chart" style="height: 400px;">
+            <canvas id="@(prefix)-chart" height="400"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var osCurrentPeriod;
+        $('#@(prefix)-box').on('click', 'button[data-widget="collapse"]', function () {
+            var collapsed = !$('#@(prefix)-box').hasClass('collapsed-box');
+            saveUserPreferences('@(Url.Action("SavePreference", "Preferences"))', '@hidePanelAttributeName', collapsed);
+            if (!collapsed) {
+                $('#@(prefix)-box button[data-chart-role="toggle-chart"]').removeAttr('disabled');
+                if (!osCurrentPeriod) {
+                    $('#@(prefix)-box button[data-chart-role="toggle-chart"][data-chart-period="week"]').trigger('click');
+                }
+            } else {
+                $('#@(prefix)-box button[data-chart-role="toggle-chart"]').attr('disabled', 'disabled');
+            }
+        });
+
+        var cvSegmentsConfig = {
+            type: 'pie',
+            data: {
+                labels: [],
+                
+                datasets: [
+                    {
+                        data: [],
+                        backgroundColor: []
+                    }
+                ],
+                
+            },
+            options: {
+                plugins: {
+                    // Change options for ALL labels of THIS CHART
+                    datalabels: {
+                        color: 'black',
+                        font: {
+                            size: 15
+                        }
+                    },
+                    //colorschemes: {
+                    //    scheme: 'tableau.Classic20'
+                    //}
+                },
+                legend: {
+                    display: true
+                },
+                responsive: true
+            }
+        };
+
+        function changeOsPeriod(period) {
+            var osLabels = [];
+            var osData = [];
+            var osColours = [];
+
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("LoadTopJobCVSegments", "AdminDashboard")",
+                data: {
+                    period: period
+                },
+                success: function (data, textStatus, jqXHR) {
+                    for (var i = 0; i < data.length; i++) {
+                        osData.push(data[i].Quantity);
+                        osLabels.push(data[i].Name);
+                        osColours.push(data[i].ColorCode);
+                    }
+
+                    if (!window.cvSegments) {
+                        cvSegmentsConfig.data.labels = osLabels;
+                        cvSegmentsConfig.data.datasets[0].data = osData;
+                        cvSegmentsConfig.data.datasets[0].backgroundColor = osColours;
+                        cvSegmentsConfig.data.scales =
+                            window.cvSegments = new Chart(document.getElementById("@prefix-chart").getContext("2d"), cvSegmentsConfig);
+                    }
+                    else {
+                        window.cvSegments.config.data.labels = osLabels;
+                        window.cvSegments.config.data.datasets[0].data = osData;
+                        window.cvSegments.config.data.datasets[0].backgroundColor = osColours;
+                        window.cvSegments.update();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#loadOrderStatisticsAlert").click();
+                }
+            });
+        }
+
+        $('#@(prefix)-box button[data-chart-role="toggle-chart"]').on('click', function () {
+            var period = $(this).attr('data-chart-period');
+            osCurrentPeriod = period;
+            changeOsPeriod(period);
+            $('#@(prefix)-box button[data-chart-role="toggle-chart"]').removeClass('bg-light-blue');
+            $(this).addClass('bg-light-blue');
+        });
+
+        @if (!hidePanel)
+        {
+            <text>
+                $('#@(prefix)-box button[data-chart-role="toggle-chart"][data-chart-period="profile"]').trigger('click');
+            </text>
+        }
+    });
+</script>

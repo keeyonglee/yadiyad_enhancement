@@ -1,0 +1,185 @@
+﻿<style>
+/*
+    .review-bad {
+        color: red
+    }
+
+    .review-excellent {
+        color: limegreen
+    }*/
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+    .rate:not(:checked) > input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked) > label {
+        float: right;
+        width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rate > input:checked ~ label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked) > label:hover,
+    .rate:not(:checked) > label:hover ~ label {
+        color: #deb217;
+    }
+
+    .rate > input:checked + label:hover,
+    .rate > input:checked + label:hover ~ label,
+    .rate > input:checked ~ label:hover,
+    .rate > input:checked ~ label:hover ~ label,
+    .rate > label:hover ~ input:checked ~ label {
+        color: #c59b08;
+    }
+</style>
+
+@{
+    var productId = ViewData["ProductId"];
+    var productName = ViewData["ProductName"];
+    var productPictureUrl = ViewData["ProductPictureUrl"];
+    var productQuantity = ViewData["ProductQuantity"];
+    var productTotalAmount = ViewData["ProductTotalAmount"];
+    var orderId = ViewData["OrderId"];
+    int.TryParse(ViewData["MaxReviewImages"].ToString(), out int maxFileCount );
+    maxFileCount = maxFileCount == 0 ? 5 : maxFileCount; // set 5 as default maximium
+ }
+
+<div class="content-shuq-buyer-review">
+    <div class="container">
+        <div class="row col-12">
+            <div class="col-2 review-content review-image-container mr-1 d-none d-md-block d-xl-block">
+                <div >
+                    <div class="ratio-1-1 rounded bg-gray-light border border-light">
+                        <img class="w-100 h-100" src="@productPictureUrl" />
+                    </div>
+                </div>
+            </div>
+            <table class="ml-5 table col-9">
+                <tr>
+                    <th>Order Number</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+                <tr class="border-top border-bottom">
+                    <td>@orderId</td>
+                    <td>@productName</td>
+                    <td>@productQuantity</td>
+                    <td>RM @productTotalAmount</td>
+                </tr>
+            </table>
+        </div>
+        <form id="form-shuq-buyer-review" method="post" enctype="multipart/form-data">
+            <input type="number" hidden name="productId" value="@productId" />
+            <input type="number" hidden name="orderId" value="@orderId" />
+            <div class="position-relative">
+                <div class="row mt-3 mb-3 ">
+                    <div class="col-lg-12 text-center ">
+                        <h1 class="text-center font-weight-bolder text-primary">Share your Review</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Rate Your Overall Experience</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="rate">
+                                            <input value="5" type="radio" name="reviewRating" id="addproductrating_5" />
+                                            <label for="addproductrating_5" title="text">5 stars</label>
+                                            <input value="4" type="radio" name="reviewRating" id="addproductrating_4" />
+                                            <label for="addproductrating_4" title="text">4 stars</label>
+                                            <input value="3" type="radio" name="reviewRating" id="addproductrating_3" />
+                                            <label for="addproductrating_3" title="text">3 stars</label>
+                                            <input value="2" type="radio" name="reviewRating" id="addproductrating_2" />
+                                            <label for="addproductrating_2" title="text">2 stars</label>
+                                            <input value="1" type="radio" name="reviewRating" id="addproductrating_1" />
+                                            <label for="addproductrating_1" title="text">1 stars</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Comment</label>
+                                    <div class="col-form-label pt-0">
+                                        Share insights about your experience. Describe the quality/packaging/taste/presentation/
+                                        value for money/delivery/customer service of your purchase experience
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <textarea type="text" class="form-control" name="reviewText" required placeholder="Comment"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Product Image(s)</label>
+                                    <div class="col-form-label pt-0">Share image(s) of your purchase</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input name="photos" class="form-control input-dropzone" type="hidden" data-name-multiple="downloadIdMultiple" data-max-file="@maxFileCount" data-url="picture" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  justify-content-md-center">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-submit btn-primary">Submit</button>
+                        <button type="button" class="btn btn-cancel btn-outline-primary">Cancel</button>
+                    </div>
+                    <div class="col-12">
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<link href="/lib/dropzone/5.7/css/dropzone.css" rel="stylesheet" />
+<script src="/lib/dropzone/5.7/js/dropzone.js" asp-location="Footer"></script>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
+@await Html.PartialAsync("~/Areas/Pro/Views/Shared/_FormComponent.cshtml")
+
+<environment include="Development">
+    <script src="/js/shuq/Review/shuqItemReview.js" asp-append-version="true" asp-location="Footer"></script>
+</environment>
+<environment exclude="Development">
+    <script src="/js/shuq/Review/shuqItemReview.es5.min.js" asp-append-version="true" asp-location="Footer"></script>
+</environment>
+

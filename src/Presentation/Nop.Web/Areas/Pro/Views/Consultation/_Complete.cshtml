@@ -1,0 +1,142 @@
+﻿@model ModeratorConsultationModel
+<div class="content">
+    <input type="hidden" asp-for="Id" />
+    <div class="container">
+        <div class="content-consultation-moderator-complete">
+        </div>
+    </div>
+</div>
+
+<script id="tmpl-consultation-moderator-complete" type="text/x-jsrender">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="text-primary text-bold">Review</h4>
+            @*<hr />
+            <div class="row">
+                <div class="col-lg-6 col-12 line-height-2">Show Consultant Rating</div>
+                <div class="col-lg-6 col-12">
+                    <h3>
+                        <input type="checkbox" id="showConsultantRating" />
+                    </h3>
+                </div>
+            </div>*@
+            @*<div id="divConsultantRating" hidden>
+                <div class="row">
+                    <div class="col-lg-9 col-12">
+                        <div class="text-bold">Consultant ratings and comments on the consultant.</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12 line-height-2">Knowlegde on subject matter</div>
+                        <div class="col-lg-6 col-12">
+                            <h3>
+                                <input type="number" name="knowledgenessRating2" class="organization-rating text-secondary" />
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12 line-height-2">Relevant ideas and advice</div>
+                        <div class="col-lg-6 col-12">
+                            <h3>
+                                <input type="number" name="relevanceRating2" class="organization-rating text-secondary" />
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12 line-height-2">Responded to questions effectively</div>
+                        <div class="col-lg-6 col-12">
+                            <h3>
+                                <input type="number" name="respondingRating2" class="organization-rating text-secondary" />
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12 line-height-2">Clear and concise articulation</div>
+                        <div class="col-lg-6 col-12">
+                            <h3>
+                                <input type="number" name="clearnessRating2" class="organization-rating text-secondary" />
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-12 line-height-2">Professionalism</div>
+                        <div class="col-lg-6 col-12">
+                            <h3>
+                                <input type="number" name="professionalismRating2" class="organization-rating text-secondary" />
+                            </h3>
+                        </div>
+                    </div>
+                    <span id="messageOrganizationReviewStars" class="text-danger" hidden>All fields must be selected.</span>
+                    <textarea class="form-control" id="textOrganizationReview" placeholder="Additional comments (Optional)"></textarea>
+                    <small class="text-muted">*Note: Comments will be reviewed and if the comment violates Yadiyad Guidelines, it will be removed.</small>
+                </div>
+            </div>*@
+            
+
+            <hr />
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="text-bold">Moderator ratings and comments on the consultant.</div>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Knowlegde on subject matter</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="knowledgenessRating" class="rating text-secondary" />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Relevant ideas and advice</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="relevanceRating" class="rating text-secondary" />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Responded to questions effectively</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="respondingRating" class="rating text-secondary" />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Clear and concise articulation</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="clearnessRating" class="rating text-secondary" />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Professionalism</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="professionalismRating" class="rating text-secondary" />
+                        </h3>
+                    </div>
+                </div>
+                <span id="messageModeratorReviewStars" class="text-danger" hidden>All fields must be selected.</span>
+
+                <textarea class="form-control" id="textReview" placeholder="Additional comments (Optional)" maxlength="255"></textarea>
+                <small class="text-muted">*Note: Comments will be reviewed and if the comment violates Yadiyad Guidelines, it will be removed.</small>
+                <div class="text-right">
+                    <input type="button" value="Publish" class="btn btn-secondary"
+                           data-link="{on 'click' ~root.publishReview}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<environment include="Development">
+    <script src="~/js/pro/consultation/complete.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/consultation/complete.es5.min.js" asp-append-version="true"></script>
+</environment>

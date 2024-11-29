@@ -1,0 +1,23 @@
+﻿
+@{
+    string rejectButtonText = Model.RejectButtonText ?? "Reject";
+    string submitButtonText = Model.SubmitButtonText ?? "Save";
+    string cancelButtonText = Model.CancelButtonText ?? "Cancel";
+}
+
+    <div class="modal-footer">
+        @if (Model.ShowRejectButton)
+        {
+            <button class="btn btn-danger" id="@Model.RejectButtonID" type="submit">
+                @rejectButtonText
+            </button>
+        }
+        @if (Model.ShowSubmitButton)
+        {
+            <button class="btn btn-primary" id="@Model.SubmitButtonID" type="submit">
+                @submitButtonText
+            </button>
+        }
+        <button data-dismiss="modal" id="@Model.CancelButtonID" class="btn btn-default" type="button">@cancelButtonText</button>
+
+    </div>

@@ -1,0 +1,81 @@
+﻿@using YadiYad.Pro.Web.Enums
+@model YadiYad.Pro.Web.Models.Job.JobAdsHeaderModel
+
+<div class="row align-items-center mb-3 mt-3 partial-header">
+    <div class="col-lg-4 col-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-12 text-md-right mt-4 mt-md-0 content-organization-job-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.CurrentJobAds?"btn-primary":"btn-default")" href="@Url.Action("Summary","Job", new { Area = "Pro" }).ToLower()">Current Postings</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.MyJobAdsProfiles?"btn-primary":"btn-default")" href="@Url.Action("list","Job", new { Area = "Pro" }).ToLower()">All Postings</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.Hired?"btn-primary":"btn-default")" href="@Url.Action("Hired","JobApplication", new { Area = "Pro" }).ToLower()">Hired (<span text="{{noJobHired}}">0</span>)</a>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row job-profile-title">
+
+        </div>
+        <div class=" row align-items-end">
+            <div class="col-lg-6 col-12 job-profile-info">
+            </div>
+            <div class="col-lg-6 col-12 text-left text-lg-right mt-4 mt-lg-0 ">
+                <div class="content-organization-job-counter">
+                    <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.SearchCandidates?"btn-primary":"btn-default")" href="/pro/job/@Model.JobAdsId/candidate">Search Candidates</a>
+                    <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.Invited?"btn-primary":"btn-default")" href="/pro/jobinvitation/@Model.JobAdsId/invited">Invited (<span text="{{noJobInvitation}}">0</span>)</a>
+                    <a class="btn mr-2 mb-2 btn-round w-auto @(Model.MenuType == JobAdsMenuType.Applicants?"btn-primary":"btn-default")" href="/pro/jobapplication/@Model.JobAdsId/applicants">Applicants (<span text="{{noJobApplicant}}">0</span>)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="tmpl-job-engagement-title" type="text/x-jsrender">
+    <div class="col-12 col-lg-6">
+        <h4 class="text-bold">{{:jobTitle}}</h4>
+
+    </div>
+    <div class="col-12 col-lg-6 text-left text-lg-right">
+        <h6 class="text-bold">
+            {{if viewJobCandidateFullProfileSubscriptionEndDate === null}}
+            {{else viewJobCandidateFullProfileSubscriptionEndDays <= 0}}
+            <span>Expired on {{:viewJobCandidateFullProfileSubscriptionEndDateText}}</span>
+            {{else}}
+            <span>Validity ended {{:viewJobCandidateFullProfileSubscriptionEndDateText}}</span>
+            {{/if}}
+        </h6>
+    </div>
+</script>
+<script id="tmpl-job-engagement-header" type="text/x-jsrender">
+    <div class="mb-2"><span>{{:jobTypeText}}</span></div>
+    <div class="mb-2">
+        <span class="text-bold">RM {{:payAmount}}</span>&nbsp;/
+        <span>
+            {{if jobType == 1}}
+            <span> (per hour)</span>
+            {{/if}}
+            {{if jobType == 2}}
+            <span> (per day)</span>
+            {{/if}}
+            {{if jobType == 3}}
+            <span> for entire project</span>
+            {{/if}}
+        </span>
+    </div>
+    <div>
+        {{if isOnsite == true || isPartialOnsite == true}}
+        <span class='badge badge-pill badge-primary'>{{:(cityName||"All City")}}, {{:(stateProvinceName||"All State")}}, {{:(countryName||"All Country")}}</span>
+        {{/if}}
+        {{if isOnsite == true}}
+        <span class="badge badge-pill badge-gray">Onsite</span>
+        {{/if}}
+        {{if isPartialOnsite == true}}
+        <span class="badge badge-pill badge-gray">Partial onsite</span>
+        {{/if}}
+        {{if isRemote == true}}
+        <span class="badge badge-pill badge-gray">Remote</span>
+        {{/if}}
+    </div>
+</script>

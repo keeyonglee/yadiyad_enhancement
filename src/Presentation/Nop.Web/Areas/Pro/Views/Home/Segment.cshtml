@@ -1,0 +1,159 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@model SegmentContactUsModel
+@inject AccountContext accountContext
+@{
+    ViewData["Layout"] = "Home";
+    ViewData["Theme"] = "info";
+}
+
+<style>
+    #navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .account-menu {
+        position: fixed;
+        width: 100%;
+        top: 86px;
+        z-index: 100;
+    }
+
+    @@media (max-width: 1200px) {
+        .account-menu {
+            top: 146px;
+        }
+    }
+
+    .login-content {
+        margin-top: 86px;
+    }
+
+    #segment-category {
+        margin-left: 50px;
+    }
+
+</style>
+
+<div class="content home-part-first service-part-1 pt-5 pb-5 @(accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email) == false ? "login-content" : "")">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="text-primary text-bold home-master-txt-1">
+                            Top Professional Segments
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div class="text-bold text-primary">
+                            Broad categories of in-demand job and service segments.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content pt-4 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-5">
+                <h3 class="text-bold mb-4 ml-4">Segment</h3>
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    @*<h4 class="text-bold underline-tertiary">Essential Services</h4>*@
+                    <div id="v-pills-tab-content"></div>
+                </div>
+                <form class="" asp-controller="Home" asp-action="Segment" method="post" autocomplete="off">
+                    <div class="service-inner-1 p-4 mt-4">
+                        @if (Model.SuccessfullySent)
+                        {
+                            <div class="result text-center">
+                                @Model.Result
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-bold mb-4">Unable to find the segment that you're looking for?</div>
+                            <div class="underline-tertiary w-100 mb-4"></div>
+                            <h2 class="text-primary text-bold mb-4">Enquire Now For Other Segments</h2>
+                            <div class="underline-tertiary w-100 mb-4"></div>
+                            <div class="mb-4">Name the Segment that you need and we will contact you</div>
+                            <input asp-for="Segment" type="text" class="form-control mb-2" placeholder="Segment needed" required="" autofocus="">
+                            <input asp-for="Name" type="text" class="form-control mb-2" placeholder="Your name" required="" autofocus="">
+                            <input asp-for="Email" type="email" class="form-control mb-2" placeholder="Your email address" required="" autofocus="">
+                            <input asp-for="PhoneNumber" type="text" class="form-control mb-4" placeholder="Your phone number" required="" autofocus="">
+                            <button class="btn-primary btn text-bold individual-banner-btn-1" type="submit">Enquire</button>
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-8">
+                <h3 class="text-bold mb-4 ml-4">Expertise</h3>
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div id="v-pills-tabContent-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (accountContext.CurrentAccount == null || string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email))
+{
+    <div class="content service-part-3 pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-8 row">
+                            <div class="col-12 mb-2">
+                                <div class="text-primary text-bold p-0 m-0 home-master-txt-1">Take the first step towards your freelance journey - offer or seek expertise now</div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <h4 class="text-bold text-primary">Registration is Free</h4>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <a href="/pro/account/register" class="btn-primary btn text-bold individual-banner-btn-1">Sign Up</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 d-none d-xl-block">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script id="template-card-category" type="text/x-jsrender">
+    <a class="nav-link service-nav-link  {{if #index == 0}}active{{/if}}" data-id="{^{:#index}}" id="v-pills-{^{:#index}}-tab" data-toggle="pill" href="#v-pills-{^{:#index}}" role="tab" aria-controls="v-pills-{^{:#index}}" aria-selected="true">{{if imageUrl != null}}<img class="service-list-icos mr-4" src="{^{:imageUrl}}" /><div id="segment-category">{{/if}}{^{:name}}</div></a>
+</script>
+
+<script id="template-card-expertise" type="text/x-jsrender">
+    <div class="p-4 tab-pane service-tab-pane fade show {{if #index == 0}}active{{/if}}" id="v-pills-{^{:#index}}" role="tabpanel" aria-labelledby="v-pills-{^{:#index}}-tab">
+        <div class="row">
+            {^{for expertises}}
+            <h1 class="col-sm-12 text-bold mb-2 text-black">{{:group}}</h1>
+            {^{for children}}
+            <div class="col-sm-6 mb-2">
+                {{:name}}
+            </div>
+            {{/for}}
+            {{/for}}
+        </div>
+    </div>
+</script>
+
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/home/segment.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/home/segment.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

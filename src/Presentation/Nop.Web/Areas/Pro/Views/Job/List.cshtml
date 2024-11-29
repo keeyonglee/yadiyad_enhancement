@@ -1,0 +1,389 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@using YadiYad.Pro.Web.Models.Job
+@using YadiYad.Pro.Web.Enums
+<form class="content" method="post" action="/api/pro/job/search">
+    <div class="container">
+        @*<partial name="_JobAdsMainMenu" model="JobAdsMenuType.MyJobAdsProfiles" />*@
+        @await Component.InvokeAsync("OrganizationJobMenu", new JobAdsHeaderModel
+        {
+            MenuType = JobAdsMenuType.MyJobAdsProfiles
+        });
+        <div class="row content-job-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Postings (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <a class="btn mr-2 btn-round w-auto btn-default" href="@Url.Action("Details","Job", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i>&nbsp;New Posting</a>
+                        </div>
+                        <div class="list-job-list">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="pagination-job-list-list">
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-job-list-response">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-organization-apply-view-subscription",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="template-card-job-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">Create Job Profile</h4>
+                <a class="btn btn-round w-auto btn-outline-primary" href="@Url.Action("Details","Job", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-list-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No posting</h4>
+    </div>
+</script>
+<script id="template-card-job-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-job-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-8">
+                    <h5 class="text-bold text-truncate">{{:jobTitle}}</h5>
+                </div>
+                <div class="col-4 text-right">
+                    {{if status === 0}}
+                    <span class="badge badge-pill badge-gray">Draft</span>
+                    {{else status === 1}}
+                    <span class="badge badge-pill badge-primary">Published</span>
+                    {{else status === 2}}
+                    <span class="badge badge-pill badge-secondary">Hired</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div><span>{{:jobTypeText}}</span></div>
+            <div>
+                <span class="text-bold">RM {{:payAmount}}</span>&nbsp;/
+                {{if jobType == 1}}
+                <span>per hour</span>
+                {{/if}}
+                {{if jobType == 2}}
+                <span>per day</span>
+                {{/if}}
+                {{if jobType == 3}}
+                <span>for entire project</span>
+                {{/if}}
+
+            </div>
+            <div>
+                <span class="badge badge-pill badge-primary">{{:stateProvinceName}}</span>
+                {{if isOnsite == true}}
+                <span class="badge badge-pill badge-gray">Onsite</span>
+                {{/if}}
+                {{if isPartialOnsite == true}}
+                <span class="badge badge-pill badge-gray">Partial onsite</span>
+                {{/if}}
+                {{if isRemote == true}}
+                <span class="badge badge-pill badge-gray">Remote</span>
+                {{/if}}
+            </div>
+            <div class="action-panel text-right {{:(#index === 0?"selected":"")}}">
+                {{if status === 0}}
+                <button type="button" class="btn-icon btn-primary btn-edit" title="Edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></button>
+                <button type="button" class="btn-icon btn-secondary btn-delete" title="Delete"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-list-response-empty" type="text/x-jsrender">
+    <div class="content-job-list-response">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No posting</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-job-list-response" type="text/x-jsrender">
+    <div class="content-job-list-response" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    {{if status === 0}}
+                    <div class="col-6">
+                        <span class="badge badge-pill badge-gray">Draft</span>
+                    </div>
+                    <div class="col-6 mb-2 text-right">
+                        <button type="button" class="btn btn-primary btn-publish">Publish</button>
+                    </div>
+                    {{else status === 2}}
+                    <div class="col-12 mb-2 text-right">
+                        <span class="badge badge-pill badge-secondary">Hired</span>
+                    </div>
+                    {{else}}
+                    <div class="col-sm-6">
+                        {{if viewJobCandidateFullProfileSubscriptionEndDate !== null}}
+                        {{if ~dateComparer.getDateDifferenceCompareToday(expiredAtDate) >= 0}}
+                        <span class="font-italic text-bold">
+                            Validity ended {{:expiredAtDate}}
+                            @*Post end: {{:~dateComparer.getDateDifferenceCompareToday(expiredAtDate)}} day(s) left*@
+                        </span>
+                        {{else}}
+                        <span class="font-italic text-bold">
+                            Expired on {{:expiredAtDate}}
+                        </span>
+                        @*<span class="badge badge-pill badge-danger">Post Expired</span>*@
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                    <div class="col-sm-6 mb-2 text-right">
+                        {{if viewJobCandidateFullProfileSubscriptionEndDate === null || ~dateComparer.compareToday(expiredAtDate) > 0}}
+                        <button type="button" class="btn btn-primary btn-search">Search Candidate</button>
+                        {{else expiredAtDate && ~dateComparer.compareToday(expiredAtDate) < 0}}
+                        <input type="button" class="btn btn-sm btn-success btn-extend" value="Extend Post"
+                               data-toggle="modal" data-target="#modal-organization-apply-view-subscription"
+                               data-keyboard="false"
+                               href="/pro/order/applyview" />
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <div>{{:categoryName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Title</label>
+                            <div class="col-sm-9">
+                                <div>{{:jobTitle}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Required Expertise</label>
+                            <div class="col-sm-9 area-expertise">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Preferred Experience</label>
+                            <div class="col-sm-9">
+                                <div>{{:preferredExperienceName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Job Type</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Model</label>
+                            <div class="col-sm-9">
+                                <div>{{:jobTypeText}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if jobType == 1 || jobType == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Schedule</label>
+                            <div class="col-sm-9">
+                                <div>{{:jobScheduleText}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Required Time Frame</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Duration</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    {{:jobRequired}}
+                                    {{if jobType == 1}}
+                                    hours per week
+                                    {{/if}}
+                                    {{if jobType == 2}}
+                                    days per month
+                                    {{/if}}
+                                    {{if jobType == 3}}
+                                    month
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Start Date</label>
+
+                            <div class="col-sm-9">
+                                {{if startDate != null}}
+                                <div>{{:startDate}}</div>
+                                {{/if}}
+                                {{if startDate == null}}
+                                <div>Immediately</div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Job Model &amp; Location</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Model</label>
+                            <div class="col-sm-9">
+                                {{if isOnsite}}
+                                <span class='badge badge-pill badge-primary-light'>Onsite</span>&nbsp;
+                                {{/if}}
+                                {{if isPartialOnsite}}
+                                <span class='badge badge-pill badge-primary-light'>Partial Onsite</span>&nbsp;
+                                {{/if}}
+                                {{if isRemote}}
+                                <span class='badge badge-pill badge-primary-light'>Remote</span>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    {{if isOnsite || isPartialOnsite}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Country</label>
+                            <div class="col-sm-9">
+                                <div>{{:countryName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">State</label>
+                            <div class="col-sm-9">
+                                <div>{{:stateProvinceName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">City</label>
+                            <div class="col-sm-9">
+                                <div>{{:cityName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if jobType == 3 && jobMilestones.length > 0}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Milestone</h4>
+                    </div>
+                    <div class="col-12">
+                        {{for jobMilestones}}
+                        <div class="form-group row">
+                            <span class='col-sm-3 badge badge-pill badge-gray h-100 mt-2'>Phase {{:sequence + 1}}</span>
+                            <div for="" class="col-sm-6 col-form-label">{{:description}}</div>
+                            <div class="col-sm-3">
+                                <div>RM {{:amount}}</div>
+                            </div>
+                        </div>
+                        {{/for}}
+
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Pay</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Pay Amount</label>
+                            <div class="col-sm-9">
+                                <div>
+                                    RM {{:payAmount}}
+                                    {{if jobType == 1}}
+                                    per hour
+                                    {{/if}}
+                                    {{if jobType == 2}}
+                                    per day
+                                    {{/if}}
+                                    {{if jobType == 3}}
+                                    for entire project
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/list.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/list.es5.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $.views.helpers({ dateComparer: dateComparer });
+    </script>
+}

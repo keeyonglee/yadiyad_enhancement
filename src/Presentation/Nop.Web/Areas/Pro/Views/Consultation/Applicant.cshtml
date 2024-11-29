@@ -1,0 +1,157 @@
+﻿@using YadiYad.Pro.Web.Models.Enums
+@using YadiYad.Pro.Web.Enums
+<div class="content">
+    <div class="container">
+        @*<partial name="_Menu" model="ConsultationMenuType.Applicants" />*@
+        @await Component.InvokeAsync("OrganizationConsultationMenu", YadiYad.Pro.Web.Enums.ConsultationMenuType.Applicants)
+        <div class="content-consultation-candidates">
+        </div>
+    </div>
+</div>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-pay-consultation-fee",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="tmpl-consultation-job-applicant" type="text/x-jsrender">
+    {^{if applicants.totalCount > 0}}
+    {^{for applicants.data}}
+    <div class="card">
+        <div class="card-body" data-link="{on 'click' ~root.showMoreCandidateDetail}">
+            <div class="row">
+                <div class="col-6">
+                    <h4 class="text-bold">Consultation Job #{{:consultationProfile.id}}</h4>
+                    <h5 class="text-bold mb-0">{^{:serviceProfile.code}}</h5>
+                    <div>
+                        <small>Age {{:serviceProfile.age}}, {{:serviceProfile.genderName}} &Iota; {{:serviceProfile.categoryName}}</small>
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                    <input type="button" value="View Cost" class="btn btn-info pl-4 pr-4" data-link="{on 'click' ~root.selectApplicant #data} visible{:!selected}" />
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-6">
+                    <h5>
+                        <span class="badge badge-pill badge-primary">{{:serviceProfile.categoryName}}</span>
+                        <span class="badge badge-pill badge-gray">{{:serviceProfile.experienceYearName}} experience</span>
+                    </h5>
+                    <h5>
+                        {{for serviceProfile.serviceExpertises}}
+                        <span class="badge badge-pill badge-primary-light">{{:name}}</span>
+                        {{/for}}
+                    </h5>
+                </div>
+                <div class="col-6 text-right">
+                    <div>
+                        Accepted Date: <span class="text-bold">{{:updatedOnText}}</span>
+                    </div>
+                    <div>
+                        <span class="text-bold">RM&nbsp;{{:ratesPerSession.toFixed(2)}}</span> per session
+                    </div>
+                </div>
+            </div>
+            <hr />
+            {^{if selected !== true}}
+            {^{if showMore === true}}
+            <h6 class="text-bold text-primary mb-4">
+                Replies to screening questions
+            </h6>
+            {{for consultantReplys}}
+            <div class="row mb-2">
+                <div class="col-lg-2">
+                    <span class="text-muted">Question {{:(#index+1)}}</span>
+                </div>
+                <div class="col-lg-10">
+                    <div class="text-bold">{{:title}}</div>
+                    <div>
+                        {{:answers}}
+                    </div>
+                </div>
+            </div>
+            {{/for}}
+            <h6 class="text-bold text-primary mb-4">
+                Selected Session
+            </h6>
+            {{for consultantAvailableTimeSlots}}
+            <div class="row mb-2">
+                <div class="col-sm-3">
+                    <span class="text-muted">{{:startDateText}}</span>
+                </div>
+                <div class="col-sm-9">
+                    {{:startTimeText}} - {{:endTimeText}}
+                </div>
+            </div>
+            {{/for}}
+            {{else}}
+            <h6 class="text-bold cursor-pointer" data-link="{on 'click' ~root.showApplicantDetail #data}">
+                Replies to screening questions >
+            </h6>
+            {{/if}}
+            {{else}}
+            <h5 class="text-bold">Total Cost</h5>
+            <div class="row mb-2">
+                <div class="col-lg-8">
+                    {{if serviceChargeType === 1}}
+                    <div>Consultation fees per session + Service charge (RM{{:(serviceChargeRate).toFixed(0)}} of fees)</div>
+                    {{else}}
+                    <div>Consultation fees per session + Service charge ({{:(serviceChargeRate *100).toFixed(0)}}% of fees)</div>
+                    {{/if}}
+                    <div>
+                        <span>RM&nbsp;{{:ratesPerSession.toFixed(2)}}</span>&nbsp;+&nbsp;<span>RM&nbsp;{{:(serviceChargeType===2?ratesPerSession*serviceChargeRate:serviceChargeRate).toFixed(2)}}</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <h4 class="text-primary text-bold d-inline-block">RM&nbsp;{{:(ratesPerSession+(serviceChargeType===2?ratesPerSession*serviceChargeRate:serviceChargeRate)).toFixed(2)}}</h4>
+                    <input type="button" class="btn btn-sm btn-secondary pl-4 pr-4 ml-2" value="Pay"
+                           data-toggle="modal" data-target="#modal-pay-consultation-fee"
+                           data-keyboard="false"
+                           href="/pro/order/payconsultationfee" />
+                </div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    {{/for}}
+    {^{include ~root.pagination.model tmpl="#tmp-simple-pagination"/}}
+
+
+    {{else}}
+    <div class="card">
+        <div class="card-body text-center mt-5 mb-5">
+            <h4 class="text-primary text-bold">No Consultation Job's Applicant</h4>
+        </div>
+    </div>
+    {{/if}}
+
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet"> 
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/applicant.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/applicant.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

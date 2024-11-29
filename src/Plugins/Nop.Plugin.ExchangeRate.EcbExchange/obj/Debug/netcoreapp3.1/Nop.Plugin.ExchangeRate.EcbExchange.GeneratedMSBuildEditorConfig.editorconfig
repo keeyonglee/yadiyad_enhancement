@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Nop.Plugin.ExchangeRate.EcbExchange
+build_property.ProjectDir = C:\Users\chong\Downloads\Yadiyad\src\Plugins\Nop.Plugin.ExchangeRate.EcbExchange\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

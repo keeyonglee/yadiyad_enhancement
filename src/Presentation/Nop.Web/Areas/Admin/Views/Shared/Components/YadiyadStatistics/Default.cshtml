@@ -1,0 +1,179 @@
+﻿@model YadiyadKeyStatisticsModel
+@using Nop.Web.Models.Dashboard
+@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    const string panelId = "nopcommerce-common-statistics-box";
+    const string hidePanelAttributeName = "HideCommonStatisticsPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>
+    (workContext.CurrentCustomer, hidePanelAttributeName);
+    }
+
+<style>
+    .ks-font{
+        font-size: 2.5rem;
+    }
+
+    .ks-title{
+        font-size: 3.5rem;
+    }
+
+    .ks-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .ks-tooltip .ks-tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 120%;
+    }
+
+    .ks-tooltip:hover .ks-tooltiptext {
+        visibility: visible;
+    }
+</style>
+
+    <div class="box box-info @if(hidePanel){<text>collapsed-box</text>}" id="@panelId">
+        <div class="box-header with-border clearfix">
+            <div class="box-title">
+                <i class="fa ion-stats-bars"></i>
+                @T("Admin.Dashboard.KeyStatistics")
+            </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    @if (hidePanel)
+                    {
+                    <text><i class="fa fa-plus"></i></text>
+                    }
+                    else
+                    {
+                    <text><i class="fa fa-minus"></i></text>
+                    }
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <div class="text-black ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfJobPostsThisMonth
+                                <span class="ks-tooltiptext">This Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfJobPostsLastMonth
+                                <span class="ks-tooltiptext">Last Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-title">@T("Admin.Dashboard.Pro.Job.Post")</div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-paper"></i>
+                    </div>
+                    @*<a asp-controller="Order" asp-action="List" class="small-box-footer">
+                        @T("Admin.Dashboard.MoreInfo")
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </a>*@
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <div class="text-black ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfJobHiredThisMonth
+                                <span class="ks-tooltiptext">This Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfJobHiredLastMonth
+                                <span class="ks-tooltiptext">Last Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-title">@T("Admin.Dashboard.Pro.Job.Hired")</div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-checkbox"></i>
+                    </div>
+                    @*<a asp-controller="ReturnRequest" asp-action="List" class="small-box-footer">
+                        @T("Admin.Dashboard.MoreInfo")
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </a>*@
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <div class="text-black ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfServiceHiredThisMonth
+                                <span class="ks-tooltiptext">This Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfServiceHiredLastMonth
+                                <span class="ks-tooltiptext">Last Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-title">@T("Admin.Dashboard.Pro.Service.Hired")</div>
+                    </div>
+                    <div class="icon align-bottom">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    @*<a asp-controller="Customer" asp-action="List" class="small-box-footer">
+                        @T("Admin.Dashboard.MoreInfo")
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </a>*@
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <div class="text-black ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfShuqOrdersThisMonth
+                                <span class="ks-tooltiptext">This Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-font">
+                            <i class="fa fa-calendar ks-tooltip" aria-hidden="true">
+                                @Model.NumberOfShuqOrdersLastMonth
+                                <span class="ks-tooltiptext">Last Month</span>
+                            </i>
+                        </div>
+                        <div class="ks-title">@T("Admin.Dashboard.Shuq.Orders")</div>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    @*<a asp-controller="Report" asp-action="LowStock" class="small-box-footer">
+                        @T("Admin.Dashboard.MoreInfo")
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </a>*@
+                </div>
+            </div>
+
+            <script>
+            $(document).ready(function () {
+                $('#@panelId').on('click', 'button[data-widget="collapse"]', function () {
+                    var collapsed = !$('#@panelId').hasClass('collapsed-box');
+                    saveUserPreferences('@(Url.Action("SavePreference", "Preferences"))', '@hidePanelAttributeName', collapsed);
+                });
+            });
+            </script>
+        </div>
+    </div>

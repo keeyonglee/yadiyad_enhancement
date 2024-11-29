@@ -1,0 +1,43 @@
+﻿@model CatalogPagingFilteringModel.SpecificationFilterModel
+@{
+    var notFilteredItemsGroups = Model.NotFilteredItems.GroupBy(x => x.SpecificationAttributeName);
+    var alreadyFilteredItemsGroups = Model.AlreadyFilteredItems.GroupBy(x => x.SpecificationAttributeName);
+}
+@if (Model.Enabled)
+{
+
+    <div class="product-filter product-spec-filter">
+        <div class="filter-title">
+            <strong>@T("Filtering.Preferences")</strong>
+        </div>
+        <div class="filter-content">
+            @if (Model.AlreadyFilteredItems.Count > 0)
+            {
+
+                @foreach (var group in alreadyFilteredItemsGroups)
+                {
+                    @foreach (var spec in group)
+                    {
+                        <div class="btn-checkbox">
+                            <input type="checkbox" id="specs-@spec.SpecificationAttributeOptionId" value="@spec.SpecificationAttributeOptionId" checked="checked" name="specs" />
+                            <label for="specs-@spec.SpecificationAttributeOptionId">@spec.SpecificationAttributeOptionName</label>
+                        </div>
+                    }
+                }
+            }
+            @if (Model.NotFilteredItems.Count > 0)
+            {
+                @foreach (var group in notFilteredItemsGroups)
+                {
+                    @foreach (var spec in group)
+                    {
+                        <div class="btn-checkbox">
+                            <input type="checkbox" id="specs-@spec.SpecificationAttributeOptionId" value="@spec.SpecificationAttributeOptionId"  name="specs" />
+                            <label for="specs-@spec.SpecificationAttributeOptionId">@spec.SpecificationAttributeOptionName</label>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+}

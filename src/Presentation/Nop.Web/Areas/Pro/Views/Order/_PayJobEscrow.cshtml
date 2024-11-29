@@ -1,0 +1,62 @@
+﻿
+<div class="content content-payjobescrow">
+</div>
+<div class="content content-payment-gateway hidden"></div>
+
+<script id="template-payjobescrow" type="text/x-jsrender">
+    <div class="p-4 text-center">
+        <h4 class="text-primary text-center text-bold">Escrow Payment</h4>
+        <div>
+            <div>
+                <i class="fa fa-check" aria-hidden="true"></i>
+                One Month Escrow
+            </div>
+        </div>
+        <br />
+        <div class="text-center">Escrow Payment Required: RM {{:payableAmount.toFixed(2)}}</div>
+        {{for offsetableOrderItems}}
+        <hr />
+        <div class="bg-bermuda p-2">
+            <div>Deposit reserve <u>{{:engagementCode}}</u>: RM {{:(price*-1).toFixed(2)}}</div>
+            <div><small>*Unutilized deposit reserve is used to offset escrow payment.</small></div>
+        </div>
+        {{/for}}
+        <br />
+        <h4 class="text-center text-bold">
+            Total: RM {{:orderTotal}}
+            {{if offsetableOrderItems && offsetableOrderItems.length}}
+            <br /><span class="text-sm  text-bold-400">**No service charge is incurred.</span>
+            {{/if}}
+        </h4>
+        <input class="btn btn-primary btn-pay" type="submit" value="Pay" />
+        <input class="btn btn-default btn-cancel" type="button" value="Cancel" data-dismiss="modal" />
+    </div>
+</script>
+
+
+<script id="template-payment" type="text/x-jsrender">
+    <div class="p-4">
+        <h4 class="text-primary text-center text-bold mb-3">Choose Payment Method</h4>
+        <div class="row  justify-content-md-center">
+            {{for paymentMethods}}
+            <div class="col-4 mb-3">
+                <div class="p-2 border border-1 border-white btn-payment-option cursor-pointer" data-id="{{:id}}">
+                    <div class="ratio-1-1">
+                        <img class="w-100 center" alt="{{:name}}" src="{{:imageUrl}}" />
+                    </div>
+                </div>
+            </div>
+            {{/for}}
+        </div>
+        <input class="btn btn-secondary w-100 btn-confirm-pay" type="submit" value="Confirm and Pay" disabled />
+    </div>
+</script>
+
+<partial name="../Payment/_PaymentRequest" />
+
+<environment include="Development">
+    <script src="~/js/pro/order/payjobescrow.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/order/payjobescrow.es5.min.js" asp-append-version="true"></script>
+</environment>

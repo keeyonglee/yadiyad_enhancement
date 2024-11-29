@@ -1,0 +1,62 @@
+﻿
+<div class="content content-review-job">
+</div>
+
+<script id="tmpl-review-job" type="text/x-jsrender">
+    <div class="p-4">
+        <h4 class="text-primary text-center text-bold mb-3">Review</h4>
+        <div class="row">
+            <div class="col-lg-6 col-12 line-height-2">Knowlegde on subject matter</div>
+            <div class="col-lg-6 col-12">
+                <h3>
+                    <input type="number" name="knowledgenessRating" class="rating text-secondary" />
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 line-height-2">Relevant ideas and advice</div>
+            <div class="col-lg-6 col-12">
+                <h3>
+                    <input type="number" name="relevanceRating" class="rating text-secondary" />
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 line-height-2">Responded to questions effectively</div>
+            <div class="col-lg-6 col-12">
+                <h3>
+                    <input type="number" name="respondingRating" class="rating text-secondary" />
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 line-height-2">Clear and concise articulation</div>
+            <div class="col-lg-6 col-12">
+                <h3>
+                    <input type="number" name="clearnessRating" class="rating text-secondary" />
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 line-height-2">Professionalism</div>
+            <div class="col-lg-6 col-12">
+                <h3>
+                    <input type="number" name="professionalismRating" class="rating text-secondary" />
+                </h3>
+            </div>
+        </div>
+        <textarea class="form-control" placeholder="Additional comments (Optional)" data-link="reviewText" maxlength="1000"></textarea>
+        <small class="text-muted">*Note: Comments will be reviewed and if the comment violates Yadiyad Guidelines, it will be removed.</small>
+        <div class="text-right">
+            <input type="button" value="Publish" class="btn btn-secondary"
+                   data-link="{on 'click' ~root.publishReview}" />
+        </div>
+    </div>
+</script>
+
+<environment include="Development">
+    <script src="~/js/pro/jobapplication/review.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/jobapplication/review.es5.min.js" asp-append-version="true"></script>
+</environment>

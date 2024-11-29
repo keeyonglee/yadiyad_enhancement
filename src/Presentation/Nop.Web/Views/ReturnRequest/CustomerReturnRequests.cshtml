@@ -1,0 +1,80 @@
+﻿@using Nop.Core.Domain.Orders;
+@model CustomerReturnRequestsModel
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-account-page");
+    Html.AppendPageCssClassParts("html-return-request-list-page");
+    //Html.AppendPageCssClassParts("html-order-list-page");
+}
+@section left
+{
+    @await Component.InvokeAsync("CustomerNavigation", new { selectedTabId = CustomerNavigationEnum.ReturnRequests })
+}
+<div class="page account-page return-request-list-page">
+    <div class="page-title">
+        <h1>@T("Account.MyAccount") - @T("Account.CustomerReturnRequests")</h1>
+    </div>
+    <div class="page-body">
+        @foreach (var item in Model.Items)
+        {
+        <div class="section request-item">
+            <div class="title">
+                <strong>Return Request #@item.Id </strong>
+            </div>
+            <ul class="details">
+                <li class="status">
+                    <label>Status: </label>
+                    <span>@item.ApproveStatusStr</span>
+                    @if (item.OrderRefundRequestId.HasValue)
+                    {
+                        <a class="btn-download-refund-statement" target="_blank" href="@Url.RouteUrl("GetOrderRefundRequestPdf", new { OrderRefundRequestId = item.OrderRefundRequestId })">
+                            <i class="fa fa-download"></i>
+                        </a>
+                    }
+                </li>
+                @if (item.ApproveStatusId == (int)ApproveStatusEnum.Approved)
+                {
+                    <li class="refundStatus">
+                        <label>Refund Status: </label>
+                        <span>@item.RefundStatusStr</span>
+                    </li>
+
+                    <li class="refundStatus">
+                        <label>Refund Amount: </label>
+                        <span>RM @item.RefundAmount.ToString("#0.00")</span>
+                    </li>
+
+                }
+                <li class="reason">
+                    <label>Return Reason: </label>
+                    <span>@item.ReturnList[0].ReasonForReturn</span>
+                </li>
+                <li class="product">
+                    <label>@T("Account.CustomerReturnRequests.Item")</label>
+                    @foreach (var items in item.ReturnList)
+                    {
+                        <span>@items.ProductName</span>
+                        <span>x @items.Quantity</span>
+                    }
+                </li>
+            </ul>
+            @if (item.NeedReturnShipping == true && item.ReturnConditionId == (int)ReturnConditionEnum.Pending)
+            {
+                <div>
+                    <p><i>Return needed. Go to <a href="@Url.RouteUrl("OrderDetails", new { orderId = item.OrderId })">details</a> to view return instructions.</i></p>
+                </div>
+            }
+            <div class="buttons">
+                <input type="button" value="Order Details" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = item.OrderId })')" />
+                <input type="button" value="Return Details" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("ReturnRequestDetail", new { orderId = item.OrderId })')" />
+            </div>
+        </div>
+        }
+       
+    </div>
+</div>
+

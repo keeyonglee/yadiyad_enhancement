@@ -1,0 +1,21 @@
+@model PayoutBatchModel
+@using YadiYad.Pro.Core.Domain.Payout
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <label class="control-label">Recon File</label>
+        </div>
+        <div class="col-md-9">
+            @{
+                //Static file attachments do not support URLs yet
+                //A store owner have to upload a file
+                //we store a value into "ViewData" and then use it in the Download.cshtml file
+                ViewData["nop.DownloadEditor.DisableUrl"] = true;
+                ViewData["nop.DownloadEditor.AcceptFiles"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            <nop-editor asp-for="ReconFileDownloadId" asp-custom-upload-url="@(Url.Action("AsyncUpload", "Payout", new { area = AreaNames.Admin }))"
+                        asp-disabled="@(Model.Status == (int)PayoutBatchStatus.Error || Model.Status == (int)PayoutBatchStatus.Success )"/>
+            <span asp-validation-for="ReconFileDownloadId"></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@model ReturnOrderModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+
+        <div class="panel-group">
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsTop, additionalData = Model })
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>@T("Admin.ReturnRequests.Fields.ProductName")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Quantity")</th>
+                                <th>Customer</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Order")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Date")</th>
+                                <th>Item Return Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ReturnList)
+                            {
+                            <tr>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.ProductName</p>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.Quantity</p>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.CustomerInfo</p>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <a class="btn btn-default" href=@Url.Content("~/Admin/Order/Edit/"+item.OrderId)><i class="fa fa-eye"></i> - @T("Admin.Common.View")</a>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.CreatedOn</p>
+                                </td>
+                                <td><a class="btn btn-default" href="@Url.Content("~/Admin/ReturnRequest/Edit/"+item.Id)"><i class="fa fa-eye"></i> - @T("Admin.Common.View")</a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsBottom, additionalData = Model })
+        </div>
+  

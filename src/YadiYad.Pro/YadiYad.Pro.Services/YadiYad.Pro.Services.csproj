@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Consultation\**" />
+    <EmbeddedResource Remove="Consultation\**" />
+    <None Remove="Consultation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.102.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Nop.Services\Nop.Services.csproj" />
+    <ProjectReference Include="..\YadiYad.Pro.Core\YadiYad.Pro.Core.csproj" />
+    <ProjectReference Include="..\YadiYad.Pro.Data\YadiYad.Pro.Data.csproj" />
+  </ItemGroup>
+
+</Project>

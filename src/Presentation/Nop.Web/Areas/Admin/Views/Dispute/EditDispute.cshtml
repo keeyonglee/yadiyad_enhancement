@@ -1,0 +1,63 @@
+﻿@model DisputeSubmitModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+@{
+    const string hideInfoBlockAttributeName = "Dispute.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+}
+
+
+<div class="content">
+    <div class="form-horizontal">
+        <form asp-controller="Dispute" asp-action="EditDispute" method="post">
+            <div class="content-header clearfix">
+                <h1 class="pull-left">
+                    Edit Dispute
+                    <small>
+                        <i class="fa fa-arrow-circle-left"></i>
+                        <a asp-action="List">back to dispute list</a>
+                    </small>
+                </h1>
+                @if (Model.DisputeAction == (int)DisputeActionEnum.Pending)
+                {
+                    <div class="pull-right">
+                        <button type="submit" name="save" class="btn bg-blue">
+                            <i class="fa fa-floppy-o"></i>
+                            @T("Admin.Common.Save")
+                        </button>
+                        <button type="submit" name="save-continue" class="btn bg-blue">
+                            <i class="fa fa-floppy-o"></i>
+                            @T("Admin.Common.SaveContinue")
+                        </button>
+                        @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsButtons, additionalData = Model })
+                    </div>
+                }
+            </div>
+            <div class="content">
+                <div class="form-horizontal">
+                    <nop-panels id="dispute-panels">
+                        <nop-panel asp-name="dispute-info" asp-icon="fa fa-info" asp-title="Dispute Info" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Dispute", Model)</nop-panel>
+                    </nop-panels>
+                    @if (Model.CustomerPictureIds.Count > 0)
+                    {
+                        <nop-panels id="dispute-panels">
+                            <nop-panel asp-name="dispute-picture" asp-icon="fa fa-info" asp-title="Customer Dispute Pictures" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.CustomerAttachment", Model)</nop-panel>
+                        </nop-panels>
+                    }
+                    @if (Model.SellerPictureIds.Count > 0)
+                    {
+                        <nop-panels id="dispute-panels">
+                            <nop-panel asp-name="dispute-picture" asp-icon="fa fa-info" asp-title="Seller Dispute Pictures" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.SellerAttachment", Model)</nop-panel>
+                        </nop-panels>
+                    }
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

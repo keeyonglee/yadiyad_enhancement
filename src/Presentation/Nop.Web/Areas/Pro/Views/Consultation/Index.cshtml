@@ -1,0 +1,84 @@
+﻿@using YadiYad.Pro.Core.Domain.Common
+
+<div class="content content-consultation-profile">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Personal Info</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Segment</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label" text="{{segmentName}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Topic</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label" text="{{topic}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Objectives</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label" text="{{objective}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h5>Session</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Time Zone</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label" text="{{timeZoneName}}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row  justify-content-md-center">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-edit">Edit Profile</button>
+            </div>
+            <div class="col-12">
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/consultation/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/consultation/index.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -1,0 +1,28 @@
+﻿
+<div class="content content-payjobescrow">
+</div>
+<script id="tmpl-paydepositrequest" type="text/x-jsrender">
+    <div class="p-4 text-center">
+        <h4 class="text-primary text-center text-bold">Escrow Payment</h4>
+        <div>
+            <div>
+                <i class="fa fa-check" aria-hidden="true"></i>
+                One Month Escrow
+            </div>
+        </div>
+        <br />
+        <div class="text-center">Escrow Payment: {{:customerCurrencyCode}} {{:orderTotal.toFixed(2)}}</div>
+        <h4 class="text-center text-bold">Total: {{:customerCurrencyCode}} {{:orderTotal.toFixed(2)}}</h4>
+        <input class="btn btn-primary btn-pay mb-2" type="submit" value="Pay" />
+        <input class="btn btn-default btn-cancel" type="button" value="Cancel"  data-dismiss="modal" />
+    </div>
+</script>
+
+
+
+<environment include="Development">
+    <script src="~/js/pro/order/paydepositrequest.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/order/paydepositrequest.es5.min.js" asp-append-version="true"></script>
+</environment>

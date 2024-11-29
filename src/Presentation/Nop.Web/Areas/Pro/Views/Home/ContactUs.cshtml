@@ -1,0 +1,129 @@
+﻿@model ContactUsProModel
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Theme"] = "contactus";
+    var contactUsSubjects = (List<SelectListItem>)ViewData["ContactUsSubjects"];
+}
+<style>
+    .fa-32-px{
+        width: 32px;
+    }
+    .whatsapp-colour{
+        color: #075E54;
+    }
+</style>
+<div class="content">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="mt-5 mb-5 text-center text-primary text-bold content-title d-inline-block">Contact Us</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                @if (Model.SuccessfullySent)
+                {
+                    <div class="result text-center">
+                        @Model.Result
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <h5 class="text-primary text-bold">Yadiyad Sdn Bhd</h5>
+                            </div>
+                            <div class="row">
+                                <h6 class="text-primary text-bold"><i>(formerly known as Tennant (M) Sdn Bhd)</i>​</h6>
+                            </div>
+                            <div class="row">
+                                <h5 class="text-primary text-bold">198201007173 (86931-H)</h5>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <h5 class=" text-bold">Address:​</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">B2-2-3, Solaris Dutamas,</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">No.1, Jalan Dutamas 1,</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">50480 Kuala Lumpur</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">03 8688 3860​</h5>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <h5 class=" text-bold">Customer Service:</h5>
+                            </div>
+                            <div class="row">
+                                <i class="fas fa-envelope-open-text text-primary fa-2x"></i>
+                                <div class="pl-4">
+                                    <h5 class=""><a class="underline-href" href="mailto:help@yadiyad.com">help@yadiyad.com</a></h5>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <i class="fa fa-whatsapp fa-2x  fa-32-px whatsapp-colour"></i>
+                                <div class="pl-4">
+                                    <h5 class="">018-576 3009</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8">
+                            <div class="contactus-border">
+                                <form id="form-contactus" asp-controller="Home" asp-action="ContactUs" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="message-error"></div>
+                                    <div class="fieldset">
+                                        <div class="form-fields">
+                                            <label asp-for="FullName" class="mt-3">Full Name</label>
+                                            <input asp-for="FullName" class="form-control" placeholder="@T("ContactUs.FullName.Hint")" required="" autofocus="">
+                                            <label asp-for="Email" class="mt-3">Email address</label>
+                                            <input asp-for="Email" type="email" class="form-control" placeholder="@T("ContactUs.Email.Hint")" required="" autofocus="">
+                                            <label asp-for="SubjectSelect" class="mt-3"></label>
+                                            @*<input asp-for="Subject" placeholder="@T("ContactUs.Subject.Hint")" required="" class="form-control" />*@
+                                        @*<select asp-for="SubjectSelect" class="form-control">
+                                            <option value="Cancellation & Refund">Cancellation &amp; Refund</option>
+                                            <option value="Collaboration">Collaboration</option>
+                                            <option value="Collaboration">Complains</option>
+                                            <option value="CSR">CSR</option>
+                                            <option value="Dispute">Dispute</option>
+                                            <option value="Dispute">Feedbacks</option>
+                                            <option value="General Enquiry">General Enquiry</option>
+                                            <option value="General Enquiry">Suggestions</option>
+                                            <option value="General Enquiry">Testimonials</option>
+                                            <option value="Other">Others</option>
+                                        </select>*@
+                                        <select asp-for="SubjectId" class="form-control" asp-items="contactUsSubjects">
+                                        </select>
+                                            <input asp-for="SubjectOther" placeholder="@T("ContactUs.Subject.Hint")" class="form-control hidden" />
+                                            <label asp-for="Enquiry" class="mt-3">Message</label>
+                                            <textarea asp-for="Enquiry" class="form-control" required=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="buttons text-center">
+                                        <input type="submit" name="send-email" class="btn btn-lg btn-info mt-3 contact-us-button" value="@T("ContactUs.Button")" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/home/contactus.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/home/contactus.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

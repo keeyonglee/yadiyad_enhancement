@@ -1,0 +1,330 @@
+﻿@using YadiYad.Pro.Core.Domain.Job
+
+<div class="content content-job-profile">
+    <div class="container">
+        <form method="post" id="form-job-profile" role="form" action="/api/pro/job/profile/{{id}}" form-validation-alert>
+            <h1 class="text-center font-weight-bolder title-create">Create Job Profile</h1>
+            <h1 class="text-center font-weight-bolder title-update">Update Job Profile</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Skills &amp; Expertise</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Category</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="categoryId" textName="categoryName"
+                                            placeholder="Category"
+                                            data-sourceurl="/api/pro/source/jobServiceCategory"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Job Title</label>
+                                <div class="col-sm-9">
+                                    <input type="text" maxlength="200" class="form-control" name="jobTitle" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Required Expertise</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="requiredExpertises" textName="requiredExpertiseName"
+                                            multiple="multiple"
+                                            placeholder="Required Expertise"
+                                            data-dependent="categoryId:categoryId"
+                                            data-sourceurl="/api/pro/source/expertise"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Preferred Experience Duration</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="preferredExperience" textName="preferredExperienceName"
+                                            placeholder="Preferred Experience"
+                                            data-sourceurl="/api/pro/source/experienceYear"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Job Type</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Job Model</label>
+                                <div class="col-sm-9">
+                                    @foreach (JobType option in Enum.GetValues(typeof(JobType)))
+                                    {
+                                        <div class="radio d-inline-block mr-4">
+                                            <label class="col-form-label form-check-label">
+                                                <input type="radio" name="jobType" value="@((int)option)" required>
+                                                @option.GetDescription()
+                                            </label>
+                                        </div>
+                                    }
+                                    <br />
+                                    <div>
+                                        <i class="text-muted">Select how you’ll pay your freelancers: by hourly rate, daily rate or by project milestone</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group-schedule">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Daily Job Schedule</label>
+                                <div class="col-sm-9">
+                                    @foreach (JobSchedule option in Enum.GetValues(typeof(JobSchedule)))
+                                    {
+                                        <div class="radio d-inline-block mr-4">
+                                            <label class="col-form-label form-check-label">
+                                                <input type="radio" name="jobSchedule" value="@((int)option)" required>
+                                                @option.GetDescription()
+                                            </label>
+                                        </div>
+                                    }
+                                    <br />
+                                    <ul style="list-style-type: disc; padding-left:20px;">
+                                        <li><i>Half Day (up to 4 hours)</i></li>
+                                        <li><i>Full Day (up to 8 hours)</i></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-5">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">
+                                Required Job Length
+                            </h4>
+                        </div>
+                        <div class="col-12 form-group-timeframe hidden">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Time Frame</label>
+                                <div class="col-sm-3">
+                                    <input type="number" min="1" max="120" class="form-control" name="jobRequired" required />
+                                </div>
+                                <div class="col-sm-6 form-group-freelancing hidden">
+                                    hours per week
+                                </div>
+                                <div class="col-sm-6 form-group-parttime hidden">
+                                    days per month
+                                </div>
+                                <div class="col-sm-6 form-group-projectbased hidden">
+                                    months
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Start Date</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox"
+                                           id="isImmediate" name="isImmediate" />
+                                    Immediate
+                                </div>
+                                <div class="offset-sm-3 col-sm-9">
+                                    <input type="text" class="form-control form-control-datepicker-tdp"
+                                           name="startDate" mindate="today" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Job Model &amp; Location</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Job Site</label>
+                                <div class="col-sm-3">
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="checkbox" name="isOnsite">
+                                            Onsite
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="checkbox" name="isPartialOnsite">
+                                            Partial onsite
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="checkbox" name="isRemote">
+                                            Remote
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group-location hidden">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Location</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="countryId" textName="countryName"
+                                            placeholder="Country"
+                                            data-sourceurl="/api/pro/source/country"
+                                            data-id="id" data-text="name"
+                                            disabled>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group-location hidden">
+                            <div class="form-group row">
+                                <div class="offset-sm-3 col-sm-4">
+                                    <select class="form-control select2 select"
+                                            name="stateProvinceId" textName="stateProvinceName"
+                                            placeholder="All State"
+                                            data-dependent="countryId:countryId"
+                                            data-sourceurl="/api/pro/source/stateProvince"
+                                            data-id="id" data-text="name">
+                                    </select>
+                                </div>
+                                <div class="col-sm-5">
+                                    <select class="form-control select2 select"
+                                            name="cityId" textName="cityName"
+                                            placeholder="All City"
+                                            data-dependent="countryId:countryId;stateProvinceId:stateProvinceId"
+                                            data-sourceurl="/api/pro/source/city"
+                                            data-id="id" data-text="name">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 hidden form-group-milestone">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12 hidden form-group-milestone">
+                            <h4 class="font-weight-bolder">Milestone</h4>
+                        </div>
+                        <div class="col-12 section-milestone hidden form-group-milestone">
+                        </div>
+
+
+                        <div class="col-12 hidden form-group-milestone">
+                            <i class="text-muted">
+                                @T("Pro.Job.Projectbased.Milestone.Example")
+                            </i>
+                            <div class="form-group">
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-default btn-add-milestone">+&nbsp;&nbsp;More</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 form-group-paymentphase hidden">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12 form-group-paymentphase hidden">
+                            <h4 class="font-weight-bolder">Pay</h4>
+                        </div>
+                        <div class="col-12 form-group-paymentphase hidden">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Professional Fees</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">RM</span>
+                                        </div>
+                                        <input type="number" class="form-control" name="payAmount" min="1" max="1000000" required />
+                                    </div>
+                                  
+                                </div>
+                                <div class="col-sm-6 form-group-freelancing hidden">
+                                    per hour
+                                </div>
+                                <div class="col-sm-6 form-group-parttime hidden">
+                                    per day
+                                </div>
+                                <div class="col-sm-6 form-group-projectbased hidden">
+                                    for entire project
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  justify-content-md-center">
+                <div class="col-12 area-agreement">
+                    <div class="form-group row">
+                        <div class="col-sm-12 text-center">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="agreement" required>
+                                    <span>@T("Pro.Service.UserAgreement")</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <input type="hidden" name="id" value="0" />
+                    <input type="hidden" name="status" value="0" />
+
+                    <button type="button" class="btn btn-primary btn-submit btn-publish">Save &amp; Publish</button>
+                    <button type="button" class="btn btn-primary btn-submit btn-save">Save</button>
+                    <button type="button" class="btn btn-default btn-cancel">Cancel</button>
+                </div>
+                <div class="col-12">
+                    <br />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/job/details.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/job/details.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

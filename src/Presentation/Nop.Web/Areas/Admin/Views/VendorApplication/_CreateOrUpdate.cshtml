@@ -1,0 +1,28 @@
+﻿@model VendorApplicationModel
+
+@{
+    const string hideInfoBlockAttributeName = "VendorPage.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="vendor-panels">
+            <nop-panel asp-name="vendor-info" asp-icon="fa fa-info" asp-title="Vendor Aplication Info" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-panel>
+
+
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.VendorDetailsBlock, additionalData = Model })
+        </nop-panels>
+    </div>
+    <div class="form-horizontal">
+        <nop-panels id="news-item-panels">
+            <nop-panel asp-name="news-item-info" asp-icon="fa fa-info" asp-title="Sample Products" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">@await Html.PartialAsync("_CreateOrUpdate.Document", Model)</nop-panel>
+            @*<nop-panel asp-name="news-item-seo" asp-icon="fa fa-search-plus" asp-title="@T("Admin.Common.SEO")" asp-hide-block-attribute-name="@hideSeoBlockAttributeName" asp-hide="@hideSeoBlock">@await Html.PartialAsync("_CreateOrUpdate.Seo", Model)</nop-panel>*@
+
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.NewsItemsDetailsBlock, additionalData = Model })
+        </nop-panels>
+    </div>
+</div>

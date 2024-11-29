@@ -1,0 +1,261 @@
+﻿@using YadiYad.Pro.Services.DTO.Organization
+@model OrganizationProfileDTO
+<div class="content content-organization-profile">
+    <div class="container">
+        <form method="post" id="form-organization-profile-edit" role="form" action="/api/pro/organization" form-validation-alert>
+            <div class="position-relative">
+                <div class="row mt-3 mb-3 ">
+                    <div class="col-lg-2">
+                        <div class="row  justify-content-center">
+                            <div class="col-4 col-lg-12">
+                                <nop-editor asp-for="PictureId" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 text-center ">
+                        <h1 class="text-center font-weight-bolder title-create hidden text-primary">Create Profile</h1>
+                        <h1 class="text-center font-weight-bolder title-update hidden text-primary">Update Profile</h1>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Company Info</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="name" maxlength="200" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Registration No</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="registrationNo" maxlength="200" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Segment</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="segmentId" textName="segmentName"
+                                            placeholder="Segment"
+                                            data-sourceurl="/api/pro/source/businessSegment"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Listed Company</label>
+                                <div class="col-sm-9">
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="radio" name="isListedCompany" value="true" checked required>
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="radio" name="isListedCompany" value="false">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Date Established</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-datepicker-tdp" name="dateEstablished" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Website</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="website" maxlength="255" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Company Size</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="companySize" textName="companySizeName"
+                                            placeholder="Company Size"
+                                            data-sourceurl="/api/pro/source/companySize"
+                                            data-id="value" data-text="text" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Location</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Country</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="countryId" textName="countryName"
+                                            placeholder="Country"
+                                            data-sourceurl="/api/pro/source/country"
+                                            data-id="id" data-text="name" required @*disabled="disabled"*@>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">State</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="stateProvinceId" textName="stateProvinceName"
+                                            placeholder="State"
+                                            data-sourceurl="/api/pro/source/stateProvince"
+                                            data-dependent="countryId:countryId"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="address" required maxlength="200" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Contact Person</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Individual Title</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="contactPersonTitle" textName="contactPersonTitleName"
+                                            placeholder="Individual Title"
+                                            data-sourceurl="/api/pro/source/individualTitle"
+                                            data-id="value" data-text="text" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Full Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="contactPersonName" maxlength="200" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Position</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="contactPersonPosition" maxlength="200" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="contactPersonEmail" required disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Contact No</label>
+                                <div class="col-sm-9">
+                                    <input type="tel" class="form-control"
+                                           name="contactPersonContact" maxlength="200" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  justify-content-md-center">
+                <div class="col-12 area-agreement">
+                    <div class="form-group row">
+                        <div class="col-sm-12 text-center">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="agreement" required>
+                                    <span>I acknowledge that I have read and agreed to be bound by <a class="link-ref" href="/privacy-policy" target="_blank">Privacy Policy</a></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <input type="hidden" name="id" value="0" />
+
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <button type="button" class="btn btn-cancel">Cancel</button>
+                </div>
+                <div class="col-12">
+                    <br />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/intl-tel-input/17.0.12/css/intlTelInput.min.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/utils.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput-jquery.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="/js/pro/organization/profileEdit.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="/js/pro/organization/profileEdit.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

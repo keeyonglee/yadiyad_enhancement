@@ -1,0 +1,95 @@
+﻿@using Nop.Web.Areas.Pro.Models.ApproveDepositRequest
+@model ApproveDepositRequestModel
+
+<div class="panel-body">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <div asp-validation-summary="All">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Bank</label>
+        </div>
+        <div class="col-md-9">
+            <input class="form-control" asp-for="Bank" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Bank In Date</label>
+        </div>
+        <div class="col-md-9">
+            <input class="form-control" asp-for="BankInDateText" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Reference</label>
+        </div>
+        <div class="col-md-9">
+            <input class="form-control" asp-for="Reference" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Amount</label>
+        </div>
+        <div class="col-md-9">
+            <input class="form-control" asp-for="Total" readonly />
+        </div>
+    </div>
+    @if (Model.DepositStatus != "Paid")
+    {
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Bank in Slip</label>
+            </div>
+            <div class="col-md-9">
+                <div class="radio d-inline-block mr-4 col-md-3">
+                    <label class="col-form-label form-check-label">
+                        <input type="radio" asp-for="Validity" value="false" id="radioFalse">
+                        Invalid
+                    </label>
+                </div>
+                <div class="radio d-inline-block mr-4 col-md-3">
+                    <label class="col-form-label form-check-label">
+                        <input type="radio" asp-for="Validity" value="true" id="radioTrue">
+                        Valid
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="divApproveRemarks" hidden>
+            <div class="col-md-3">
+                <label>Remarks</label>
+            </div>
+            <div class="col-md-9">
+                <textarea class="form-control" maxlength="255" asp-for="ApproveRemarks" placeholder="Additional comments (Optional)"></textarea>
+            </div>
+        </div>
+    }
+
+</div>
+
+<script>
+    var depositStatus = @Html.Raw(Json.Serialize(Model.DepositStatus));
+
+    $('#radioFalse').on('click', function () {
+
+        $('#divApproveRemarks').attr('hidden', false);
+    });
+
+    $('#radioTrue').on('click', function () {
+        $('#divApproveRemarks').attr('hidden', true);
+
+    });
+
+    if (depositStatus == "Invalid") {
+        $('#radioFalse').attr('checked', true);
+        $('#divApproveRemarks').attr('hidden', false);
+
+    }
+
+</script>
+

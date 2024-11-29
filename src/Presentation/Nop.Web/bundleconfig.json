@@ -1,0 +1,26 @@
+[
+  {
+    "outputFileName": "wwwroot/lib/adminlte/css/AdminLTE.min.css",
+    "inputFiles": [
+      "wwwroot/lib/adminlte/css/AdminLTE.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/shuq/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/shuq/site.css"
+    ]
+  },
+  {
+    "outputFileName": "Themes/DefaultClean/Content/css/styles.min.css",
+    "inputFiles": [
+      "Themes/DefaultClean/Content/css/styles.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/shuq/customAdminlte.min.css",
+    "inputFiles": [
+      "wwwroot/css/shuq/customAdminlte.css"
+    ]
+  }
+]

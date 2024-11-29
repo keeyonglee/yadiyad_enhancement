@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="@T("pro.meta.description")">
+    <meta name="keywords" content="@T("pro.meta.keywords")">
+    <link rel="icon" type="image/png" href="/img/pro/favico3.png" />
+
+    <title>@ViewData["Title"]@(ViewData["Title"] == null ? "" : " - ")Yadiyad Pro</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/lib/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/lib/fontAwesome/css/font-awesome.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/sweetalert/2.0/css/sweetalert.css" />
+    @RenderSection("StyleLibs", required: false)
+
+    <!-- Theme style -->
+    @*<link rel="stylesheet" href="/lib/adminlte/adminlte.min.css" >*@
+    <link rel="stylesheet" href="~/css/pro/customAdminlte.min.css"  asp-append-version="true">
+
+    <environment include="Development">
+        @*<link rel="stylesheet" href="~/css/pro/site.css" asp-append-version="true" />*@
+
+        <link rel="preload" href="~/css/pro/site.css" as="style"
+              onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="~/css/pro/site.css"></noscript>
+        <link rel="stylesheet" href="~/css/pro/loader.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="~/css/pro/site.min.css" asp-append-version="true" />*@
+
+        <link rel="preload" href="~/css/pro/site.min.css" as="style"
+              onload="this.rel='stylesheet'"><noscript><link rel="stylesheet" href="~/css/pro/site.min.css"></noscript>
+        <link rel="stylesheet" href="~/css/pro/loader.min.css" asp-append-version="true" />
+    </environment>
+
+
+    @Html.NopCssFiles(ResourceLocation.Head)
+    @RenderSection("Styles", required: false)
+
+    <environment include="Development">
+        <script src="~/js/pro/site-init.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/site-init.es5.min.js" asp-append-version="true"></script>
+    </environment>
+    <!-- jQuery -->
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+    <environment include="Production">
+        <!-- Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-5JHGPZ5');
+        </script>
+        <!-- End Google Tag Manager -->
+    </environment>
+    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeadHtmlTag })
+
+
+
+</head>
+<body class="hold-transition @((string)ViewData["Layout"] == "Blank"?"blank":"") @(((string)ViewData["Theme"])??"portal") sidebar-collapse">
+    
+    <environment include="Production">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JHGPZ5"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    </environment>
+
+
+    @if ((string)ViewData["Layout"] == "Blank")
+    {
+        <div class="wrapper">
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+        </div>
+    }
+    else if ((string)ViewData["Layout"] == "Home")
+    {
+
+        <partial name="~/Areas/Pro/Views/Shared/_TopNavbar.cshtml" /> 
+        @*<partial name="~/Areas/Pro/Views/Shared/_AccountMenu.cshtml" />*@
+        @await Component.InvokeAsync("AccountMenu")
+        <div class="wrapper">
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+        </div>
+        <partial name="~/Areas/Pro/Views/Shared/_Footer.cshtml" />
+
+    }
+    else
+    {
+        <div class="wrapper">
+
+            <partial name="~/Areas/Pro/Views/Shared/_TopNavbar.cshtml" />
+            @*<partial name="~/Areas/Pro/Views/Shared/_AccountMenu.cshtml" />*@
+            @await Component.InvokeAsync("AccountMenu")
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+
+
+            <partial name="~/Areas/Pro/Views/Shared/_Footer.cshtml" />
+        </div>
+    }
+
+    <div class="txt-version"></div>
+
+    <partial name="~/Areas/Pro/Views/Shared/_Loader.cshtml" />
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- Bootstrap 4 -->
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/lib/adminlte/adminlte.min.js"></script>
+    <script src="~/lib/sweetalert/2.1.1/js/sweetalert.min.js"></script>
+
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+
+    @RenderSection("ScriptLibs", required: false)
+    @Html.NopScripts(ResourceLocation.Footer)
+
+    <environment include="Development">
+        <script src="~/js/pro/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/site.es5.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

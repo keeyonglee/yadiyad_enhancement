@@ -1,0 +1,129 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@using YadiYad.Pro.Web.Models.Job
+@using YadiYad.Pro.Web.Enums
+
+<form class="content content-job-summary" method="post" action="/api/pro/job/search">
+    <div class="container">
+        @*<partial name="_JobAdsMainMenu" model="JobAdsMenuType.CurrentJobAds" />*@
+        @await Component.InvokeAsync("OrganizationJobMenu", new JobAdsHeaderModel
+       {
+            MenuType = JobAdsMenuType.CurrentJobAds
+       })
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div class="list-job-summary-result">
+
+                </div>
+                <div class="pagination-job-summary-list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-organization-apply-view-subscription",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="template-job-summary-simple-empty" type="text/x-jsrender">
+    <div class="card">
+        <div class="card-body text-center mt-5 mb-5">
+            <h4 class="text-primary text-bold">Create Job Profile</h4>
+            <a class="btn btn-round w-auto btn-outline-primary" href="@Url.Action("Details","Job", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+</script>
+
+<script id="template-job-summary-simple" type="text/x-jsrender">
+    <div class="card card-job-summary-simple {{:(viewJobCandidateFullProfileSubscriptionEndDays <= 0?"cursor-not-allowed":"cursor-pointer")}}" data-entity-id="{{:id}}" data-href="/pro/jobapplication/{{:id}}/applicants">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-lg-7 mb-2">
+                    <div class="d-inline-block {{:(viewJobCandidateFullProfileSubscriptionEndDays <= 0?"opacity-3":"")}}">
+                        <div>
+                            <span class="text-bold h5">{{:jobTitle}}</span>
+                            {{if isAttentionRequired}}
+                            <span class="fas fa-circle fa-xs icon-attention"></span>
+                            {{/if}}
+                        </div>
+                        {{if viewJobCandidateFullProfileSubscriptionEndDate != "Invalid date"}}
+                        <div>
+                            {{if viewJobCandidateFullProfileSubscriptionEndDays <= 0}}
+                            <span>Expired on {{:viewJobCandidateFullProfileSubscriptionEndDate}}</span>
+                            {{else}}
+                            <span>Validity ended {{:viewJobCandidateFullProfileSubscriptionEndDate}}</span>
+                            {{/if}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="d-inline-block ml-3 align-top ">
+                        {{if viewJobCandidateFullProfileSubscriptionEndDays <= 0}}
+                        <input type="button" class="btn btn-sm btn-success btn-renew w-auto pl-2 pr-2 btn-round" value="{{:(viewJobCandidateFullProfileSubscriptionEndDate != "Invalid date"?"Renew":"Enable")}}"
+                               data-toggle="modal" data-target="#modal-organization-apply-view-subscription"
+                               data-keyboard="false"
+                               href="/pro/order/applyview" />
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 text-center {{:(viewJobCandidateFullProfileSubscriptionEndDays <= 0?"opacity-3":"")}}">
+                    <div class="row">
+                        <div class="col-4">
+                            <h1 class="text-bold">{{:underConsiderationCount}}</h1>
+                            <span>Fresh Applicants</span>
+                        </div>
+                        <div class="col-4">
+                            <h1 class="text-bold">{{:hiredCount}}</h1>
+                            <span>Hired</span>
+                        </div>
+                        <div class="col-4">
+                            <h1 class="text-bold">{{:shortlistedCount}}</h1>
+                            <span>Shortlist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-organization-apply-view-subscription",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+@await Component.InvokeAsync("SimplePagination")
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/summary.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/summary.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

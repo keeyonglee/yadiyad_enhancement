@@ -1,0 +1,54 @@
+﻿@model ConfigurationModel
+
+@{
+    ViewBag.PageTitle = T("Admin.NopStation.WebApi.Configuration.Title").Text;
+
+    Html.SetActiveMenuItemSystemName("WebApi.Configuration");
+    Html.AppendScriptParts("~/lib/kendo/2020.1.406/js/kendo.colorpicker.min.js");
+}
+
+@{
+    const string hideColorSettingsBlockAttributeName = "WebApiSettingsPage.HideColorSettingsBlock";
+    var hideColorSettingsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideColorSettingsBlockAttributeName);
+
+    const string hideCommonBlockAttributeName = "WebApiSettingsPage.HideCommonBlock";
+    var hideCommonBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideCommonBlockAttributeName);
+
+    const string hideSecurityBlockAttributeName = "WebApiSettingsPage.HideSecurityBlock";
+    var hideSecurityBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSecurityBlockAttributeName);
+
+    const string hideAppSettingsBlockAttributeName = "WebApiSettingsPage.HideAppSettingsBlock";
+    var hideAppSettingsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideAppSettingsBlockAttributeName);
+
+    const string hideResourcesBlockAttributeName = "WebApiSettingsPage.HideResourcesBlock";
+    var hideResourcesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideResourcesBlockAttributeName);
+}
+
+<form asp-controller="WebApi" asp-action="Configure" method="post" id="webapi-config-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.WebApi.Configuration.Title")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            @await Component.InvokeAsync("StoreScopeConfiguration")
+            <div asp-validation-summary="All"></div>
+
+            <nop-panels id="webapisettings-panels">
+                <nop-panel asp-name="webapisettings-colorsettings" asp-icon="fa fa-paint-brush" asp-title="@T("Admin.NopStation.WebApi.Configuration.BlockTitle.ColorSettings")" asp-hide-block-attribute-name="@hideColorSettingsBlockAttributeName" asp-hide="@hideColorSettingsBlock" asp-advanced="false">@await Html.PartialAsync("_Configure.ColorSettings", Model)</nop-panel>
+                <nop-panel asp-name="webapisettings-common" asp-icon="fa fa-info" asp-title="@T("Admin.NopStation.WebApi.Configuration.BlockTitle.Common")" asp-hide-block-attribute-name="@hideCommonBlockAttributeName" asp-hide="@hideCommonBlock" asp-advanced="false">@await Html.PartialAsync("_Configure.Common", Model)</nop-panel>
+                <nop-panel asp-name="webapisettings-security" asp-icon="fa fa-lock" asp-title="@T("Admin.NopStation.WebApi.Configuration.BlockTitle.Security")" asp-hide-block-attribute-name="@hideSecurityBlockAttributeName" asp-hide="@hideSecurityBlock" asp-advanced="true">@await Html.PartialAsync("_Configure.Security", Model)</nop-panel>
+                <nop-panel asp-name="webapisettings-appsettings" asp-icon="fa fa-mobile" asp-title="@T("Admin.NopStation.WebApi.Configuration.BlockTitle.AppSettings")" asp-hide-block-attribute-name="@hideAppSettingsBlockAttributeName" asp-hide="@hideAppSettingsBlock" asp-advanced="true">@await Html.PartialAsync("_Configure.AppSettings", Model)</nop-panel>
+                <nop-panel asp-name="webapisettings-resources" asp-icon="fa fa-database" asp-title="@T("Admin.NopStation.WebApi.Configuration.BlockTitle.Resources")" asp-hide-block-attribute-name="@hideResourcesBlockAttributeName" asp-hide="@hideResourcesBlock" asp-advanced="true">@await Html.PartialAsync("_Configure.Resources", Model)</nop-panel>
+            </nop-panels>
+        </div>
+    </div>
+</form>

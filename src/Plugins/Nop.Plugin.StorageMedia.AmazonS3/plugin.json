@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Storage Media",
+  "FriendlyName": "AmazonS3",
+  "SystemName": "StorageMedia.AmazonS3",
+  "Version": "1.0.0",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Raymond Loo",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.StorageMedia.AmazonS3.dll",
+  "Description": "This plugin change storage media to AmazonS3"
+}

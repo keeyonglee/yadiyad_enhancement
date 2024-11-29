@@ -1,0 +1,136 @@
+﻿@model ModeratorConsultantRescheduleModel
+
+    <style>
+        .time-only .timepicker .btn {
+            display: block !important;
+            width: 3em !important;
+        }
+
+        .date-only .bootstrap-datetimepicker-widget.dropdown-menu {
+            width: 17rem !important;
+        }
+
+        .date-only .input-group-text {
+            height: 38px;
+        }
+
+        .time-only .input-group-text {
+            height: 38px;
+        }
+    </style>
+
+<script>
+    $(document).on("click", function (e) {
+        var elem = $(e.target);
+
+        if (!elem.hasClass("datepicker") &&
+            !elem.hasClass("datetimepicker-input") &&
+            !elem.hasClass("datetimepicker"))
+        {
+            if (!elem.hasClass("appointment-date") &&
+                !elem.hasClass("fa fa-calendar")) {
+                $('#datetimepicker2').datetimepicker("hide");
+            }
+            if (!elem.hasClass("appointment-start") &&
+                !elem.hasClass("far fa-clock-o")) {
+                $('#datetimepicker1').datetimepicker("hide");
+            }
+            if (!elem.hasClass("appointment-end") &&
+                !elem.hasClass("far fa-clock-o")) {
+                $('#datetimepicker3').datetimepicker("hide");
+            }
+        }
+    });
+</script>
+<div class="content content-facilitating-reschedule">
+    <input type="hidden" asp-for="Id" />
+    <form class="form-facilitating-reschedule">
+
+        <div class="title-set-date hidden">
+            @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "Set appointment to" })
+        </div>
+        <div class="title-reschedule-date hidden">
+            @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "Reschedule appointment to" })
+        </div>
+        <div class="modal-body form-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group row date-only">
+                        <label for="" class="col-sm-3 col-form-label">Date</label>
+                        <div class="input-group date col-sm-9" id="datetimepicker2" data-target-input="nearest">
+                            <input type="text" name="date" class="form-control datetimepicker-input" data-target="#datetimepicker2" required />
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text appointment-date"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row time-only">
+                        <label for="" class="col-sm-3 col-form-label">Start Time</label>
+                        <div class="input-group date col-sm-9" id="datetimepicker1" data-target-input="nearest">
+                            <input type="text" name="start" class="form-control datetimepicker-input" data-target="#datetimepicker1" required />
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text appointment-start"><i class="far fa-clock-o"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row time-only">
+                        <label for="" class="col-sm-3 col-form-label">End Time</label>
+                        <div class="input-group date col-sm-9" id="datetimepicker3" data-target-input="nearest">
+                            <input type="text" name="end" class="form-control" data-target="#datetimepicker3" required />
+                            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                <div class="input-group-text appointment-end"><i class="far fa-clock-o"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row reschedule-remarks hidden">
+                        <label for="" class="col-sm-3 col-form-label">Remarks</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="resheduleRemarks" class="form-control" placeholder="Additional comments (Required)" required maxlength="255"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input name="serviceProfileId" hidden />
+        @await Html.PartialAsync("_ModalFooter", new ModalFooterModel { })
+    </form>
+</div>
+
+<environment include="Development">
+    <script src="~/js/pro/consultation/reschedule.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/consultation/reschedule.es5.min.js" asp-append-version="true"></script>
+</environment>
+
+<script type="text/javascript">
+    $(function () {
+        var date = new Date();
+        //date.setDate(date.getDate() - 1);
+        $('#datetimepicker1').datetimepicker({
+            format: 'LT',
+            autoclose: true,
+            location: 'my',
+            stepping: 15,
+        });
+        $('#datetimepicker3').datetimepicker({
+            format: 'LT',
+            autoclose: true,
+            location: 'my',
+            stepping: 15
+
+        });
+        $('#datetimepicker2').datetimepicker({
+            format: 'L',
+            autoclose: true,
+            minDate: moment().startOf('day').add(1, 'd'),
+            useCurrent: false
+        });
+    });
+
+    //$(document).ready(function () {
+    //    $("#NopTime").kendoTimePicker({
+    //        dateInput: false
+    //    });
+    //});
+</script>

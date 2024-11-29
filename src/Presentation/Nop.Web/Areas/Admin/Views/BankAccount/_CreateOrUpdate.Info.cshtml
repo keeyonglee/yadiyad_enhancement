@@ -1,0 +1,61 @@
+@model BankAccountModel
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="AccountHolderName" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.AccountHolderName</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="AccountNumber" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.AccountNumber</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="IdentityTypeName" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.IdentityTypeName</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Identity" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.Identity</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Status" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.Status</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="CreatedOnUTC" />
+        </div>
+        <div class="col-md-9">
+            <div class="form-text-row">@Model.CreatedOnUTC</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Comment" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Comment" />
+            <span asp-validation-for="Comment" asp-required="true"></span>
+        </div>
+    </div>
+
+</div>

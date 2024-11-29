@@ -1,0 +1,85 @@
+@model PayoutRequestSearchModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Customers.Payout.Request").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Payout");
+}
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Payout Request - @Model.BatchNumber - @Model.CustomerName
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="Group" asp-route-id="@Model.BatchId">@T("Admin.Customers.Payout.BackToBatchGroup")</a>
+            </small>
+        </h1>
+    </div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @*hide the entire search block if no elements are displayed*@
+            <input asp-for="GroupId" hidden />
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+               {
+                   Name = "payout-request-grid",
+                   UrlRead = new DataUrl("RequestList", "Payout", null),
+                   SearchButtonId = "search-payout-request",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                   {
+                       new FilterParameter(nameof(Model.GroupId))
+                   },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(PayoutRequestModel.OrderNo))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.OrderNo").Text
+                            },
+                            new ColumnProperty(nameof(PayoutRequestModel.RequestTypeText))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Type").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutRequestModel.ListedProfessionalFee))
+                            {
+                                Title = ViewData["RequestTypeTitle"].ToString(),
+                                Render = new RenderCustom("renderAmount"),
+                                ClassName = "text-right"
+                            },
+                            new ColumnProperty(nameof(PayoutRequestModel.PayoutCharges))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.PayoutCharges").Text,
+                                Render = new RenderCustom("renderAmount"),
+                                ClassName = "text-right"
+                            },
+                            new ColumnProperty(nameof(PayoutRequestModel.PayoutAmount))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.PayoutAmount").Text,
+                                Render = new RenderCustom("renderAmount"),
+                                ClassName = "text-right"
+                            }
+                        }
+               })
+
+                    <script>
+                        function renderColumnComments(data, type, row, meta) {
+                            var link = "NewsComments?filterByNewsItemId=" + data;
+                            var title = '@T("Admin.ContentManagement.News.NewsItems.Fields.Comments")';
+                            var countComments = row.ApprovedComments + row.NotApprovedComments;
+                            return '<a class="btn btn-default" href="' + link + '">' + title + ' - ' + countComments + ' (' + row.NotApprovedComments + ')' + '</a>';
+                        }
+                        function renderAmount(data, type, row, meta) {
+                            return $.fn.dataTable.render.number(',', '.', 2, 'RM ').display(data);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

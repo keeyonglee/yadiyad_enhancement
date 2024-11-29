@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Wkhtmltopdf.NetCore
+build_property.ProjectDir = C:\Users\chong\Downloads\Yadiyad\src\Vendors\Wkhtmltopdf.NetCore\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,0 +1,354 @@
+﻿[
+  {
+    "outputFile": "wwwroot/js/pro/site.es5.js",
+    "inputFile": "wwwroot/js/pro/site.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/site-init.es5.js",
+    "inputFile": "wwwroot/js/pro/site-init.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/service/details.es5.js",
+    "inputFile": "wwwroot/js/pro/service/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/search.es5.js",
+    "inputFile": "wwwroot/js/pro/job/search.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/applyjob.es5.js",
+    "inputFile": "wwwroot/js/pro/order/applyjob.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/apply.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/apply.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/list.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/list.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/simpleform/simpleform.es5.js",
+    "inputFile": "wwwroot/js/pro/simpleform/simpleform.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/scheduler/weeklyscheduler.es5.js",
+    "inputFile": "wwwroot/js/pro/scheduler/weeklyscheduler.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/signin.es5.js",
+    "inputFile": "wwwroot/js/pro/account/signin.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/signup.es5.js",
+    "inputFile": "wwwroot/js/pro/account/signup.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/list.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/list.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/candidates.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/candidates.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/Invited.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/Invited.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/jobadvsreview.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/jobadvsreview.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/jobreplyreview.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/jobreplyreview.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/sessionfacilitating.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/sessionfacilitating.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/applicant.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/applicant.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/payconsultationfee.es5.js",
+    "inputFile": "wwwroot/js/pro/order/payconsultationfee.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/confirmedorder.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/confirmedorder.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/passwordrecovery.es5.js",
+    "inputFile": "wwwroot/js/pro/account/passwordrecovery.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/seeker-counter.es5.js",
+    "inputFile": "wwwroot/js/pro/job/seeker-counter.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/organization-counter.es5.js",
+    "inputFile": "wwwroot/js/pro/job/organization-counter.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/individual/index.es5.js",
+    "inputFile": "wwwroot/js/pro/individual/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/individual/details.es5.js",
+    "inputFile": "wwwroot/js/pro/individual/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/service/index.es5.js",
+    "inputFile": "wwwroot/js/pro/service/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/service/list.es5.js",
+    "inputFile": "wwwroot/js/pro/service/list.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/service/search.es5.js",
+    "inputFile": "wwwroot/js/pro/service/search.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/requests.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/requests.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/request.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/request.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/repropose.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/repropose.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/confirms.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/confirms.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/hires.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/hires.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/receives.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/receives.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/scheduler/calendars.es5.js",
+    "inputFile": "wwwroot/js/pro/scheduler/calendars.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/organization/index.es5.js",
+    "inputFile": "wwwroot/js/pro/organization/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/organization/details.es5.js",
+    "inputFile": "wwwroot/js/pro/organization/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/applyview.es5.js",
+    "inputFile": "wwwroot/js/pro/order/applyview.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobseeker/details.es5.js",
+    "inputFile": "wwwroot/js/pro/jobseeker/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobInvitation/invited.es5.js",
+    "inputFile": "wwwroot/js/pro/jobInvitation/invited.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobInvitation/invites.es5.js",
+    "inputFile": "wwwroot/js/pro/jobInvitation/invites.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/applicants.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/applicants.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/summary.es5.js",
+    "inputFile": "wwwroot/js/pro/job/summary.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/profile.es5.js",
+    "inputFile": "wwwroot/js/pro/job/profile.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/list.es5.js",
+    "inputFile": "wwwroot/js/pro/job/list.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/index.es5.js",
+    "inputFile": "wwwroot/js/pro/job/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/details.es5.js",
+    "inputFile": "wwwroot/js/pro/job/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/candidate.es5.js",
+    "inputFile": "wwwroot/js/pro/job/candidate.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/index.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/details.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/payjobescrow.es5.js",
+    "inputFile": "wwwroot/js/pro/order/payjobescrow.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/seller-counter.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/seller-counter.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/buyer-counter.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/buyer-counter.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/simplepagination/simplepagination.es5.js",
+    "inputFile": "wwwroot/js/pro/simplepagination/simplepagination.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/rating-input/bootstrap4-rating-input.es5.js",
+    "inputFile": "wwwroot/lib/rating-input/bootstrap4-rating-input.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobInvitation/decline.es5.js",
+    "inputFile": "wwwroot/js/pro/jobInvitation/decline.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/jquery-validate/jquery.validate-v1.19.1/jquery.validate.es5.js",
+    "inputFile": "wwwroot/lib/jquery-validate/jquery.validate-v1.19.1/jquery.validate.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/organization-counter.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/organization-counter.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/review.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/review.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/home/splash.es5.js",
+    "inputFile": "wwwroot/js/pro/home/splash.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/bankAccount.es5.js",
+    "inputFile": "wwwroot/js/pro/account/bankAccount.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/passwordchange.es5.js",
+    "inputFile": "wwwroot/js/pro/account/passwordchange.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/home/contactus.es5.js",
+    "inputFile": "wwwroot/js/pro/home/contactus.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobseeker/index.es5.js",
+    "inputFile": "wwwroot/js/pro/jobseeker/index.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/account/taxAccount.es5.js",
+    "inputFile": "wwwroot/js/pro/account/taxAccount.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/payment/response.es5.js",
+    "inputFile": "wwwroot/js/pro/payment/response.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/cancel.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/cancel.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/complete.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/complete.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/consultation/reschedule.es5.js",
+    "inputFile": "wwwroot/js/pro/consultation/reschedule.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/payoutRequest/details.es5.js",
+    "inputFile": "wwwroot/js/pro/payoutRequest/details.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/hidejobseeker.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/hidejobseeker.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/paydepositrequest.es5.js",
+    "inputFile": "wwwroot/js/pro/order/paydepositrequest.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/paymentdetails.es5.js",
+    "inputFile": "wwwroot/js/pro/order/paymentdetails.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/order/payprojectdepositrequest.es5.js",
+    "inputFile": "wwwroot/js/pro/order/payprojectdepositrequest.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/job/organization-counter-main.es5.js",
+    "inputFile": "wwwroot/js/pro/job/organization-counter-main.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/hired.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/hired.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/home/individual.es5.js",
+    "inputFile": "wwwroot/js/pro/home/individual.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/home/organization.es5.js",
+    "inputFile": "wwwroot/js/pro/home/organization.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/cancel.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/cancel.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/cancel.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/cancel.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/Organization/ProfileEdit.es5.js",
+    "inputFile": "wwwroot/js/pro/Organization/ProfileEdit.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/Individual/ProfileEdit.es5.js",
+    "inputFile": "wwwroot/js/pro/Individual/ProfileEdit.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobapplication/terminate.es5.js",
+    "inputFile": "wwwroot/js/pro/jobapplication/terminate.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/serviceApplication/terminate.es5.js",
+    "inputFile": "wwwroot/js/pro/serviceApplication/terminate.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/jobInvitation/accept.es5.js",
+    "inputFile": "wwwroot/js/pro/jobInvitation/accept.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/organization/dashboard.es5.js",
+    "inputFile": "wwwroot/js/pro/organization/dashboard.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/individual/dashboard.es5.js",
+    "inputFile": "wwwroot/js/pro/individual/dashboard.js"
+  },
+  {
+    "outputFile": "wwwroot/js/pro/home/segment.es5.js",
+    "inputFile": "wwwroot/js/pro/home/segment.js"
+  }
+]

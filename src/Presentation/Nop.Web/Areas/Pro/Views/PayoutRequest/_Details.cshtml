@@ -1,0 +1,125 @@
+﻿@using YadiYad.Pro.Services.DTO.Payout
+@model PayoutRequestDTO
+<div class="content content-payout-request">
+    <form class="form-payout-request" data-id="@Model.Id" form-validation-alert>
+        <input type="hidden" name="jobMilestoneId" />
+        @await Html.PartialAsync("_ModalHeader", new ModalHeaderModel { Heading = "Payout Request – <span text='{{serviceEngagementNumber}}'></span>" })
+        <div class="modal-body form-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <section class="secProjectBased">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Job Milestone</label>
+                            <div class="col-sm-9">
+                                Phase <span name="jobMilestonePhase"></span> -
+                                <span name="jobMilestoneName"></span>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="secStatus hidden">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Status</label>
+                            <div class="col-sm-9">
+                                <label class="col-form-label">
+                                    <span class="badge badge-pill badge-status"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="secNonProjectBased">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Start Date</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-datepicker-tdp"
+                                       readonly
+                                       name="startDate" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">End Date</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-control-datepicker-tdp"
+                                       readonly
+                                       name="endDate" required />
+                            </div>
+                        </div>
+                    </section>
+                    <section class="secProvider">
+                        <section class="secNonProjectBased">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-12 col-form-label">Time Sheet</label>
+                                <div class="col-sm-12 mt-2">
+                                    <div class="border border-top-0 tui-full-calendar-compact-header" id="timesheet"></div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Description of Work</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="workDesc" placeholder="Description of Work" required maxlength="255"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Attachment</label>
+                            <div class="col-sm-9">
+                                <nop-editor asp-for="AttachmentDownloadId" />
+                            </div>
+                        </div>
+                        <section class="secProrated">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Prorated (Hour/Day​)</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="proratedWorkDuration" required maxlength="2"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Prorated Payout​​</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="proratedPayout" readonly />
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                    <section class="secReview">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="enteredRemark" placeholder="Remarks" max-length="255"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row hidden">
+                            <label for="" class="col-sm-3 col-form-label">Remarks History</label>
+                            <div class="col-sm-9">
+                                <p class="remarks-history col-form-label"></p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <input name="serviceProfileId" hidden />
+        <div class="modal-footer">
+
+            <button class="btn btn-primary btn-approve hidden" type="button">
+                Approve
+            </button>
+            <button class="btn btn-primary btn-more-info hidden" type="button">
+                Required More Info
+            </button>
+            <button class="btn btn-primary btn-submit hidden" type="submit">
+                Submit
+            </button>
+            <button data-dismiss="modal" class="btn btn-default btn-cancel" type="button">
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>
+
+<environment include="Development">
+    <script src="~/js/pro/payoutRequest/details.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/payoutRequest/details.es5.min.js" asp-append-version="true"></script>
+</environment>
+

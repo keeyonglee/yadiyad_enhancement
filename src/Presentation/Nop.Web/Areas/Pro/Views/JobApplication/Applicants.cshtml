@@ -1,0 +1,571 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+@model YadiYad.Pro.Web.Models.Job.JobAdsHeaderModel
+
+
+<form id="form-job-applications" class="content" method="post" action="/api/pro/job/search">
+    <div class="container">
+        @*<partial name="../Job/_JobAdsMenu" model="@Model" />*@
+        @await Component.InvokeAsync("OrganizationJobMenu", Model)
+        <div class="content-job-engagement">
+        </div>
+    </div>
+</form>
+
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-job-application-request",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Large,
+    AdditionalClass = "no-title"
+}' />
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-job-application-pay",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-hireJobSeeker",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-terminate",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-review-job",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Large,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-payout-request",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.XLarge,
+    AdditionalClass = "no-title"
+}' />
+
+<partial name="_Modal" model='
+new BootstrapModel {
+    ID = "modal-project-deposit-request",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Large,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="tmpl-content-job-engagement" type="text/x-jsrender">
+    <div class="row">
+        <div class="col-lg-5 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <h6 class="col-12 text-bold">Filter by date range</h6>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <input type="text" class="form-control form-control-daterangepicker" name="dateRangeFilter" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button class="btn w-auto btn-primary cursor-default submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {^{if jobEngagements.totalCount > 0}}
+            <div class="card">
+                <div class="card-header text-center p-2 bg-gray-dark">
+                    <h6 class="text-bold m-0">Applicants({^{:jobEngagements.totalCount}})</h6>
+                </div>
+                <div class="card-body">
+                    {^{for jobEngagements.data }}
+                    {{if #index !== 0}}
+                    <hr />
+                    {{/if}}
+                    {^{include #data tmpl="#template-job-applicant-tile"/}}
+                    {{/for}}
+                </div>
+            </div>
+            {^{include ~root.pagination.model tmpl="#tmp-simple-pagination"/}}
+            {{/if}}
+        </div>
+        <div class="col-lg-7 col-sm-12">
+            {^{if jobEngagements.totalCount <= 0}}
+            <div class="col-12">
+                <div class="card">
+                    <div class="text-center mt-5 mb-5">
+                        <h4 class="text-primary text-bold">No Applicant</h4>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            {^{if selectedJobEngagement  ~item=selectedJobEngagement}}
+            {^{include ~item tmpl="#template-job-engagement-detail"/}}
+            {{/if}}
+            {{/if}}
+        </div>
+    </div>
+</script>
+<script id="template-job-applicant-tile" type="text/x-jsrender">
+    <div data-link="class{:'card cursor-pointer shadow-none '+(selected?'selected':'')}">
+        <div class="card-body" data-link="{on 'click' ~root.setSelectedJobEngagement #data}">
+            <span>{{:createdOn}}</span>
+            <div class="float-lg-right">
+                {{if jobApplicationStatus === 15}}
+                <i class="fas fa-exclamation-circle text-danger float-left"></i>
+                {{/if}}
+                {{if jobProfile}}
+                {{if jobApplicationStatus === 6 || jobApplicationStatus === 7}}
+                <span class="badge badge-pill badge-secondary float-right">Hired</span>
+                {{else jobApplicationStatus === 5 }}
+                <span class="badge badge-pill badge-danger float-righ">KIV</span>
+                {{else jobApplicationStatus === 12}}
+                <span class="badge badge-pill badge-danger float-righ">Cancelled By Organization</span>
+                {{else jobApplicationStatus === 13}}
+                <span class="badge badge-pill badge-danger float-righ">Cancelled By Individual</span>
+                {{else jobApplicationStatus === 4}}
+                <span class="badge badge-pill badge-gray float-righ">Under Consideration</span>
+                {{else jobApplicationStatus === 2}}
+                <span class="badge badge-pill badge-gray float-righ">Shortlisted</span>
+                {{else jobApplicationStatus === 11}}
+                <span class="badge badge-pill badge-warning float-righ">Expired</span>
+                {{else jobApplicationStatus === 14}}
+                <span class="badge badge-pill badge-gray float-righ">Pending Payment Verification</span>
+                {{else jobApplicationStatus === 15}}
+                <span class="badge badge-pill badge-primary float-righ">Revise Payment Required</span>
+                {{else jobApplicationStatus === 16}}
+                <span class="badge badge-pill badge-success float-righ">Completed</span>
+                {{else jobApplicationStatus === 17}}
+                <span class="badge badge-pill badge-primary float-righ">Refund Initialized</span>
+                {{else jobApplicationStatus === 18}}
+                <span class="badge badge-pill badge-primary float-righ">Refunded</span>
+                {{else jobApplicationStatus === 19}}
+                <span class="badge badge-pill badge-primary float-righ">Rematched</span>
+                {{/if}}
+            </div>
+            <h4 class="text-bold">
+                {{if jobApplicationStatus != 11}}
+                {{:serviceIndividualProfile.fullName}}
+                {{else}}
+                {{:code}}
+                {{/if}}
+            </h4>
+            {{if  jobType == 1 && jobSeekerProfile.isFreelanceHourly }}
+            <div><span >RM {{:jobSeekerProfile.hourlyPayAmount}}</span> (per hour)</div>
+            {{else jobType == 2 && jobSeekerProfile.isFreelanceDaily }}
+            <div><span >RM {{:jobSeekerProfile.dailyPayAmount}}</span> (per day)</div>
+            {{/if}}
+            <div>
+                {{if (jobSeekerProfile.isOnSite || jobSeekerProfile.isPartialOnSite) && jobSeekerProfile.preferredLocations && jobSeekerProfile.preferredLocations.length === 1}}
+                <span class='badge badge-pill badge-primary'>
+                    {{:jobSeekerProfile.preferredLocations[0].cityName || 'All City'}},
+                    {{:jobSeekerProfile.preferredLocations[0].stateProvinceName || 'All State'}},
+                    {{:jobSeekerProfile.preferredLocations[0].countryName || 'All Country'}}
+                </span>
+                {{/if}}
+            </div>
+            <div>
+                {{if jobSeekerProfile.isOnSite == true}}
+                <span class="badge badge-pill badge-gray">Onsite</span>
+                {{/if}}
+                {{if jobSeekerProfile.isPartialOnSite == true}}
+                <span class="badge badge-pill badge-gray">Partial onsite</span>
+                {{/if}}
+                {{if jobSeekerProfile.isRemote == true}}
+                <span class="badge badge-pill badge-gray">Remote</span>
+                {{/if}}
+                {{if isEscrow === true}}
+                <span class="badge badge-pill badge-primary float-lg-right">Escrow</span>
+                {{else}}
+                <span class="badge badge-pill badge-primary float-lg-right">Non-escrow</span>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</script>
+<script id="template-job-engagement-detail" type="text/x-jsrender">
+    <div class="card">
+        <div class="card-body row">
+            <div class="col-12">
+                <div class="float-left">
+                    {{if (jobApplicationStatus === 6 || jobApplicationStatus === 7) && !rating}}
+                    <a class="text-primary"
+                       data-toggle="modal" data-target="#modal-review-job"
+                       data-keyboard="false"
+                       href="/pro/jobapplication/review">Rate Now</a>
+                    {{/if}}
+                </div>
+                <div class="float-right">
+                    {{if jobApplicationStatus === 14 }}
+                    <input type="button" class="btn btn-primary w-auto mb-2" value="Pending Payment Verification"
+                           data-toggle="modal" data-target="#modal-project-deposit-request"
+                           data-keyboard="false"
+                           href="/pro/order/payProjectDepositRequest/{{:id}}" />
+                    {{else jobApplicationStatus === 15 }}
+                    <input type="button" class="btn btn-primary w-auto mb-2" value="Revise Payment Required"
+                           data-toggle="modal" data-target="#modal-project-deposit-request"
+                           data-keyboard="false"
+                           href="/pro/order/payProjectDepositRequest/{{:id}}" />
+                    {{else jobApplicationStatus === 12 || jobApplicationStatus === 13 }}
+                    {{else jobApplicationStatus != 11}}
+                    {{if jobApplicationStatus == 6 || jobApplicationStatus == 7}}
+                    <div class="btn w-auto btn-secondary cursor-default mb-2">Hire</div>
+                    {{else}}
+                    {{if jobApplicationStatus != 6 && jobApplicationStatus != 7 && jobApplicationStatus != 17 && jobApplicationStatus != 18 && jobApplicationStatus != 19}}
+                    <input type="button" class="btn btn-white w-auto mb-2" value="Hire"
+                           data-toggle="modal" data-target="#modal-hireJobSeeker"
+                           data-keyboard="false"
+                           href="/pro/jobapplication/HireJobSeeker" />
+                    {{/if}}
+                    {{if jobApplicationStatus != 17 && jobApplicationStatus != 18 && jobApplicationStatus != 19}}
+                    <input value="Shortlist" type="button" data-link="{on 'click' ~root.updateSelectedJobEngagementStatus 'Shortlist' 2}"
+                           class="btn w-auto mb-2 {{if jobApplicationStatus == 2}}btn-secondary cursor-default{{else}}btn-white{{/if}}" />
+                    <input value="Under Consideration" type="button" data-link="{on 'click' ~root.updateSelectedJobEngagementStatus 'Under Consideration' 4}"
+                           class="btn w-auto mb-2 {{if jobApplicationStatus == 4}}btn-secondary cursor-default{{else}}btn-white{{/if}}" />
+                    <input value="KIV" type="button" data-link="{on 'click' ~root.updateSelectedJobEngagementStatus 'Keep In View' 5}"
+                           class="btn w-auto mb-2 {{if jobApplicationStatus == 5}}btn-secondary cursor-default{{else}}btn-white{{/if}}" />
+                    {{/if}}
+                    {{/if}}
+                    {{/if}}
+                    {{if jobApplicationStatus == 11}}
+                    <input class="btn btn-warning mb-2" value="Expired" />
+                    {{/if}}
+                    {{if jobApplicationStatus == 13 && canRefund}}
+                    <input type="button" class="btn btn-outline-danger mb-2 submit-refund" value="Refund" />
+                    {{/if}}
+
+                </div>
+
+            </div>
+            {{if jobApplicationStatus != 11}}
+            <h4 class="col-12 text-bold">Personal Info</h4>
+            <label class="col-sm-3 col-form-label">Full Name as per IC</label><div class="col-sm-9">{{:serviceIndividualProfile.fullName}}</div>
+            <label class="col-sm-3 col-form-label">Nick Name</label><div class="col-sm-9">{{:serviceIndividualProfile.nickName}}</div>
+            <label class="col-sm-3 col-form-label">Gender</label><div class="col-sm-9">{{:serviceIndividualProfile.genderText}}</div>
+            <label class="col-sm-3 col-form-label">Date of Birth</label><div class="col-sm-9">{{:serviceIndividualProfile.dateOfBirthText}}</div>
+            <label class="col-sm-3 col-form-label">Email Address</label><div class="col-sm-9">{{:serviceIndividualProfile.email}}</div>
+            <label class="col-sm-3 col-form-label">Contact No</label><div class="col-sm-9">{{:serviceIndividualProfile.contactNo}}</div>
+            <label class="col-sm-3 col-form-label">Nationality</label><div class="col-sm-9">{{:serviceIndividualProfile.nationalityName}}</div>
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Place of Residence</h4>
+            <label class="col-sm-3 col-form-label">Address</label><div class="col-sm-9">{{:serviceIndividualProfile.address}}</div>
+            <label class="col-sm-3 col-form-label">City</label><div class="col-sm-9">{{:serviceIndividualProfile.stateProvinceName}}</div>
+            <label class="col-sm-3 col-form-label">Country</label><div class="col-sm-9">{{:serviceIndividualProfile.countryName}}</div>
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <h4 class="col-12 text-bold">My Professional Skills & Expertise</h4>
+            <label class="col-12">{{:jobSeekerProfile.categories[0].categoryName}}</label>
+            <div class="col-12">
+                {{for jobSeekerProfile.categories[0].categoryExpertises}}
+                <div class="d-inline-block"><span class="badge badge-pill badge-primary">{{:name}}</span></div>
+                {{/for}}
+            </div>
+            <div class="col-12">
+                <div><span class="badge badge-pill badge-primary">{{:jobSeekerProfile.categories[0].yearExperienceName}}</span></div>
+            </div>
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Employment Info</h4>
+            <label class="col-sm-3 col-form-label">Employment Status</label><div class="col-sm-9">{{:jobSeekerProfile.employmentStatusName}}</div>
+            {{if jobSeekerProfile.cv}}
+            {{for jobSeekerProfile.cv}}
+            {{if downloadId !== null}}
+                <label class="col-sm-3">Job CV</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+            {{/if}}
+            {{/for}}
+            {{/if}}
+            {{if jobSeekerProfile.employmentStatus == 1}}
+            <label class="col-sm-3 col-form-label">Company</label><div class="col-sm-9">{{:jobSeekerProfile.company}}</div>
+            <label class="col-sm-3 col-form-label">Position</label><div class="col-sm-9">{{:jobSeekerProfile.position}}</div>
+            <label class="col-sm-3 col-form-label">Tenure</label><div class="col-sm-9">{{:jobSeekerProfile.tenureStartName}} - {{if jobSeekerProfile.tenureEnd != null}}{{:jobSeekerProfile.tenureEndName}}{{/if}} {{if jobSeekerProfile.tenureEnd == null}}Present{{/if}}</div>
+            <label class="col-sm-3 col-form-label">Achievements / Awards</label><div class="col-sm-9">{{:jobSeekerProfile.achievementAward}}</div>
+            {{/if}}
+
+            {{if jobSeekerProfile.licenseCertificates.length > 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Licenses &amp; Certification</h4>
+            {{for jobSeekerProfile.licenseCertificates}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <label class="col-sm-3 col-form-label">Professional Membership</label><div class="col-sm-9">{{:professionalAssociationName}}</div>
+            <label class="col-sm-3 col-form-label">Licences &amp; Certificates</label><div class="col-sm-9">{{:licenseCertificateName}}</div>
+            {{if downloadId !== null}}
+            <label class="col-sm-3 col-form-label">Document</label><a class="col-sm-9 text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+            {{/if}}
+            {{/for}}
+            {{/if}}
+            {{if jobSeekerProfile.academicQualifications.length > 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Education</h4>
+            {{for jobSeekerProfile.academicQualifications}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <label class="col-sm-3 col-form-label">Qualification</label><div class="col-sm-9">{{:academicQualificationTypeName}}</div>
+            <label class="col-sm-3 col-form-label">Qualification Name</label><div class="col-sm-9">{{:academicQualificationName}}</div>
+            <label class="col-sm-3 col-form-label">Institution</label><div class="col-sm-9">{{:academicInstitution}}</div>
+            {{/for}}
+            {{/if}}
+            {{if jobSeekerProfile.languageProficiencies.length > 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Languages</h4>
+            {{for jobSeekerProfile.languageProficiencies}}
+            {{if #index !== 0}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            {{/if}}
+            <label class="col-sm-3 col-form-label">Language</label><div class="col-sm-9">{{:languageName}}</div>
+            <label class="col-sm-3 col-form-label">Proficiency</label><div class="col-sm-9">{{:proficiencyLevelName}}</div>
+            {{/for}}
+            {{/if}}
+            {{if rating}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Review</h4>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-lg-6 v line-height-2">Knowlegde on subject matter</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="knowledgenessRating" data-link="knowledgenessRating" class="rating text-secondary" data-readonly />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Relevant ideas and advice</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="relevanceRating" data-link="relevanceRating" class="rating text-secondary" data-readonly />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Responded to questions effectively</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="respondingRating" data-link="respondingRating" class="rating text-secondary" data-readonly />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Clear and concise articulation</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="clearnessRating" data-link="clearnessRating" class="rating text-secondary" data-readonly />
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 line-height-2">Professionalism</div>
+                    <div class="col-lg-6 col-12">
+                        <h3>
+                            <input type="number" name="professionalismRating" data-link="professionalismRating" class="rating text-secondary" data-readonly />
+                        </h3>
+                    </div>
+                </div>
+                {{if reviewText}}
+                <div class="row">
+                    <div class="col-12 line-height-2">Additional comments </div>
+                    <div class="col-12 mt-2">
+                        <span class="font-italic">{{:reviewText}}</span>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
+
+            {^{if depositPayout}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <h4 class="col-12 text-bold">Deposit Payout Details</h4>
+            <label class="col-sm-3 col-form-label">Deposit Balance</label><div class="col-sm-9">RM {{:depositPayout.totalRemaining}}</div>
+
+            {{if jobProfile.jobType !== 3}}
+            <label class="col-sm-3 col-form-label">Cycle Payout</label><div class="col-sm-9">RM {{:depositPayout.engagementFee.fee}}</div>
+            {^{if depositPayout.deposit.nextDueDate}}
+            <label class="col-sm-3 col-form-label">Next Due Date</label>
+            <div class="col-sm-9">{{:depositPayout.deposit.formattedNextDueDate}}</div>
+            {{/if}}
+            {^{if depositPayout.deposit.nextStatus}}
+            <label class="col-sm-3 col-form-label">Next Deposit Status</label><div class="col-sm-9">{{:depositPayout.deposit.nextStatus}}</div>
+            {{/if}}
+            {{/if}}
+
+            {{if jobProfile.jobType == 3 && jobMilestones.length > 0}}
+            <label class="col-sm-3 col-form-label">
+                <label class="col-form-label">Milestone</label>
+            </label>
+            <div class="col-sm-9">
+                {{for jobMilestones}}
+                <div class="form-group row">
+                    <span class='col-sm-3 badge badge-pill badge-gray h-100 mt-2'>Phase {{:sequence + 1}}</span>
+                    <div for="" class="col-sm-6">{{:description}}</div>
+                    <div class="col-sm-3">
+                        <div>RM {{:amount}}</div>
+                    </div>
+                </div>
+                {{/for}}
+
+            </div>
+            {{/if}}
+
+            {{/if}}
+
+            {{if (jobApplicationStatus === 6 ||  jobApplicationStatus === 7 || jobApplicationStatus === 12 ||  jobApplicationStatus === 13) && isEscrow === true}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <div class="col-12">
+                <h4 class="font-weight-bolder">Payout Request Details</h4>
+            </div>
+            <div class="col-12">
+                <table class="table table-bordered table-hover tbl-payout-request">
+                    <thead>
+                        <tr>
+                            <th>Submission Date​</th>
+                            <th>Payout Cycle​</th>
+                            <th>Amount​</th>
+                            <th>Status​</th>
+                            <th>Remarks​</th>
+                            <th>Action​</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            {{/if}}
+            {{if (jobApplicationStatus === 6 ||  jobApplicationStatus === 7 || jobApplicationStatus === 12 ||  jobApplicationStatus === 13) && isEscrow === true}}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <div class="col-12">
+                <h4 class="font-weight-bolder">Deposit Request</h4>
+            </div>
+            <div class="col-12">
+                <table class="table table-bordered table-hover tbl-deposit-request">
+                    <thead>
+                        <tr>
+                            <th>Request Date​</th>
+                            <th>Due Date​</th>
+                            <th>Amount​</th>
+                            <th>Status​</th>
+                            <th>Action​</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            {{/if}}
+
+            {{if (jobApplicationStatus === 12 ||  jobApplicationStatus === 13 ||  jobApplicationStatus === 17 ||  jobApplicationStatus === 18) }}
+            <div class="col-12">
+                <hr class="mb-4" />
+            </div>
+            <div class="col-12">
+                <h4 class="font-weight-bolder">Refund Request Details</h4>
+            </div>
+            <div class="col-12">
+                <table class="table table-bordered table-hover tbl-refund-request">
+                    <thead>
+                        <tr>
+                            <th>Request Date​</th>
+                            <th>Refund Number​</th>
+                            <th>Amount​</th>
+                            <th>Service Charge​</th>
+                            <th>Status​</th>
+                            <th>Action​</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet">
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/lib/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/lib/tui-calendar/1.13.0/tui-calendar.css" rel="stylesheet" />
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet">
+    <link href="/lib/dateRangePicker/daterangepicker.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="/lib/datatables/jquery.dataTables.js"></script>
+    <script src="/lib/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/lib/chancejs/1.0.13/chance.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+    <script src="~/lib/tui-calendar/1.13.0/tui-calendar.js"></script>
+    <script src="~/js/pro/scheduler/calendars.js"></script>
+    <script src="/lib/rating-input/bootstrap4-rating-input.es5.min.js"></script>
+    <script src="/lib/decimaljs/10.2.0/decimal.js"></script>
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+    <script src="/lib/dateRangePicker/daterangepicker.js"></script>
+
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/scheduler/weeklyscheduler.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobapplication/applicants.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/scheduler/weeklyscheduler.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/job/organization-counter-main.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobapplication/applicants.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

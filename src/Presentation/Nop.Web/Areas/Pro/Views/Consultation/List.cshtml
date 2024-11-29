@@ -1,0 +1,264 @@
+﻿@using YadiYad.Pro.Web.Models.Enums
+@using YadiYad.Pro.Web.Enums
+
+<div class="content">
+    <div class="container">
+        @*<partial name="_Menu" model="ConsultationMenuType.CurrentPostings" />*@
+        @await Component.InvokeAsync("OrganizationConsultationMenu", YadiYad.Pro.Web.Enums.ConsultationMenuType.CurrentPostings)
+        <div class="row content-consultation-search">
+            <div class="col-lg-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Current Postings</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <a class="btn btn-round w-auto btn-default" href="@Url.Action("Details","Consultation", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i>&nbsp;New Consultation Request</a>
+                        </div>
+                        <div class="list-consultation-list">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="pagination-consultation-list-list">
+                </div>
+            </div>
+            <div class="col-lg-7 col-sm-12">
+                <div class="content-consultation-job-created hidden">
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="text-bold">Your consultation job ad has been created. <span class="text-primary">You may proceed to search for candidates.</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-consultation-detail">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script id="template-card-consultation-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">Create Your New Consultation Profile</h4>
+                <a class="btn btn-round w-auto btn-outline-primary" href="@Url.Action("Details","Consultation", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-consultation-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-consultation-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <div class="row">
+                <h6>
+                    {{if isApproved == null}}
+                    <span class="badge badge-pill badge-gray">Reviewing</span>
+                    {{else isApproved == true}}
+                    <span class="badge badge-pill badge-primary">Published</span>
+                    {{else isApproved == false}}
+                    <span class="badge badge-pill badge-danger">Update Required</span>
+                    {{/if}}
+                </h6>
+                <div class="col-12">
+                    <h4 class="text-bold">Consultation Job #{{:id}}</h4>
+                </div>
+            </div>
+            <div class="text-truncate"><span>{{:topic}}</span></div>
+            <div class="float-left font-italic text-xs ">
+                created on {{:createdOnUTC}}
+            </div>
+            <br />
+        </div>
+    </div>
+</script>
+<script id="template-card-consultation-detail" type="text/x-jsrender">
+    <div class="content-consultation-detail" data-entity-id="{{:id}}">
+        {^{if isApproved === false && remarks}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge badge-pill badge-warning ">Attention</span>
+                        <span class="align-top">
+                            {{:remarks}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card">
+            <div class="card-body">
+                <form method="get" action="" id="form-search-candidates" role="form">
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <input type="submit" value="Search Candidates" class="btn btn-secondary btn-search-candidates" />
+                        </div>
+                    </div>
+                    {{if categoryName != null && categoryName != ""}}
+                    <div class="col-12 form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Category</label>
+                        <div class="col-sm-9">
+                            {{:categoryName}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if consultationExpertises.length != 0}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                            <div class="col-sm-9 area-expertise">
+                                {{for consultationExpertises}}
+                                <span class='badge badge-pill badge-primary'>{{:name}}</span>&nbsp;
+                                {{/for}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if yearExperience != 0}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Years of Experience</label>
+                            <div class="col-sm-9">
+                                {{if yearExperience == 10}}
+                                <div class="">Less than 10 years</div>
+                                {{/if}}
+                                {{if yearExperience == 20}}
+                                <div class="">11 to 20 years</div>
+                                {{/if}}
+                                {{if yearExperience == 30}}
+                                <div class="">21 to 30 years</div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    {{/if}}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Segment</label>
+                                <div class="col-sm-9">
+                                    <div>{{:segmentName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Topic</label>
+                                <div class="col-sm-9">
+                                    <div>{{:topic}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Objective</label>
+                                <div class="col-sm-9">
+                                    <div>{{:objective}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h5 class="text-bold">Session</h5>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Duration</label>
+                                <div class="col-sm-9">
+                                    <div class="col-form-label">{{:duration}} hour(s)</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Time Zone</label>
+                                <div class="col-sm-9">
+                                    <div class="col-form-label">{{:timeZoneName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Avaliability</label>
+                                <div class="col-sm-9">
+                                    {{for timeSlots}}
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div>{{:startDateText}}</div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div>{{:startTimeText}} - {{:endTimeText}}</div>
+                                        </div>
+                                    </div>
+                                    {{/for}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h5 class="text-bold">Screening Questionnaire:</h5>
+                        </div>
+                        <div class="col-12">
+                            {{for questions}}
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Question {{:('Q'+(#index+1))}}</label>
+                                <div class="col-sm-9">
+                                    <div class="text-gray">{{:title}}</div>
+                                </div>
+                            </div>
+                            {{/for}}
+                        </div>
+                        <div class="col-12 text-right">
+                            {{if isApproved === false}}
+                            <a class="btn btn-secondary btn-search" href="@Url.Action("Details","Consultation", new { Area = "Pro" }).ToLower()/{{:id}}">Update</a>
+                            {{/if}}
+                            <input class="btn btn-default btn-delete" type="button" value="Delete" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/consultation/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/list.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/consultation/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/list.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

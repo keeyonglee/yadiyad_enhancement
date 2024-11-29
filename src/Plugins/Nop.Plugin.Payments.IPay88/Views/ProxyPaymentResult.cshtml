@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "";
+}
+
+@using Nop.Plugin.Payments.IPay88.Models
+@using Nop.Web.Framework;
+
+@model IPay88PaymentResponseModel
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="origin">
+    <title>Payment In Progress</title>
+</head>
+<body>
+
+    <div>
+        <h3>Processing your payment, please do not close the browser or refresh.</h3>
+    </div>
+
+    <div style="display:none">
+        <form id="ePaymentForm" role="form" method="post" name="ePayment" action="@Model.ProxyResponseURL">
+
+            <input type="text" name="MerchantCode" value="@Model.MerchantCode" />
+            <input type="text" name="PaymentId" value="@Model.PaymentId" />
+            <input type="text" name="RefNo" value="@Model.RefNo" />
+            <input type="text" name="Amount" value="@Model.Amount" />
+            <input type="text" name="Currency" value="@Model.Currency" />
+            <input type="text" name="Remark" value="@Model.Remark" />
+            <input type="text" name="TransId" value="@Model.TransId" />
+            <input type="text" name="AuthCode" value="@Model.AuthCode" />
+            <input type="text" name="Status" value="@Model.Status" />
+            <input type="text" name="ErrDesc" value="@Model.ErrDesc" />
+            <input type="text" name="Signature" value="@Model.Signature" />
+            <input type="text" name="CCName" value="@Model.CCName" />
+            <input type="text" name="CCNo" value="@Model.CCNo" />
+            <input type="text" name="S_bankname" value="@Model.S_bankname" />
+            <input type="text" name="S_country" value="@Model.S_country" />
+            <input type="text" name="HiddenToURL" value="@Model.HiddenToURL" />
+            <input type="text" name="ActionType" value="@Model.ActionType" />
+            <input type="text" name="TokenId" value="@Model.TokenId" />
+            <input type="text" name="CCCOriTokenId" value="@Model.CCCOriTokenId" />
+            <input type="text" name="PromoCode" value="@Model.PromoCode" />
+            <input type="text" name="DiscountedAmount" value="@Model.DiscountedAmount" />
+            <input type="text" name="MTVersion" value="@Model.MTVersion" />
+            <input type="text" name="MTLogId" value="@Model.MTLogId" />
+
+            <input type="button" id="btnResponsePayment" value="Response Payment" />
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            //do work
+            document.getElementById("ePaymentForm").submit();
+        });
+
+        document.getElementById("btnResponsePayment").addEventListener("click", function () {
+            document.getElementById("ePaymentForm").submit();
+        });
+
+    </script>
+</body>
+
+</html>

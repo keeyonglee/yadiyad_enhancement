@@ -1,0 +1,320 @@
+﻿@model YadiYad.Pro.Services.DTO.Order.StatementDTO
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        .col-lg-4 {
+            -webkit-flex: 0 0 33.333333%;
+            -ms-flex: 0 0 33.333333%;
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+        .col-lg-8 {
+            -webkit-flex: 0 0 66.666667%;
+            -ms-flex: 0 0 66.666667%;
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+        }
+
+        .table td, .table th {
+            padding: .75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+            text-overflow: ellipsis;
+        }
+
+        .descTable {
+            text-overflow: ellipsis;
+            /*overflow: hidden;*/
+            overflow-wrap: break-word;
+            /*max-width: 500px;*/
+            /*white-space: nowrap;*/
+            margin-top:0;
+        }
+
+        th {
+            text-align: left;
+        }
+        .table-bordered > thead > tr > th,
+        .table-bordered > tbody > tr > th,
+        .table-bordered > tfoot > tr > th,
+        .table-bordered > thead > tr > td,
+        .table-bordered > tbody > tr > td,
+        .table-bordered > tfoot > tr > td {
+            border: 1px solid #ddd;
+        }
+        .table-bordered > thead > tr > th,
+        .table-bordered > thead > tr > td {
+            border-bottom-width: 1px;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            background-color: transparent;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table {
+            display: table;
+            box-sizing: border-box;
+            text-indent: initial;
+            border-spacing: 2px;
+            border-color: grey;
+        }
+        .body {
+            margin: 0;
+            font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: left;
+            background-color: #fff;
+        }
+        .body {
+            font-family: Open Sans;
+        }
+        .from-to-lbl {
+            width: 70px;
+        }
+        .text-bold, .text-bold.table td, .text-bold.table th {
+            font-weight: 700;
+        }
+        .lbl-amount {
+            text-align: left;
+        }
+
+        td{
+            vertical-align:top;
+        }
+
+        .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+            position: relative;
+            width: 100%;
+            margin-bottom: 0.75rem !important;
+        }
+        .mb-4, .my-4 {
+            margin-bottom: 1.5rem !important;
+        }
+        .pb-4, .py-4 {
+            padding-bottom: 1.5rem !important;
+        }
+        .pt-4, .py-4 {
+            padding-top: 1.5rem !important;
+        }
+        .content-wrapper > .content {
+            padding: 0 .5rem;
+        }
+        .text-center {
+            text-align: center !important;
+        }
+        .col-sm {
+            flex-basis: 0;
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            max-width: 100%;
+        }
+        .row {
+            display: -webkit-box; /* wkhtmltopdf uses this one */
+            display: flex;
+            -webkit-box-pack: center; /* wkhtmltopdf uses this one */
+            justify-content: center;
+        }
+        .row > div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+        .row > div:last-child {
+            margin-right: 0;
+        }
+        .text-right {
+            text-align: right !important;
+        }
+        .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+            width: 100%;
+            padding-right: 7.5px;
+            padding-left: 7.5px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        @@media (min-width: 1200px) {
+            .container, .container-lg, .container-md, .container-sm, .container-xl {
+                max-width: 1140px;
+            }
+        } 
+    </style>
+
+</head>
+<body>
+    <div class="content pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <div class="d-flex">
+                                    <div class="from-to-lbl text-bold">
+                                        @(Model.StatementType == 1 ? "From": "")
+                                        @(Model.StatementType == 2 ? "Buyer" : "")
+                                        @(Model.StatementType == 3 ? "From" : "")
+                                        @(Model.StatementType == 4 ? "From" : "")
+                                        :
+                                    </div>
+                                    <div>
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementFromName) == false)
+                                        {
+                                            <div>@Model.StatementFromName</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementFromAddress1) == false)
+                                        {
+                                            <div>@Model.StatementFromAddress1</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementFromAddress2) == false)
+                                        {
+                                            <div>@Model.StatementFromAddress2</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementFromState) == false || string.IsNullOrWhiteSpace(Model.StatementFromZipPostalCode) == false)
+                                        {
+                                            <div>@Model.StatementFromZipPostalCode @Model.StatementFromState</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementFromState) == false)
+                                        {
+                                            <div>@Model.StatementFromCountry</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="d-flex">
+                                    <div class="from-to-lbl text-bold">
+                                        @(Model.StatementType == 1 ? "Bill to": "")
+                                        @(Model.StatementType == 2 ? "Seller" : "")
+                                        @(Model.StatementType == 3 ? "To" : "")
+                                        @(Model.StatementType == 4 ? "Bill to" : "")
+                                        :
+                                    </div>
+                                    <div>
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementToName) == false)
+                                        {
+                                            <div>@Model.StatementToName</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementToAddress1) == false)
+                                        {
+                                            <div>@Model.StatementToAddress1</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementToAddress2) == false)
+                                        {
+                                            <div>@Model.StatementToAddress2</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementToState) == false || string.IsNullOrWhiteSpace(Model.StatementToZipPostalCode) == false)
+                                        {
+                                            <div>@Model.StatementToZipPostalCode @Model.StatementToState</div>
+                                        }
+                                        @if (string.IsNullOrWhiteSpace(Model.StatementToState) == false)
+                                        {
+                                            <div>@Model.StatementToCountry</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4 class="text-bold bg-gray-light pt-2 pb-2 mb-4">
+                                @(Model.StatementType == 1 ? "Tax Invoice" : "")
+                                @(Model.StatementType == 2 ? "Request for Payout Deposit" : "")
+                                @(Model.StatementType == 3 ? "Refund Statement" : "")
+                                @(Model.StatementType == 4 ? "Credit Note" : "")
+                                :
+                            </h4>
+                            @if (Model.SSTRegNo != "" && Model.SSTRegNo != null)
+                            {
+                                <div class="row">
+                                    <div>SST Reg No: </div><div class="text-right">@Model.SSTRegNo</div>
+                                </div>
+
+                            }
+                            <div>
+                                <div class="row">
+                                    <div>Date:</div><div class="text-right">@Model.CreatedOnUTC.ToShortDateString()</div>
+                                </div>
+                            </div>
+
+                            <div class=" row">
+                                <div>
+                                    @(Model.StatementType == 1 ? "Invoice No" : "")
+                                    @(Model.StatementType == 2 ? "Request No" : "")
+                                    @(Model.StatementType == 3 ? "Refund No" : "")
+                                    @(Model.StatementType == 4 ? "Credit Note No" : "")
+                                    :
+                                </div><div class="text-right">@Model.StatementNumber</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>UNIT PRICE (RM)</th>
+                        <th>TOTAL PRICE (RM)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.StatementItems.Count(); i++)
+                    {
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td class="tableDescription">
+                                @foreach (var item in Model.StatementItems[i].ItemNames)
+                                {
+                                    <p class="descTable">@Html.Raw(item)</p>
+
+                                }
+                            </td>
+                            <td class="text-right">@Model.StatementItems[i].Quantity</td>
+                            <td class="text-right">@Model.StatementItems[i].UnitPrice.ToString("n2")</td>
+                            <td class="text-right">@Model.StatementItems[i].Price.ToString("n2")</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="lbl-amount text-right">Subtotal</td>
+                        <td class="text-right">@Model.SubTotal.ToString("n2")</td>
+                    </tr>
+                    @if (Model.Tax != 0)
+                    {
+                        <tr>
+                            <td colspan="4" class="lbl-amount text-right">SST (6%)</td>
+                            <td class="text-right">@Model.Tax.ToString("n2")</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="lbl-amount text-right">Grand Total</td>
+                        <td class="text-right">@Model.GrandTotal.ToString("n2")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <br />
+            <br />
+            <div class="text-center"><b>(This is a computer generated document. No signature and company stamp  is required)</b></div>
+        </div>
+    </div>
+</body>
+</html>

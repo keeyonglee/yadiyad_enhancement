@@ -1,0 +1,164 @@
+﻿@model ContactUsModel
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.ContactUs").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-contact-page");
+
+    var contactUsSubjects = (List<SelectListItem>)ViewData["ContactUsSubjects"];
+}
+
+<style>
+    .fa-32-px{
+        width: 32px;
+    }
+    .whatsapp-colour{
+        color: #075E54;
+    }
+</style>
+<div class="page contact-page">
+    <div class="page-title">
+        <h1>@T("PageTitle.ContactUs")</h1>
+    </div>
+    <div class="page-body">
+        @*@await Component.InvokeAsync("TopicBlock", new { systemName = "ContactUs" })*@
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContactUsTop })
+        <div class="row">
+            <div class = col-sm-12>
+        @if (Model.SuccessfullySent)
+        {
+            <div class="result">
+                @Model.Result
+            </div>
+        }
+        else
+        {
+            <form asp-route="ContactUs" method="post">
+                <div asp-validation-summary="ModelOnly" class="message-error"></div>
+                <div class="row">
+                    @*<div class = "col-sm-5">*@
+                        <div class="col-xl-4 mb-3">
+                            <div class="row">
+                                <h5 class="text-primary text-bold">Yadiyad Sdn Bhd</h5>
+                            </div>
+                            <div class="row">
+                                <h6 class="text-primary text-bold"><i>(formerly known as Tennant (M) Sdn Bhd)</i>​</h6>
+                            </div>
+                            <div class="row">
+                                <h5 class="text-primary text-bold">198201007173 (86931-H)</h5>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <h5 class=" text-bold">Address:​</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">B2-2-3, Solaris Dutamas,</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">No.1, Jalan Dutamas 1,</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">50480 Kuala Lumpur</h5>
+                            </div>
+                            <div class="row">
+                                <h5 class=" ">03 8688 3860​</h5>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <h5 class=" text-bold">Customer Service:</h5>
+                            </div>
+                            <div class="row">
+                                <i class="fa fa-envelope-open text-primary fa-2x"></i>
+                                <div class="pl-4">
+                                    <h5 class=""><a class="underline-href" href="mailto:help@yadiyad.com">help@yadiyad.com</a></h5>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <i class="fa fa-whatsapp fa-2x  fa-32-px whatsapp-colour"></i>
+                                <div class="pl-4">
+                                    <h5 class="">018-576 3009</h5>
+                                </div>
+                            </div>
+
+                    </div>
+                 @* </div>*@
+            
+
+               @*<div  class = "col-sm-7">*@
+                   <div class = "col-xl-8">
+                <div class="fieldset">
+                    <div class="form-fields">
+                        <div >
+                            <label class="mb-2 float-left">Full Name</label>
+                            <div></div>
+                            <input asp-for="FullName" placeholder="@T("ContactUs.FullName.Hint")" class="form-control mb-3" />
+                            @*<nop-required />*@
+                            <span asp-validation-for="FullName"></span>
+                        </div>
+                        <div >
+                            <label class="mb-2 float-left">Email address</label>
+                            <div></div>
+                            <input asp-for="Email" placeholder="@T("ContactUs.Email.Hint")" class="form-control mb-3" />
+                            @*<nop-required />*@
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                        @if (Model.SubjectEnabled)
+                        {
+                            <div>
+                                <label class="mb-2 float-left">Subject</label>
+                                <select asp-for="SubjectId" class="form-control" asp-items="contactUsSubjects"></select>
+                                <input data-val-required="Enter Subject" asp-for="SubjectOther" placeholder="@T("ContactUs.Subject.Hint")" class="form-control hidden" />
+                                @*<nop-required />*@
+                                <span asp-validation-for="SubjectId"></span>
+                            </div>
+                        }
+                        <div >
+                            <label class="mb-2 mt-3 float-left">Message</label>
+                            <div></div>
+                            <textarea asp-for="Enquiry" placeholder="@T("ContactUs.Enquiry.Hint")" class="form-control"></textarea>
+                            @*<nop-required />*@
+                            <span asp-validation-for="Enquiry"></span>
+                        </div>
+                        @if (Model.DisplayCaptcha)
+                        {
+                            <nop-captcha />
+                        }
+                    </div>
+
+               </div>
+                <div class="buttons text-center">
+                    <input type="submit" name="send-email" class="button-1 contact-us-button" value="@T("ContactUs.Button")" />
+                </div>
+               </div>                
+               @* </div>*@
+
+            </div>
+          </form>
+        }
+        </div>
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContactUsBottom })
+    </div>
+</div>
+
+<script asp-location="Footer">
+    var subjectSelect = $('#SubjectId');
+    var subjectOther = $('#SubjectOther');
+
+    $('#SubjectId').on('change', function () {
+        let subject = $("#SubjectId option:selected").text()
+        subjectOther.val("");
+        if (subject === "Others") {
+            subjectOther.prop('required', true);
+            subjectOther.prop('data-val-required', true);
+            subjectOther.removeClass("hidden");
+        } else {
+            subjectOther.prop('required', false);
+            subjectOther.addClass("hidden");
+        }
+    })
+
+</script>
+
+

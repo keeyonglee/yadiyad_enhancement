@@ -1,0 +1,26 @@
+﻿@using Microsoft.Extensions.Options
+@inject IWorkContext workContext
+
+@if (workContext.CurrentCustomer != null)
+{
+    <script src="~/lib/store.js/2.0.12/store.legacy.min.js"></script>
+
+    <environment include="Development">
+        <script src="~/lib/jquery-session-handler/dist/jquery-session-handler.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery-session-handler/dist/jquery-session-handler.es5.min.js" asp-append-version="true"></script>
+    </environment>
+    <script type="text/javascript">
+        var sessionHandler = new SessionHandler({
+            activityEvents: 'click keypress scroll wheel mousewheel mousemove',
+            dialogDisplayLimit: 60,
+            idleTimeLimit: @(300 - 60),
+            idleCheckTime: 2,
+            sessionTimeoutMsg: "Your session is about to expire in {0} seconds.",
+            logoutUrl: '/logout',
+            sessionExtensionUrl: '/token/refresh',
+            retrieveSessionExpiryDateTimeUrl: '/token/exp'
+        });
+    </script>
+}

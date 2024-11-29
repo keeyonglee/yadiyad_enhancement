@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+        <ProjectReference Include="..\..\YadiYad.Pro\YadiYad.Pro.Services\YadiYad.Pro.Services.csproj" />
+        <ProjectReference Include="..\Nop.Services.Tests\Nop.Services.Tests.csproj" />
+        <ProjectReference Include="..\Nop.Tests\Nop.Tests.csproj" />
+    </ItemGroup>
+
+</Project>

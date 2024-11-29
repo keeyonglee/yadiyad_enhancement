@@ -1,0 +1,87 @@
+﻿@model ProductModel
+@using Nop.Core.Domain.Catalog;
+@using Nop.Services
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="AdvancedOrderDay" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="AdvancedOrderDay" />
+            <span asp-validation-for="AdvancedOrderDay"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label class="control-label">@T("Admin.Catalog.Products.Fields.MaxNoOrderQtyPerWeekday")</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="MonMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MonMaxNoOrderQty" />
+            <span asp-validation-for="MonMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="TueMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="TueMaxNoOrderQty" />
+            <span asp-validation-for="TueMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="WedMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="WedMaxNoOrderQty" />
+            <span asp-validation-for="WedMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="ThuMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ThuMaxNoOrderQty" />
+            <span asp-validation-for="ThuMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="FriMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="FriMaxNoOrderQty" />
+            <span asp-validation-for="FriMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="SatMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SatMaxNoOrderQty" />
+            <span asp-validation-for="SatMaxNoOrderQty"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="SunMaxNoOrderQty" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SunMaxNoOrderQty" />
+            <span asp-validation-for="SunMaxNoOrderQty"></span>
+        </div>
+    </div>
+</div>

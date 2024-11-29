@@ -1,0 +1,23 @@
+@model VendorApplicationModel
+@inject IPictureService pictureService
+
+@using Nop.Core;
+@using Nop.Services.Media
+@using Nop.Web.Framework.UI;
+
+@{
+    <div class="row">
+        @foreach (var item in Model.SampleProductPictureIds)
+        {
+            var pictureUrl = pictureService.GetPictureUrl(item.PictureId);
+            if (string.IsNullOrEmpty(pictureUrl) == false)
+            {
+                <div class="col-12 col-xs-4 col-md-2">
+                    <div class="ratio-1-1">
+                        <img class="" src="@pictureUrl" />
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

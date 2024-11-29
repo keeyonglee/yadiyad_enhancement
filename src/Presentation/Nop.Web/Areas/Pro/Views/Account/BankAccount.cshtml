@@ -1,0 +1,227 @@
+﻿@using YadiYad.Pro.Services.DTO.Individual
+@model BankAccountDTO
+<div class="content content-bank-account">
+    <div class="container bank-account-info hidden">
+        <div class="mt-3 mb-3">
+            <h1 class="text-center font-weight-bolder">My Bank Account</h1>
+        </div>
+        <div class="card">
+            <div class="card-body view">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Bank Account Info</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Bank</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label" text="{{bankName}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Account Number</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label" text="{{accountNumber}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Account Holder Name</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label" text="{{accountHolderName}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Identity Type</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label" text="{{identityTypeName}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Identity No.</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label" text="{{identity}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Status</label>
+                            <div class="col-sm-9">
+                                <div class="label-status col-form-label badge badge-pill" text="{{status}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model != null && Model.Status == "Invalid")
+                    {
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Remarks</label>
+                                <div class="col-sm-9">
+                                    <div class="col-form-label" text="{{comment}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row  justify-content-md-center">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-edit">Edit</button>
+            </div>
+            <div class="col-12">
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="container bank-account-edit hidden">
+        <form method="post" id="form-bank-account" role="form" action="/api/pro/bankaccount">
+            @*<div class="mt-3 mb-3">
+                    <h1 class="text-center font-weight-bolder title-create hidden">Create Individual Profile</h1>
+                    <h1 class="text-center font-weight-bolder title-update hidden">Update Individual Profile</h1>
+                </div>*@
+            <div class="position-relative">
+                <div class="row mt-3 mb-3 ">
+                    <div class="col-lg-12 text-center ">
+                        <h1 class="text-center font-weight-bolder title-create hidden text-primary">Create Bank Account</h1>
+                        <h1 class="text-center font-weight-bolder title-update hidden text-primary">Update Bank Account</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Bank Account Info</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Bank</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="bankId" textName="bankName"
+                                            placeholder="Bank"
+                                            data-sourceurl="/api/pro/source/bank"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Account Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="accountNumber" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Account Holder Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="accountHolderName" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Identity Type</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="identityType" textName="identityTypeName"
+                                            placeholder="Identity Type"
+                                            data-sourceurl="/api/pro/source/identityType"
+                                            data-id="value" data-text="text" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Identity</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control"
+                                           name="identity" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Bank Statement Header</label>
+                                <div class="col-sm-9">
+                                    <nop-editor asp-for="BankStatementDownloadId" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 area-agreement">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="radio d-inline-block mr-4">
+                                        <label class="col-form-label form-check-label">
+                                            <input type="checkbox" name="agreement" required>
+                                            <span>I acknowledge that I have read and agreed to be bound by <a class="link-ref" href="/privacy-policy" target="_blank">Privacy Policy</a></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  justify-content-md-center">
+                <div class="col-12 text-center">
+                    <input type="hidden" name="id" value="0" />
+
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <button type="button" class="btn btn-cancel">Cancel</button>
+                </div>
+                <div class="col-12">
+                    <br />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="/Areas/Pro/Views/Shared/_FormComponent.cshtml" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/intl-tel-input/17.0.12/css/intlTelInput.min.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/utils.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput-jquery.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="/js/pro/account/bankAccount.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="/js/pro/account/bankAccount.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -1,0 +1,151 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+
+<div class="content content-payment-search">
+    <div class="container">
+        <h1 class="text-center title-create">@T("Pro.Order.PaymentDetails")</h1>
+
+        <div class="row">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-body" id="divPaymentDetailsBtnSearch">
+                        <form id="form-payment-details-filter">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label"> Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-datepicker-tdp" id="inputPaymentDetailsOrderDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-primary" id="btnPaymentDetailsSearch">Search</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Payment History (<span text="{{totalCount}}">0</span>)</h6>
+
+                    </div>
+                    <div class="card-body list-payment-list">
+                    </div>
+
+                </div>
+                <div class="pagination-list-payment-list">
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-payment-detail">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="template-card-payment-list-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No payment history</h4>
+    </div>
+</script>
+
+<script id="template-card-payment-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-payment-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <small>Transaction No. {{:orderNumber}}</small>
+            <div class="text-bold">Amount Paid: {{:orderTotal}}</div>
+
+        </div>
+    </div>
+</script>
+
+<script id="template-card-payment-detail-empty" type="text/x-jsrender">
+    <div class="content-payment-detail">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No payment history</h4>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="template-card-payment-detail" type="text/x-jsrender">
+    <div class="content-payment-detail" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group text-bold ">
+                            <h7>Transaction No.: {{:orderNumber}}</h7>
+                        </div>
+                        <div>
+                            <small>Receipt No.: {{:orderNumber}}</small>
+
+                        </div>
+                        <div>
+                            <small>Receipt Date.: {{:paidOnUTC}}</small>
+
+                        </div>
+
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div>Payment for: One time payment of fixed service free RM 35 plus 30% of 1st month service cost</div>
+                        <div class="offset-1">
+                            <div class="text-bold">Amount Due {{:orderTotal}}</div>
+                            <div>Payment mode: Online Banking</div>
+                        </div>
+                        <div class="form-group">
+                            <small>
+                                <em>Please retain this receipt for future reference</em>
+
+                            </small>
+
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div>
+                            <em class="text-bold">Yadiyad Sdn. Bhd. (V-34591049)</em>
+
+                        </div>
+                        <div>
+                            <em class="text-bold">203, Jalan Sip Lin, Taman Sip Lin, 11450, Bayan Lepas, Penang</em>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/order/paymentdetails.js" asp-append-version="true"></script>
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/order/paymentdetails.es5.min.js" asp-append-version="true"></script>
+
+    </environment>
+}

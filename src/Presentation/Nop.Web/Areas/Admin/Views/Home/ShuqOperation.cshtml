@@ -1,0 +1,59 @@
+﻿@model DashboardModel
+@inject IPermissionService permissionService
+@using Nop.Services.Security
+@{
+    Html.AppendCssFileParts("~/lib/ionicons/css/ionicons-2.0.1.min.css");
+
+    //page title
+    ViewBag.PageTitle = "Shuq Operation";
+    Html.SetActiveMenuItemSystemName("Shuq Operator");
+
+    // var canManageOrders = permissionService.Authorize(StandardPermissionProvider.ManageOrders);
+    // var canManageCustomers = permissionService.Authorize(StandardPermissionProvider.ManageCustomers);
+    var canManageProducts = permissionService.Authorize(StandardPermissionProvider.ManageProducts);
+    // var canManageReturnRequests = permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests);
+    var canManageBanks = permissionService.Authorize(StandardPermissionProvider.ManageBankAccounts);
+    var canManageVendorApplications = permissionService.Authorize(StandardPermissionProvider.ManageVendorApplications);
+}
+
+<div class="content-header">
+    <h1>
+        Shuq Operation
+    </h1>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardProTop })
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardProPieChartsAfter })
+            <div class="row">
+                @if (canManageVendorApplications)
+                {
+                    <div class="col-md-6">
+                        @await Html.PartialAsync("_NewVendorApplications")
+                    </div>
+                }
+                @if (canManageProducts)
+                {
+                    <div class="col-md-6">
+                        @await Html.PartialAsync("_NewProductPublish")
+                    </div>
+                }
+            </div>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardProTopOrganizationsAfter })
+            
+            @if (canManageBanks)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        @await Html.PartialAsync("_NewBankAccounts")
+                    </div>
+                </div>
+            }
+                
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.DashboardProTopIndividualsAfter })
+        </div>
+    </div>
+</div>
+<nop-alert asp-alert-id="loadOrderStatisticsAlert" asp-alert-message="@T("Admin.SalesReport.OrderStatistics.Alert.FailedLoad")" />
+<nop-alert asp-alert-id="loadCustomerStatisticsAlert" asp-alert-message="@T("Admin.Reports.Customers.CustomerStatistics.Alert.FailedLoad")" />

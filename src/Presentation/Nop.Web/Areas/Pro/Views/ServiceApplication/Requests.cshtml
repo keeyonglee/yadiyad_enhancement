@@ -1,0 +1,381 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+<form class="content" method="post" action="/api/pro/service/search">
+    <div class="container">
+        @await Component.InvokeAsync("ServiceBuyerMenu", YadiYad.Pro.Web.Enums.ServiceBuyerMenuType.Requested)
+        @*<partial name="../Service/_ServiceBuyerMenu" model="YadiYad.Pro.Web.Enums.ServiceBuyerMenuType.Requested" />*@
+        <div class="row content-service-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Current Requests (<span text="{{totalCount}}"></span>)</h6>
+                    </div>
+                    <div class="card-body list-service-requests-list">
+                        <h4 class="text-center">No requested order</h4>
+                    </div>
+                </div>
+                <div class="pagination-service-requests-list">
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-service-requests-list-response">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h4>No requested order</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script id="template-card-service-requests-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">No Requested Order</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-requests-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-service-requests-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <div>
+                <span>{{:createdOnUTC}}</span>
+                {{if status == 1}}
+                <span class="badge badge-pill badge-gray float-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 2}}
+                <span class="badge badge-pill badge-primary float-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 3 || status == 5 || status == 6}}
+                <span class="badge badge-pill badge-secondary float-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 4}}
+                <span class="badge badge-pill badge-danger float-right">{{:statusName}}</span>
+                {{/if}}
+            </div>
+            <h5 class="text-bold">{{:serviceProfile.categoryName}}</h5>
+            <div><span>{{:serviceProfileServiceModelName}}</span></div>
+            <div>
+                {{if serviceProfileServiceTypeId == 1}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per hour&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 2}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per day&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 3}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per session&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 4}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> for entire project&nbsp;
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-requests-list-pay" type="text/x-jsrender">
+    <div class="content-service-requests-list-response" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <form id="form-request-payment" form-validation-alert>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div class="col-sm-12">Please proceed to make the one time payment below to secure the seller.</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row mb-2">
+                                <label for="" class="col-sm-6 col-form-label">
+                                    Service Charge
+                                    {{if offsetOrderItem || isRehire == true}}
+                                    <br /><span class="text-sm  text-bold-400">**No service charge is incurred.</span>
+                                    {{/if}}
+                                </label>
+                                <div class="col-sm-6 text-sm-left col-form-label">
+                                    RM {{:serviceFeeAmount.toFixed(2)}}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                {{if escrowAmount != 0}}
+                                <label for="" class="col-sm-6  col-form-label">1st month professional fee</label>
+                                <div class="col-sm-6 text-sm-left col-form-label">
+                                    RM {{:escrowAmount.toFixed(2)}}
+                                </div>
+                                {{/if}}
+                            </div>
+                            {{if offsetOrderItem }}
+                            <div class="row mb-2 bg-bermuda p-2">
+                                <label for="" class="col-sm-6  col-form-label">
+                                    Deposit reserve <u>{{:offsetOrderItem.engagementCode}}</u>
+                                    <br /><small>*Unutilized deposit reserve is used to offset escrow payment.</small>
+                                </label>
+                                <div class="col-sm-6 text-sm-left col-form-label">
+                                    RM {{:(offsetOrderItem.price*-1).toFixed(2)}}
+                                </div>
+                            </div>
+                            {{/if}}
+                            <div class="form-group row">
+
+                                <label for="" class="col-sm-6 col-form-label">Total Price</label>
+                                <div class="col-sm-6 text-sm-left">
+                                    <div class="text-bold">RM {{:orderTotal.toFixed(2)}}</div>
+                                </div>
+                                <div class="col-sm-12 text-right">
+                                    <input class="float-right btn btn-primary btn-payment" type="button" value="Pay" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="radio d-inline-block mr-4">
+                                    <label class="col-form-label form-check-label">
+                                        <input type="checkbox" name="agreement" required>
+                                        <span>I acknowledge that I have read and agreed to the terms and conditions in the <a class="link-ref" href="/cancellation-and-refund-policy" target="_blank">Cancellation and Refund Policy</a></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-12">
+                            <div class="p-4 mb-3 bg-light rounded">
+                                <p class="mb-0">One time payment calculation :</p>
+                                {{if serviceFeeRateType == "Amount"}}
+                                <p class="mb-0">Service fee RM {{:serviceFeeRateAmount}}</p>
+                                {{/if}}
+                                {{if serviceFeeRateType == "Percentage"}}
+                                <p class="mb-0">Service fee {{:serviceFeeRateAmount}}%</p>
+                                {{/if}}
+                            </div>
+                        </div>*@
+                        {{if escrowAmount != 0}}
+
+                        <div class="col-12">
+                            <div class="p-4 mb-3">
+                                <p class="mb-0">
+                                    * 1st month Professional Fees will be collected in advance from the Service Buyer and credited to the Service Seller upon service completion.
+                                </p>
+                                <p class="mb-0">
+                                    * For subsequent months, the professional fees payment will directly paid to the Service Seller by the Service Buyer unless the Service Seller opt-in for Escrow Service.
+                                </p>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-requests-list-response" type="text/x-jsrender">
+    <div class="content-service-requests-list-response" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 font-weight-bolder">Skills &amp; Expertise</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Category</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfile.categoryName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Years of Experience</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfile.experienceYearName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                            <div class="col-sm-9 area-expertise">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 font-weight-bolder">Job Details</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Model</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Site</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceModelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceProfileServiceModelId == 1 || serviceProfileServiceModelId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Location</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:location}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 1}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Hourly)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per hour</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3 && serviceProfileServiceFee != 0}}
+                                {{if serviceProfileOnsiteFee != 0}}
+                                <div class="offset-sm-3 col-sm-9">
+                                    <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                                </div>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Hours</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}} hours per week</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Daily)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per day</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Days</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}} days per month</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 3}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Consultation</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per session</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 4}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Project-based</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  for entire project</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Start Date</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:startDate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceProfileServiceTypeId == 1 || serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Expected Duration</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:duration}} months</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if status == 2}}
+                    <div class="col-12">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-secondary btn-accept">Accept</button>
+                            <button type="button" class="btn btn-danger btn-decline">Decline</button>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if status == 3}}
+                    <div class="col-12">
+                        <input class="float-right btn btn-primary btn-pay" type="button" value="Pay" />
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+@await Component.InvokeAsync("SimplePagination")
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/buyer-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/requests.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/buyer-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/requests.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

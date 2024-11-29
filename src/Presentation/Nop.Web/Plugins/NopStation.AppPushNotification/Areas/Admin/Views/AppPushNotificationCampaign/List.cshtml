@@ -1,0 +1,132 @@
+﻿@model AppPushNotificationCampaignSearchModel
+
+@{
+    ViewBag.PageTitle = T("Admin.NopStation.AppPushNotification.PushNotificationCampaigns.List").Text;
+
+    Html.SetActiveMenuItemSystemName("AppPushNotificationCampaigns");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "PushNotificationCampaigns.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="AppPushNotificationCampaign" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.AppPushNotification.PushNotificationCampaigns.List")
+        </h1>
+        <div class="pull-right">
+            <a asp-action="Create" class="btn bg-blue">
+                <i class="fa fa-plus-square"></i>
+                @T("Admin.Common.AddNew")
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-3">
+                                            <nop-label asp-for="SearchSendStartFromDate" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <nop-editor asp-for="SearchSendStartFromDate" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-3">
+                                            <nop-label asp-for="SearchSendStartToDate" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <nop-editor asp-for="SearchSendStartToDate" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-3">
+                                            <nop-label asp-for="SearchKeyword" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <nop-editor asp-for="SearchKeyword" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-8 col-md-offset-3">
+                                            <button type="button" id="search-pushnotificationcampaign" class="btn btn-primary btn-search">
+                                                <i class="fa fa-search"></i>
+                                                @T("Admin.Common.Search")
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "pushnotificationcampaign-grid",
+                            UrlRead = new DataUrl("GetList", "AppPushNotificationCampaign", null),
+                            SearchButtonId = "search-pushnotificationcampaign",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchKeyword)),
+                                new FilterParameter(nameof(Model.SearchSendStartFromDate)),
+                                new FilterParameter(nameof(Model.SearchSendStartToDate))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(AppPushNotificationCampaignModel.Name))
+                                {
+                                    Title = T("Admin.NopStation.AppPushNotification.PushNotificationCampaigns.Fields.Name").Text,
+                                    Width = "150"
+                                },
+                                new ColumnProperty(nameof(AppPushNotificationCampaignModel.Title))
+                                {
+                                    Title = T("Admin.NopStation.AppPushNotification.PushNotificationCampaigns.Fields.Title").Text,
+                                    Width = "150"
+                                },
+                                new ColumnProperty(nameof(AppPushNotificationCampaignModel.SendingWillStartOn))
+                                {
+                                    Title = T("Admin.NopStation.AppPushNotification.PushNotificationCampaigns.Fields.SendingWillStartOn").Text,
+                                    Width = "100",
+                                    Render = new RenderDate()
+                                },
+                                new ColumnProperty(nameof(AppPushNotificationCampaignModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "80",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                }
+                            }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

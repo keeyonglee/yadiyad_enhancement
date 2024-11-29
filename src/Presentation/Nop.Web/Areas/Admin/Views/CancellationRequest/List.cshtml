@@ -1,0 +1,273 @@
+﻿@model CancellationRequestSearchModel
+
+@inject IStoreService storeService
+@using Nop.Services.Stores
+@using YadiYad.Pro.Core.Domain.Common
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.CancellationRequest").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Cancellation Request");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "OrdersPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="CancellationRequest" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Cancellation Request List
+        </h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Date</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="Date" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Type</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select asp-for="Type" class="form-control" asp-items="@Html.GetEnumSelectList<CancellationRequestType>()">
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Buyer</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="Buyer" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Cancelled By</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select asp-for="CancelledBy" class="form-control" asp-items="@Html.GetEnumSelectList<CancellationRequestBy>()">
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-7 col-md-offset-5">
+                                    <button type="button" id="search-cancellation-request" class="btn btn-primary btn-search"><i class="fa fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @{
+                            var gridModel = new DataTablesModel
+                            {
+                                Name = "orders-grid",
+                                UrlRead = new DataUrl("CancellationRequestList", "CancellationRequest", null),
+                                SearchButtonId = "search-cancellation-request",
+                                Length = Model.PageSize,
+                                LengthMenu = Model.AvailablePageSizes,
+                                Filters = new List<FilterParameter>
+                                {
+                                    new FilterParameter(nameof(Model.Date)),
+                                    new FilterParameter(nameof(Model.Type)),
+                                    new FilterParameter(nameof(Model.Buyer)),
+                                    new FilterParameter(nameof(Model.CancelledBy)),
+                                }
+                            };
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.SubmissionDate))
+                            {
+                                Title = "Submission Date",
+                                Width = "150",
+                                Render = new RenderDate()
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.EngagementId))
+                            {
+                                Title = "Engagement Id",
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.EngagementType))
+                            {
+                                Title = "Engagement Type",
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.CancelledBy))
+                            {
+                                Title = "Cancelled By",
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.BuyerName))
+                            {
+                                Title = "Buyer",
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.SellerName))
+                            {
+                                Title = "Seller",
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.Reason))
+                            {
+                                Title = "Reason",
+                                Width = "150",
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.Remarks))
+                            {
+                                Title = "Remarks",
+                                Width = "150",
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.Status))
+                            {
+                                Title = "Seller Status",
+                                Width = "150",
+                            });
+                            //gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.ReasonAttachmentDownloadId))
+                            //{
+                            //    Title = "Attachment",
+                            //    Width = "150",
+                            //    Render = new RenderCustom("renderColumnAttachment")
+                            //});
+                            //gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.EngagementId))
+                            //{
+                            //    Title = "Edit",
+                            //    Width = "50",
+                            //    ClassName = NopColumnClassDefaults.Button,
+                            //    Render = new RenderButtonEdit(new DataUrl("~/Admin/CancellationRequest/Edit?type=" + data + "&id=", true))
+                            //});
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(CancellationRequestModel.EngagementId))
+                            {
+                                Title = "Edit",
+                                Width = "50",
+                                ClassName = NopColumnClassDefaults.Button,
+                                Render = new RenderCustom("renderColumnEdit")
+                            });
+                        }
+
+                        @await Html.PartialAsync("Table", gridModel)
+
+                        <script>
+                            function renderColumnAttachment(data, type, row, meta) {
+                                return '<nop-editor asp-for="ReasonAttachmentDownloadId" value="' + data + '" />';
+                            }
+
+                            function renderColumnEdit(data, type, row, meta) {
+                                return '<a class="btn btn-default" href="Edit?type=' + row.EngagementTypeId + '&id=' + data + '"><i class="fa fa-pencil"></i>Edit</a>';
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@*export selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportXmlSelected" method="post" id="export-xml-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#exportxml-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#exportXmlSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#exportXmlSelected").click();
+            }
+            else {
+                $('#export-xml-selected-form #selectedIds').val(ids);
+                $('#export-xml-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="exportXmlSelected" />
+
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportExcelSelected" method="post" id="export-excel-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#exportexcel-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#exportExcelSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#exportExcelSelected").click();
+            }
+            else {
+                $('#export-excel-selected-form #selectedIds').val(ids);
+                $('#export-excel-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="exportExcelSelected" />
+
+@*Print packaging slips selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="PdfInvoiceSelected" method="post" id="pdf-invoice-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#pdf-invoice-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#pdfInvoiceSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#pdfInvoiceSelected").click();
+            }
+            else {
+                $('#pdf-invoice-selected-form #selectedIds').val(ids);
+                $('#pdf-invoice-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="pdfInvoiceSelected" />

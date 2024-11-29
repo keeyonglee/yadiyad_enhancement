@@ -1,0 +1,22 @@
+﻿@model YadiYad.Pro.Web.Models.Customer.AccountActivationModel
+@{
+    ViewData["Layout"] = "Blank";
+    ViewData["Theme"] = "signup";
+}
+<div class="content">
+    <div class="container">
+        <header class="pt-5 pb-5">
+            <div class="text-center">
+                <img class="logo-sign-up" src="/img/pro/brand/logo-new-pro-color.png" alt="YadiYad Pro Logo" />
+            </div>
+        </header>
+        <div class="card p-3 col-lg-6 ml-auto mr-auto col-lg-6 bg-primary-light content-sign-up-form">
+            <h2 class="text-center mt-2 text-primary text-bold">@T("Account.AccountActivation")</h2>
+            <div class="card p-3 m-0 mt-3 ">
+                @Model.Result
+                <a href="/pro/account/login" name="register-continue" class="w-100 btn btn-lg btn-info mt-3"
+                       >Go to Login</a>
+            </div>
+        </div>
+    </div>
+</div>

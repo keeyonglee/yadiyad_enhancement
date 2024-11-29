@@ -1,0 +1,75 @@
+@model Nop.Plugin.StorageMedia.AmazonS3.Models.ConfigurationModel
+@inject Nop.Core.IWebHelper webHelper
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="AmazonS3" asp-action="Configure" method="post">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.Raw(T("Plugins.StorageMedia.AmazonS3.Instructions"))
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="BucketName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="BucketName" />
+                        <span asp-validation-for="BucketName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PrivateBucketName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PrivateBucketName" />
+                        <span asp-validation-for="PrivateBucketName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AccessKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AccessKey" />
+                        <span asp-validation-for="AccessKey"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AccessSecret" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AccessSecret" />
+                        <span asp-validation-for="AccessSecret"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="S3BaseUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="S3BaseUrl" />
+                        <span asp-validation-for="S3BaseUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PreSignedMinutes" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PreSignedMinutes" />
+                        <span asp-validation-for="PreSignedMinutes"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,36 @@
+﻿@using YadiYad.Pro.Web.Enums
+@using YadiYad.Pro.Web.Models.Consultation
+@model OrganizationConsultationMenuModel
+<div class="row align-items-center mb-4 mt-4">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-consultation-job-org-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.ConsultationMenuType == ConsultationMenuType.CurrentPostings?"btn-primary":"btn-default")" href="@Url.Action("List","Consultation", new { Area = "Pro" }).ToLower()">
+            Current Postings
+            </a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.ConsultationMenuType == ConsultationMenuType.Invites?"btn-primary":"btn-default")" href="@Url.Action("Invited","Consultation", new { Area = "Pro" }).ToLower()">
+                Invites
+                @if (Model.OrganizationAttentionDTO.HasConsultationInvitesAttention)
+                {
+                    <span class="fas fa-circle fa-xs icon-attention"></span>
+                }
+            </a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.ConsultationMenuType == ConsultationMenuType.Applicants?"btn-primary":"btn-default")" href="@Url.Action("Applicant","Consultation", new { Area = "Pro" }).ToLower()">
+                Applicants
+                @if (Model.OrganizationAttentionDTO.HasConsultationApplicantsAttention)
+                {
+                    <span class="fas fa-circle fa-xs icon-attention"></span>
+                }
+            </a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model.ConsultationMenuType == ConsultationMenuType.ConfirmedOrders?"btn-primary":"btn-default")" href="@Url.Action("ConfirmedOrder","Consultation", new { Area = "Pro" }).ToLower()">
+                Confirmed Orders
+                @if (Model.OrganizationAttentionDTO.HasConsultationOrdersAttention)
+                {
+                    <span class="fas fa-circle fa-xs icon-attention"></span>
+                }
+            </a>
+        </div>
+    </div>
+</div>

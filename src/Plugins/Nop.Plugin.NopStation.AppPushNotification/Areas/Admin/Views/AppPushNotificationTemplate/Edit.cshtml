@@ -1,0 +1,35 @@
+@model AppPushNotificationTemplateModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.NopStation.AppPushNotification.PushNotificationTemplates.EditDetails").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("AppPushNotificationTemplates");
+
+    Html.AddCssFileParts("~/Plugins/NopStation.AppPushNotification/Contents/dist/emojionearea.min.css", excludeFromBundle: true);
+}
+
+<script src="~/Plugins/NopStation.AppPushNotification/Contents/dist/emojionearea.min.js"></script>
+
+<form asp-controller="AppPushNotificationTemplate" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.AppPushNotification.PushNotificationTemplates.EditDetails") - @Model.Name
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.NopStation.AppPushNotification.PushNotificationTemplates.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

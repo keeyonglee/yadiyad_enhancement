@@ -1,0 +1,28 @@
+@model PayoutBatchModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Customers.Payout.Edit").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Payout");
+}
+
+<form asp-controller="Payout" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Customers.Payout.Recon") - @Model.PayoutBatchNumber
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="Batch">@T("Admin.Customers.Payout.BackToBatch")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.PayoutBatch.ProcessReconFile")
+            </button>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.CategoryDetailsButtons, additionalData = Model })
+        </div>
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

@@ -1,0 +1,358 @@
+﻿@using YadiYad.Pro.Core.Domain.Job
+@using YadiYad.Pro.Core.Domain.Common
+@using YadiYad.Pro.Core.Domain.Service
+
+<div class="content content-jobseeker-profile">
+    <div class="container">
+        @await Component.InvokeAsync("JobSeekerMenu", YadiYad.Pro.Web.Enums.JobSeekerMenuType.MyJobseekerProfile)
+        @*<partial name="../Job/_JobSeekerMenu" model="YadiYad.Pro.Web.Enums.JobSeekerMenuType.MyJobseekerProfile" />*@
+        <form method="post" id="form-jobseeker-profile" role="form" action="/api/pro/jobseeker">
+        </form>
+    </div>
+</div>
+<script id="tmpl-job-seeker-profile" type="text/x-jsrender">
+    {^{if (!data || !data.id) }}
+    <div class="card">
+        <div class="text-center mt-5 mb-5">
+            <h4 class="text-primary text-bold">Create Job CV</h4>
+            <a class="btn btn-round w-auto btn-outline-primary" href="@Url.Action("Details","JobSeeker", new { Area = "Pro" }).ToLower()"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+    {{else}}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Skills &amp; Expertise</h4>
+                </div>
+                {^{for data.categories}}
+                {^{if #index > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label class="col-12 col-lg-3 col-form-label">Category &amp; Experience</label>
+                        <div class="col-12 col-lg-6">
+                            {^{:categoryName}} ({^{:yearExperienceName}})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                        <div class="col-sm-9">
+                            {^{for categoryExpertises}}
+                            <span class='badge badge-pill badge-primary-light'>{{:name}}</span>
+                            {{/for}}
+                        </div>
+                    </div>
+                </div>
+                {{/for}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Employment Info</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Employment Status</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.employmentStatusName}}</div>
+                        </div>
+                    </div>
+                </div>
+                {^{for data.cv }}
+                {^{if downloadId != null}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Job CV</label>
+                            <div class="col-sm-9">
+                                <a class="col-form-label text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+                {{/for}}
+            </div>
+            
+            <div class="row" data-link="visible{:data.employmentStatus === '1' || data.employmentStatus === 1}">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Company</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.company}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Position</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.position}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Tenure</label>
+                        <div class="col-sm-3">
+                            <div class="col-form-label">{^{:data.tenureStartDate}} - {^{:(data.isPresentCompany?"Present":data.tenureEndDate)}}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Education</h4>
+                </div>
+                {^{for data.academicQualifications }}
+                {^{if #index > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Qualification Level</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:academicQualificationTypeName}}</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Qualification Name</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:academicQualificationName}}</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Institution</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:academicInstitution}}</div>
+                        </div>
+                    </div>
+                </div>
+                {{/for}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Certificates &amp; Licenses</h4>
+                </div>
+                {^{for data.licenseCertificates }}
+                {^{if #index > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:professionalAssociationName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Issuing Organization</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:licenseCertificateName}}</div>
+                        </div>
+                    </div>
+                </div>
+                {^{if downloadId != null}}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Document</label>
+                        <div class="col-sm-9">
+                            <a class="col-form-label text-underline" target="_blank" href="/api/pro/document?downloadGuid={{:downloadGuid}}"><i class="fas fa-file-alt fa-3x"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{/for}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Languages</h4>
+                </div>
+                {^{for data.languageProficiencies }}
+                {^{if #index > 0}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                {{/if}}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Language</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:languageName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Proficiency (spoken)</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:proficiencyLevelName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Proficiency (written)</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{{:proficiencyWrittenLevelName}}</div>
+                        </div>
+                    </div>
+                </div>
+                {{/for}}
+
+                {^{if data.achievementAward}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Achievements / Awards</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.achievementAward}}</div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">My Job Seeking Availability</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Job Model</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.jobTypes}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Job Site</label>
+                        <div class="col-sm-9">
+                            <div class="col-form-label">{^{:data.jobModels}}</div>
+                        </div>
+                    </div>
+                </div>
+                {^{if data.isPartialOnSite || data.isOnSite}}
+                {^{for data.preferredLocations }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Location</label>
+                        <div class="col-9">
+                            <span class='badge badge-pill badge-primary-light'>{{if countryId != null}}{{:countryName}}{{/if}}{{if countryId == null}}All Country{{/if}}</span>
+                            <span class='badge badge-pill badge-primary-light'>{{if stateProvinceId != null}}{{:stateProvinceName}}{{/if}}{{if stateProvinceId == null}}All State{{/if}}</span>
+                            <span class='badge badge-pill badge-primary-light'>{{if cityId != null}}{{:cityName}}{{/if}}{{if cityId == null}}All City{{/if}}</span>
+                        </div>
+                    </div>
+                </div>
+                {{/for}}
+                {{/if}}
+                {^{if data.isFreelanceHourly || data.isFreelanceDaily }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Professional Fees</label>
+                        <div class="col-sm-6">
+                            {^{if data.isFreelanceHourly }}
+                            <div>
+                                <div class="col-form-label">RM  <span>{^{:((data.hourlyPayAmount||0)).toFixed(2)}}</span><span> Per Hour - Hourly Basis</span></div>
+
+                            </div>
+                            {{/if}}
+                            {^{if data.isFreelanceDaily }}
+                            <div class="mt-3">
+                                <div class="col-form-label">RM  <span>{^{:((data.dailyPayAmount||0)).toFixed(2)}}</span><span> Per Day - Daily Basis</span></div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {^{if data.isFreelanceHourly || data.isFreelanceDaily }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Availability</label>
+                        <div class="col-sm-6">
+                            {^{if data.isFreelanceHourly }}
+                            <div>
+                                <div class="col-form-label"><span>{^{:data.availableHours}}</span><span> hour(s) per week</span></div>
+
+                            </div>
+                            {{/if}}
+                            {^{if data.isFreelanceDaily }}
+                            <div class="mt-3">
+                                <div class="col-form-label"><span>{^{:data.availableDays}}</span><span> day(s) per month</span></div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="row  justify-content-md-center">
+        <div class="col-12 text-center">
+            <a class="btn btn-secondary" href="/pro/jobseeker/details">Edit</a>
+        </div>
+        <div class="col-12">
+            <br />
+        </div>
+    </div>
+    {{/if}}
+</script>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/job/seeker-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobseeker/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/job/seeker-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/jobseeker/index.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

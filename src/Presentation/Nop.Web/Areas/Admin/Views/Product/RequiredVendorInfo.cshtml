@@ -1,0 +1,21 @@
+﻿@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Catalog.Products.AddNew").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Products");
+}
+
+<form asp-controller="Product" asp-action="Create" method="post" id="product-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Catalog.Products.AddNew")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="Edit" asp-controller="Vendor" asp-area="Admin">@T("Admin.Catalog.Products.GoToVendor")</a>
+            </small>
+        </h1>
+    </div>
+    <div class="content">
+        <p>@T("Admin.Catalog.Products.RequiredCompleteVendorInfo")</p>
+    </div>
+</form>

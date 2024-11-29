@@ -1,0 +1,556 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-job-application-pay",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-terminate",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-cancel",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Medium,
+    AdditionalClass = "no-title"
+}' />
+<form id="form-service-confirms" class="content" method="post" action="/api/pro/service/search">
+    <div class="container">
+        @await Component.InvokeAsync("ServiceBuyerMenu", YadiYad.Pro.Web.Enums.ServiceBuyerMenuType.Confirmed)
+        @*<partial name="../Service/_ServiceBuyerMenu" model="YadiYad.Pro.Web.Enums.ServiceBuyerMenuType.Confirmed" />*@
+        <div class="row content-service-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h6 class="col-12 text-bold">Filter by date range</h6>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <input type="text" class="form-control form-control-daterangepicker" name="dateRangeFilter" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <button class="btn w-auto btn-primary cursor-default submit">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-list-info hidden">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Confirmed Orders (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body list-service-confirms-list">
+                    </div>
+                </div>
+                <div class="pagination-service-confirms-list card-list-info hidden">
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-service-confirms-list-response">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script id="template-card-service-confirms-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-service-confirms-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <div>
+                <span>{{:createdOnUTC}}</span>
+                {{if status == 1}}
+                <span class="badge badge-pill badge-gray float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 2}}
+                <span class="badge badge-pill badge-primary float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 3 || status == 5 || status == 6}}
+                <span class="badge badge-pill badge-secondary float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 4 || status == 7 || status == 8 || status == 9 || status == 10 || status == 11}}
+                <span class="badge badge-pill badge-danger float-lg-right">{{:statusName}}</span>
+                {{/if}}
+            </div>
+            <h5 class="text-bold">{{:serviceProfile.categoryName}}</h5>
+            <div><span>{{:serviceProfileServiceModelName}}</span></div>
+            <div>
+                {{if serviceProfileServiceTypeId == 1}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per hour&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 2}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per day - 8 hours a day&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 3}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per session&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 4}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> for entire project&nbsp;
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-confirms-list-response-empty" type="text/x-jsrender">
+    <div class="content-service-confirms-list-response">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="text-primary text-bold">No Confirmed Order</h4>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="template-card-service-confirms-list-response" type="text/x-jsrender">
+    
+    <div class="content-service-confirms-list-response" data-entity-id="{{:id}}">
+        {{if isRehire == true && hasCancelledTwice == false}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge badge-pill badge-warning ">Attention</span>
+                        <span class="align-top">
+                            The service seller had cancelled the engagement, you may rehire a new candidate without paying service charge.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{if cancelRehire == true}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge badge-pill badge-warning ">Attention</span>
+                        <span class="align-top">
+                            The refund request is submitted.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{if hasCancelledTwice == true}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge badge-pill badge-warning ">Attention</span>
+                        <span class="align-top">
+                            The rehired service seller had cancel the engagement.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{if rehiredServiceApplicationId != 0 && hasCancelledTwice == false}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge badge-pill badge-warning ">Attention</span>
+                        <span class="align-top">
+                            The service seller had cancelled the engagement and you have rehired a new candidate in a different engagement.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <h3>Transaction No. {{:code}}</h3>
+                                <small>Starting {{:startDate}}</small>
+                                {{if endDateText}}
+                                <br /><small>{{:(isEngagementEnded?"Ended":"Ending")}} {{:endDateText}}</small>
+                                {{/if}}
+                                {^{if endDateText && cancellationEndRemarks }}
+                                <div><small>Remarks: {{:cancellationEndRemarks}}</small></div>
+                                {{/if}}
+                            </div>
+                            <div class="col-sm-4">
+                                {{if canCancel == true}}
+                                <div class="float-right">
+                                    <input type="button" class="btn btn-outline-danger w-auto " value="Cancel"
+                                           data-toggle="modal" data-target="#modal-cancel"
+                                           data-keyboard="false" data-backdrop="static"
+                                           href="/pro/serviceApplication/cancel" />
+                                </div>
+                                {{/if}}
+
+                                {{if canTerminate}}
+                                <div class="float-right">
+                                    <input type="button" class="btn btn-danger w-auto mr-2" value="End"
+                                           data-toggle="modal" data-target="#modal-terminate"
+                                           data-keyboard="false" data-backdrop="static"
+                                           href="/pro/serviceApplication/terminate" />
+                                </div>
+                                {{/if}}
+                                {{if status == 8 && canRefund}}
+                                <div class="float-right">
+                                    <input type="button" class="btn btn-danger w-auto mr-2 submit-refund" value="Refund" />
+                                </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    @*<div class="col-12">
+                        <div class="form-group row">
+                            <div class="col-sm-12">You had made payment for one time service commission fees (30% of the 1st month cost). The remainder 70% of the 1st month will be paid by you directly to the seller upon completion of services rendered.</div>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 font-weight-bolder">Seller Details</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Name</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:sellerName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Contact</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:sellerContactNo}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Email</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:sellerEmail}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 font-weight-bolder">Job Details</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Model</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Site</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceModelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceProfileServiceModelId == 1 || serviceProfileServiceModelId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Location</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:location}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 1}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Hourly)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per hour</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3 && serviceProfileServiceFee != 0}}
+                            {{if serviceProfileOnsiteFee > 0}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Hours</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}} hours per week</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Daily)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per day</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Days</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}}</div> days per month
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 3}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Consultation</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per session</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 4}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Project-based</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  for entire project</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 1 || serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Expected Duration</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:duration}} months</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    {^{if (status === 6 ||  status === 5) && depositPayout}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 text-bold">Deposit Payout Details</h4>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Deposit Balance</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:depositPayout.totalRemaining}}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Cycle Payout</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:depositPayout.engagementFee.fee}}</div>
+                            </div>
+                        </div>
+
+                        {^{if depositPayout.deposit.nextDueDate}}
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Next Due Date</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:depositPayout.deposit.formattedNextDueDate}}</div>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {^{if depositPayout.deposit.nextStatus}}
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Next Deposit Status</label>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:depositPayout.deposit.nextStatus}}</div>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+
+                    {{if status === 6 ||  status === 5 ||  status === 7 ||  status === 8}}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Payout Request Details</h4>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-bordered table-hover tbl-payout-request">
+                            <thead>
+                                <tr>
+                                    <th>Submission Date​</th>
+                                    <th>Payout Cycle​</th>
+                                    <th>Amount​</th>
+                                    <th>Status​</th>
+                                    <th>Remarks​</th>
+                                    <th>Action​</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Deposit Request</h4>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-bordered table-hover tbl-deposit-request">
+                            <thead>
+                                <tr>
+                                    <th>Request Date​</th>
+                                    <th>Due Date​</th>
+                                    <th>Amount​</th>
+                                    <th>Status​</th>
+                                    <th>Action​</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    {{/if}}
+
+
+                    {{if status === 6 || status === 7 || status === 8 }}
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Refund Request Details</h4>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-bordered table-hover tbl-refund-request">
+                            <thead>
+                                <tr>
+                                    <th>Request Date​</th>
+                                    <th>Refund Number​</th>
+                                    <th>Amount​</th>
+                                    <th>Service Charge​</th>
+                                    <th>Status​</th>
+                                    <th>Action​</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-payout-request",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.XLarge,
+    AdditionalClass = "no-title"
+}' />
+
+@section StyleLibs{
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet">
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/lib/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/lib/tui-calendar/1.13.0/tui-calendar.css" rel="stylesheet" />
+    <link href="/lib/dateRangePicker/daterangepicker.css" rel="stylesheet">
+
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+
+    <script src="/lib/datatables/jquery.dataTables.js"></script>
+    <script src="/lib/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+    <script src="~/lib/chancejs/1.0.13/chance.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+    <script src="~/lib/tui-calendar/1.13.0/tui-calendar.js"></script>
+    <script src="~/js/pro/scheduler/calendars.js"></script>
+
+    <script src="/lib/decimaljs/10.2.0/decimal.js"></script>
+    <script src="/lib/dateRangePicker/daterangepicker.js"></script>
+
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/scheduler/weeklyscheduler.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/buyer-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/confirms.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/scheduler/weeklyscheduler.es5.js" asp-append-version="true"></script>
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/buyer-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/confirms.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

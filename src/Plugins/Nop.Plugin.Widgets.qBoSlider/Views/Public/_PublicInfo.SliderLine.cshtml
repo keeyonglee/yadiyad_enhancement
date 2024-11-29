@@ -1,0 +1,18 @@
+﻿@model WidgetZoneModel.SlideModel
+@using Nop.Web.Framework.UI
+
+@{
+    if (!string.IsNullOrEmpty(Model.PictureUrl))
+    {
+        if (!string.IsNullOrEmpty(Model.Hyperlink))
+        {
+            <a href="@Model.Hyperlink" aria-label="" class="slide-img">
+                <img src="@Model.PictureUrl" data-thumb="@Model.PictureUrl" data-transition="" alt="" title="@Model.Description" />
+            </a>
+        }
+        else
+        {
+            <img src="@Model.PictureUrl" class="slide-img" data-thumb="@Model.PictureUrl" data-transition="" alt="" title="@Model.Description" />
+        }
+    }
+}

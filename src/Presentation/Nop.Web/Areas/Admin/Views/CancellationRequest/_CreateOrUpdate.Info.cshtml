@@ -1,0 +1,78 @@
+﻿@model CancellationRequestEditModel
+
+<div class="panel-body">
+    <input asp-for="EngagementId" hidden />
+    <input asp-for="SellerId" hidden />
+    <input asp-for="EngagementTypeId" hidden />
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Engagement Type</label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="EngagementType" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Seller</label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="SellerName" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Has seller been blocked in last 90 days</label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="BlockLast90Days" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Attachment Upload</label>
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ReasonAttachmentDownloadId" />
+        </div>
+    </div>
+    @if (Model.BlockCurrently == false)
+    {
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Block seller</label>
+            </div>
+            <div class="col-md-9">
+                <input type="checkbox" asp-for="BlockSeller" readonly />
+            </div>
+        </div>
+
+    }
+    <div class="form-group row" id="textAdminRemarks">
+        <label for="" class="col-sm-3 col-form-label">Remarks</label>
+        <div class="col-sm-9">
+            <textarea type="text" asp-for="Remarks" class="form-control" placeholder="Please specify" required></textarea>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(':input[name="BlockSeller"]').on('click', function () {
+        var result = $(':input[name="BlockSeller"]:checked').val();
+
+        if (result) {
+            $('#textAdminRemarks').show();
+        }
+        else {
+            $('#textAdminRemarks').hide();
+        }
+    })
+
+    $(document).ready(function () {
+        $('#textAdminRemarks').hide();
+    });
+</script>
+
+

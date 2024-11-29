@@ -1,0 +1,61 @@
+How to Build and Run Your .NET Project
+
+
+1. Prerequisites
+Ensure the following are installed:
+
+Visual Studio 2018 (with the required workloads):
+ASP.NET and web development.
+.NET desktop development (if applicable).
+.NET Framework or .NET Core SDK (as required by your project).
+NuGet Package Manager (built into Visual Studio).
+
+2. Open the Solution
+Locate the NopCommerce.sln file in the root directory of the project.
+Double-click the file to open the solution in Visual Studio 2018.
+
+3. Restore Dependencies
+In Visual Studio, go to Tools > NuGet Package Manager > Manage NuGet Packages for Solution.
+In the Updates tab, restore or update any missing packages if prompted.
+Alternatively, open the Package Manager Console (via Tools > NuGet Package Manager) and run:
+Update-Package -Reinstall
+
+4. Build the Solution
+In Visual Studio, go to Build > Build Solution or press Ctrl + Shift + B.
+Monitor the Output window for any build errors.
+If there are errors, check the specific project (e.g., YadiYad.Pro) that failed and resolve issues.
+
+5. Run the Project
+Set the Presentation project (or the main entry project) as the startup project:
+Right-click the Presentation project in the Solution Explorer.
+Select Set as Startup Project.
+Start the application by pressing F5 (Debug Mode) or Ctrl + F5 (Run Without Debugging).
+
+
+6. Verify Output
+For Web Applications:
+Open your browser and navigate to the URL displayed in the Output window (e.g., http://localhost:5000).
+For Console Applications:
+The console window will display the application output.
+
+7. Test the Application
+Use the Tests project to run any included unit tests:
+Right-click the Tests project in Solution Explorer and choose Run Tests.
+Use Visual Studio's Test Explorer to monitor test results.
+
+8. Publish the Application (Optional)
+If deploying the project:
+
+Right-click the Presentation project (or the main entry project).
+Select Publish and follow the wizard to publish to:
+Local folder.
+IIS (for web applications).
+Azure (if applicable).
+
+
+Troubleshooting
+Missing Framework: Ensure the correct version of .NET Framework/.NET Core SDK is installed.
+Restore Errors: Manually clean and restore packages:
+dotnet clean
+dotnet restore
+Build Failures: Check for missing NuGet dependencies or version mismatches.

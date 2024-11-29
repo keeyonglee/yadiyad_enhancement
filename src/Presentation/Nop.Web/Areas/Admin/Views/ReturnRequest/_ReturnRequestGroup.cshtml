@@ -1,0 +1,52 @@
+﻿@model GroupReturnRequestModel
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-12" style="overflow-x: auto;">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @T("Admin.Orders.Products.ProductName")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Products.Quantity")
+                        </th>
+                        <th>
+                            Reason of return 
+                        </th>
+                        <th>
+                            Requested Action
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ReturnList)
+                    {
+                        <tr>
+                            <td style="width: 10%;" class="text-center">
+                                <div>@item.ProductName</div>
+                            </td>                            
+                            <td style="width: 10%;" class="text-center">
+                                <div>@item.Quantity</div>
+                            </td>                                        
+                            <td style="width: 10%;" class="text-center">
+                                <div>@item.ReasonForReturn</div>
+                            </td>                           
+                            <td style="width: 10%;" class="text-center">
+                                <div>@item.RequestedAction</div>
+                            </td>
+                            <td style="width: 10%;" class="text-center">
+                                <a class="btn btn-default" href="@Url.Content("~/Admin/ReturnRequest/Edit/"+item.Id)"><i class="fa fa-eye"></i> - @T("Admin.Common.View")</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

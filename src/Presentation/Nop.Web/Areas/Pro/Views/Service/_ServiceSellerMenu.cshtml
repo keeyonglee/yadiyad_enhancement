@@ -1,0 +1,14 @@
+﻿@using YadiYad.Pro.Web.Enums
+@model ServiceSellerMenuType
+<div class="row align-items-center mb-4 mt-4 partial-header">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-service-seller-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ServiceSellerMenuType.MyServiceProfiles?"btn-primary":"btn-default")" href="@Url.Action("List","Service", new { Area = "Pro" }).ToLower()">My Service Profiles</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ServiceSellerMenuType.Received?"btn-primary":"btn-default")" href="@Url.Action("Receives","ServiceApplication", new { Area = "Pro" }).ToLower()">Received Requests (<span text="{{noReceivedRequests}}">0</span>)</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == ServiceSellerMenuType.Hiring?"btn-primary":"btn-default")" href="@Url.Action("Hires","ServiceApplication", new { Area = "Pro" }).ToLower()">Confirmed Order (<span text="{{noHiringRequests}}">0</span>)</a>
+        </div>
+    </div>
+</div>

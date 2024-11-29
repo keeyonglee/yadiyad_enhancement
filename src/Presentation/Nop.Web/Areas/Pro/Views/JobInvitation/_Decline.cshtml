@@ -1,0 +1,45 @@
+﻿
+<div class="content content-decline-job-invite">
+</div>
+
+<script id="tmpl-decline-job-invite" type="text/x-jsrender">
+    <div class="p-4">
+        <h4 class="text-primary text-center text-bold">Decline Reason</h4>
+        <div class="form-group row">
+            <div class="col-12">
+                {^{checkboxgroup  declineReasons}}
+                {^{for declineReasonOptions}}
+                <label class="form-check-label d-block cursor-pointer  mt-3">
+                    <input class="mr-2 text-checked" name="declineReasons"
+                           type="checkbox"
+                           data-link="{:declineReasons trigger=true:} value{:#data}" />
+                    <span class="text-muted">{{:#data}}</span>
+                </label>
+                {{/for}}
+                {{/checkboxgroup }}
+                <label class="form-check-label d-block cursor-pointer  mt-3">
+                    <input class="mr-2 text-checked" name="otherReasons"
+                           type="checkbox"
+                           data-link="{:hasOtherReasons trigger=true:}" value="Other" />
+                    <span class="text-muted">Other</span>
+                </label>
+                <div class="pl-4 mt-3">
+                    <textarea class="form-control " placeholder="Tell us more..."
+                              data-link="{:otherReason trigger=true:} disabled{:!hasOtherReasons}" maxlength="255"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 text-center">
+                <input class="btn btn-primary pl-4 pr-4" type="submit" value="Submit" data-link="{on 'click' ~root.declineJobInvitation}" />
+            </div>
+        </div>
+    </div>
+</script>
+
+<environment include="Development">
+    <script src="~/js/pro/jobInvitation/decline.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/pro/jobInvitation/decline.es5.min.js" asp-append-version="true"></script>
+</environment>

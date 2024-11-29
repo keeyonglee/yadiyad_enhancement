@@ -1,0 +1,20 @@
+﻿@model PayoutVendorModel
+
+@{
+    //page title
+    ViewBag.PageTitle = "Vendor Payout Details";
+
+}
+
+<form asp-controller="BankAccount" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Vendor Payout Details
+            <small>
+                <i class="fa fa-tasks"></i>
+                <a href="/Admin/Home/Overview">back to Vendor Dashboard</a>
+            </small>
+        </h1>
+    </div>
+    @await Html.PartialAsync("_VendorPayoutDetails.Details", Model)
+</form>

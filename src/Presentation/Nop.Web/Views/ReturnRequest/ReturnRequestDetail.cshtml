@@ -1,0 +1,133 @@
+﻿@using Nop.Web.Areas.Admin.Models.Orders
+@model GroupReturnRequestModel
+
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.ReturnRequestDetail").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-order-details-page");
+}
+
+<style>
+    .preview-img-doc{
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<div class="content content-submit-return">
+    <div class="container">
+        <h5 class="text-center mt-2 text-bold">Return Request #@Model.Id</h5>
+        <div class="order-overview">
+            <ul class="order-overview-content text-center">
+                <li class="order-date">
+                    @T("ReturnRequest.CreatedOn"): @Model.createdOnUtc.ToString("D")
+                </li>
+                <li class="order-status">
+                    @T("ReturnRequest.ReturnStatus"): @Model.ReturnRequestStatusStr
+                </li>
+            </ul>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3 pt-4">
+                    @foreach (var item in Model.ReturnList)
+                    {
+                        <div class="row mb-4 itemNo">
+                            @if (item.ProductPictures.Count > 0)
+                            {
+                                <div class="col-md-5 col-lg-3 col-xl-3 my-auto">
+                                    <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                        <img class="img-fluid" alt="@item.ProductPictures[0].AlternateText" src="@item.ProductPictures[0].ImageUrl" title="@item.ProductPictures[0].Title" id="main-product-img-@item.Id" />
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-md-7 col-lg-9 col-xl-9">
+                                <div class="prod_attr">
+                                    @if (!string.IsNullOrEmpty(item.AttributeInfo))
+                                    {
+                                        <div class="attributes">
+                                            <h5>Product description</h5>
+                                            @Html.Raw(item.AttributeInfo)
+                                        </div>
+                                    }
+                                    <div class="d-flex justify-content-between bd-highlight mb-3">
+                                        <select disabled id="qty" name="quantity@(item.Id)">
+                                            @for (var i = 1; i <= item.Quantity; i++)
+                                            {
+                                                <option value="@(i)">@(i)</option>
+                                            }
+                                        </select>
+                                        <p class="mb-0"><span><strong id="summary">RM @item.UnitPrice</strong></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Reason for returning
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3">
+                                <label class="text-primary col-form-label">Attachments</label>
+                                <div class="col-form-label pt-0">Share image(s) of your returning product</div>
+                            </div>
+                            <div class="col-sm-9">
+                                @foreach (var item in Model.Pictures)
+                                {
+                                    @if (item != null)
+                                    {
+                                        <div class="row mb-4 itemNo">
+                                            <div class="my-auto">
+                                                @if (item.ContentType.Contains("image"))
+                                                {
+                                                    <div>
+                                                        <img class="preview-img-doc" src="@(Url.Content("~/api/pro/Document?downloadGuid="+item.DownloadGuid))" />
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="mt-1">@item.FileName</div> 
+                                                }   
+                                                    <a class='btn btn-default margin-t-5' href="@(Url.Content("~/api/pro/Document?downloadGuid="+item.DownloadGuid))" target="_blank"><i class='fa fa-download'></i>@T("Admin.Download.DownloadUploadedFile")</a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3">
+                                <label class="text-primary col-form-label">Comment</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="comments" value="@Model.ReturnList[0].CustomerComments" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/lib/dropzone/5.7/css/dropzone.css" rel="stylesheet" />
+<link href="/lib/select2/css/select2.min.css" rel="stylesheet" />
+
+<script src="/lib/dropzone/5.7/js/dropzone.js" asp-location="Footer"></script>
+<script src="/lib/select2/js/select2.full.min.js" asp-location="Footer"></script>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
+@await Html.PartialAsync("~/Areas/Pro/Views/Shared/_FormComponent.cshtml")

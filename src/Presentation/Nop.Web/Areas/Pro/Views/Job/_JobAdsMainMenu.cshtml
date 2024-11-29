@@ -1,0 +1,14 @@
+﻿@using YadiYad.Pro.Web.Enums
+@model JobAdsMenuType
+<div class="row align-items-center mb-3 mt-3 partial-header">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-organization-job-main-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobAdsMenuType.CurrentJobAds?"btn-primary":"btn-default")" href="@Url.Action("Summary","Job", new { Area = "Pro" }).ToLower()">Current Postings</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobAdsMenuType.MyJobAdsProfiles?"btn-primary":"btn-default")" href="@Url.Action("list","Job", new { Area = "Pro" }).ToLower()">All Postings</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobAdsMenuType.Hired?"btn-primary":"btn-default")" href="@Url.Action("Hired","JobApplication", new { Area = "Pro" }).ToLower()">Hired (<span text="{{noJobHired}}">0</span>)</a>
+        </div>
+    </div>
+</div>

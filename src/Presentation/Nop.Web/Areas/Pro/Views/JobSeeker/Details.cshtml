@@ -1,0 +1,656 @@
+﻿@using YadiYad.Pro.Core.Domain.Job
+@using YadiYad.Pro.Core.Domain.Common
+@using YadiYad.Pro.Core.Domain.Service
+
+<div class="content content-jobseeker-profile">
+    <div class="container">
+        <form method="post" id="form-jobseeker-profile" role="form" action="/api/pro/jobseeker" form-validation-alert>
+        </form>
+    </div>
+</div>
+<script id="tmpl-job-seeker-profile" type="text/x-jsrender">
+    <h1 class="text-center mt-3 mb-3 text-bold">{^{:(data.id?'Update Job CV':'Create Job CV')}}</h1>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Skills &amp; Expertise</h4>
+                </div>
+                <div class="col-12">
+                    {^{for data.categories}}
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-12 col-lg-3 col-form-label">Category &amp; Experience</label>
+                                    <div class="col-12 col-lg-6">
+                                        <select class="form-control select2 select" required
+                                                name="categories[{{:(id?#index:uid)}}].categoryId"
+                                                data-link="categoryId"
+                                                textName="categories[{{:(id?#index:uid)}}].categoryName"
+                                                placeholder="Category"
+                                                data-sourceurl="/api/pro/source/jobservicecategory"
+                                                uniquegroup="categories.categoryId"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-lg-3 mt-lg-0 mt-3">
+                                        <select class="form-control select2 select" required
+                                                name="categories[{{:(id?#index:uid)}}].yearExperience"
+                                                data-link="yearExperience"
+                                                textName="categories[{{:(id?#index:uid)}}].yearExperienceName"
+                                                placeholder="Years of Experience"
+                                                data-sourceurl="/api/pro/source/experienceYear"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2 select" required
+                                                name="categories[{{:(id?#index:uid)}}].categoryExpertises"
+                                                data-link="expertiseIds"
+                                                multiple="multiple"
+                                                placeholder="Expertise"
+                                                data-dependent="categoryId:categories[{{:(id?#index:uid)}}].categoryId"
+                                                data-sourceurl="/api/pro/source/expertise"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {^{if #parent.data.length > 1}}
+                            <div class="col-12 text-right">
+                                <button type="button" class="btn btn-default"
+                                        data-link="{on ~root.removeCategory #parent.data #parent.index}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Remove
+                                </button>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/for}}
+                </div>
+                {^{if data.categories && data.categories.length < 3}}
+                <div class="col-12 text-right">
+                    <button type="button" class="btn btn-default"
+                            data-link="{on 'click' ~root.addCategory}">
+                        +&nbsp;&nbsp;Add
+                    </button>
+                </div>
+                {{/if}}
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Employment Info</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Employment Status</label>
+                        <div class="col-sm-9">
+                            {^{radiogroup data.employmentStatus}}
+                            @foreach (EmploymentStatus option in Enum.GetValues(typeof(EmploymentStatus)))
+                            {
+                                <div class="radio d-inline-block mr-4">
+                                    <label class="col-form-label form-check-label">
+                                        <input type="radio" name="employmentStatus" value="@((int)option)" required="required"
+                                               data-link="{on 'change' ~root.onEmploymentStatusChanged @((int)option)}">
+                                        @option.GetDescription()
+                                    </label>
+                                </div>
+                            }
+                            {{/radiogroup}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for"" class="col-sm-3 col-form-label">Job CV</label>
+                        <div class="col-sm-9">
+                            <input type="hidden" class="form-control input-dropzone"
+                                   name="cv.downloadId"
+                                    data-link="downloadId"
+                                    data-name-origin="cv[downloadId]" 
+                                    data-name-temp="cv.newDownloadId"
+                                    data-name-origin-id="cv.downloadGuid" 
+                                    data-name="cv.downloadName"
+                                    required
+                                  />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-link="visible{:data.employmentStatus === '1' || data.employmentStatus === 1}">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Company</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"
+                                   data-link="data.company"
+                                   name="company" maxlength="255" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Position</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"
+                                   data-link="data.position"
+                                   name="position" maxlength="255" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Tenure</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control  form-control-datepicker-tdp"
+                                   name="tenureStart" required />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control  form-control-datepicker-tdp"
+                                   data-link="disabled{:data.isPresentCompany}"
+                                   name="tenureEnd" required />
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    {^{checkboxgroup data.isPresentCompany}}
+                                    <input type="checkbox" name="isPresentCompany" value="1" data-link="{on 'change' ~root.onIsPresentCompanyChanged}">
+                                    {{/checkboxgroup}}
+                                    Is present company
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Archievements / Awards</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       data-link="data.achievementAward"
+                                       name="achievementAward" required />
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <h4 class="col-sm-6 font-weight-bolder">Education</h4>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" class="btn btn-default"
+                                    data-link="{on 'click' ~root.addAcademicQualifications}">
+                                +&nbsp;&nbsp;Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    {^{for data.academicQualifications }}
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Qualification Level</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2 select" required
+                                                name="academicQualifications[{{:(id?#index:uid)}}].academicQualificationType"
+                                                textName="academicQualifications[{{:(id?#index:uid)}}].academicQualificationTypeName"
+                                                data-link="academicQualificationTypeId"
+                                                placeholder="Qualification"
+                                                data-sourceurl="/api/pro/source/academicQualificationType"
+                                                data-id="value" data-text="text">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Qualification Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"
+                                               name="academicQualifications[{{:(id?#index:uid)}}].academicQualificationName"
+                                               data-link="academicQualificationName" maxlength="255"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Institution (Optional)</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"
+                                               name="academicQualifications[{{:(id?#index:uid)}}].academicInstitution"
+                                               data-link="academicInstitution" maxlength="255" />
+                                    </div>
+                                </div>
+                            </div>
+                            {^{if #parent.data.length > 1}}
+                            <div class="col-12 text-right">
+                                <button type="button" class="btn btn-default"
+                                        data-link="{on ~root.removeAcademicQualifications #parent.data #parent.index}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Remove
+                                </button>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/for}}
+                </div>
+
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <h4 class="col-sm-6 font-weight-bolder">Certificates &amp; Licenses (Optional)</h4>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" class="btn btn-default"
+                                    data-link="{on 'click' ~root.addLicenseCertificates}">
+                                +&nbsp;&nbsp;Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    {^{for data.licenseCertificates }}
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"
+                                               name="licenseCertificates[{{:(id?#index:uid)}}].professionalAssociationName"
+                                               data-link="professionalAssociationName" maxlength="200"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Issuing Organization</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"
+                                               name="licenseCertificates[{{:(id?#index:uid)}}].licenseCertificateName"
+                                               data-link="licenseCertificateName" maxlength="200"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Document</label>
+                                    <div class="col-sm-9">
+                                        <input type="hidden" class="form-control input-dropzone"
+                                               name="licenseCertificates[{{:(id?#index:uid)}}].downloadId"
+                                               data-link="downloadId"
+                                               data-name-origin="licenseCertificates[{{:(id?#index:uid)}}].downloadId" data-name-temp="licenseCertificates[{{:(id?#index:uid)}}].newDownloadId"
+                                               data-name-origin-id="licenseCertificates[{{:(id?#index:uid)}}].downloadGuid" data-name="licenseCertificates[{{:(id?#index:uid)}}].downloadName"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 row">
+                                <ul class="col-md-6" style="list-style-type: circle; padding-left:20px;">
+                                    <li><i>If both fields are not applicable, click ‘Remove’</i></li>
+                                    <li><i>If one field is not applicable, enter ‘NA’</i></li>
+                                </ul>
+                                <div class="col-md-6 text-right">
+                                    <button type="button" class="btn btn-default"
+                                            data-link="{on ~root.removeLicenseCertificates #data #index}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/for}}
+                </div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <h4 class="col-sm-6 font-weight-bolder">Languages</h4>
+                        <div class="col-sm-6 text-right">
+                            <button type="button" class="btn btn-default"
+                                    data-link="{on 'click' ~root.addLanguageProficiencies}">
+                                +&nbsp;&nbsp;Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    {^{for data.languageProficiencies }}
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Language</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2 select" required
+                                                name="languageProficiencies[{{:(id?#index:uid)}}].languageId"
+                                                textName="languageProficiencies[{{:(id?#index:uid)}}].languageName"
+                                                data-link="languageId"
+                                                placeholder="Language"
+                                                uniquegroup="language"
+                                                data-sourceurl="/api/pro/source/language"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Proficiency (spoken)</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2 select" required
+                                                name="languageProficiencies[{{:(id?#index:uid)}}].proficiencyLevel"
+                                                textName="languageProficiencies[{{:(id?#index:uid)}}].proficiencyLevelName"
+                                                data-link="proficiencyLevel"
+                                                placeholder="Proficiency"
+                                                data-sourceurl="/api/pro/source/LanguageProficiency"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-3 col-form-label">Proficiency (written)</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control select2 select" required
+                                                name="languageProficiencies[{{:(id?#index:uid)}}].proficiencyWrittenLevel"
+                                                textName="languageProficiencies[{{:(id?#index:uid)}}].proficiencyWrittenLevelName"
+                                                data-link="proficiencyWrittenLevel"
+                                                placeholder="Proficiency"
+                                                data-sourceurl="/api/pro/source/LanguageProficiency"
+                                                data-id="id" data-text="name">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {^{if #parent.data.length > 1}}
+                            <div class="col-12 row">
+                                <ul class="col-md-6" style="list-style-type: circle; padding-left:20px;">
+                                    <li><i>If not applicable, click ‘Remove’</i></li>
+                                </ul>
+                                <div class="col-md-6 text-right">
+                                    <button type="button" class="btn btn-default"
+                                            data-link="{on 'click' ~root.removeLanguageProficiencies #parent.data #parent.index}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Remove
+                                    </button>
+                                </div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/for}}
+                </div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">Achievements / Awards (Optional)</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"
+                                   data-link="data.achievementAward"
+                                   name="achievementAward" maxlength="255" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr class="mb-4" />
+                </div>
+                <div class="col-12">
+                    <h4 class="font-weight-bolder">My Job Seeking Availability</h4>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Job Model</label>
+                        <div class="col-sm-9">
+                            {^{checkboxgroup data.isFreelanceHourly}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isFreelanceHourly" data-link="{on 'change' ~root.onIsFreelanceHourlyChanged}" />
+                                    Freelancing (Hourly)
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                            {^{checkboxgroup data.isFreelanceDaily}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isFreelanceDaily" data-link="{on 'change' ~root.onIsFreelanceDailyChanged}" />
+                                    Freelancing (Daily)
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                            {^{checkboxgroup data.isProjectBased}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isProjectBased" />
+                                    Project-based
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Job Site</label>
+                        <div class="col-sm-9">
+                            {^{checkboxgroup data.isOnSite}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isOnSite" />
+                                    Onsite
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                            {^{checkboxgroup data.isPartialOnSite}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isPartialOnSite" />
+                                    Partial Onsite
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                            {^{checkboxgroup data.isRemote}}
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="isRemote" />
+                                    Remote
+                                </label>
+                            </div>
+                            {{/checkboxgroup}}
+                        </div>
+                    </div>
+                </div>
+                {^{if ( ~root.onJobModelChanged() !== false && (~root.data.isPartialOnSite || ~root.data.isOnSite ) )}}
+                {{/if}}
+                {^{for data.preferredLocations }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Location</label>
+                        <div class="col-sm-9 mb-2">
+                            <select class="form-control select2 select"
+                                    name="preferredLocations[0].countryId" textName="preferredLocations[0].countryName"
+                                    placeholder="Country"
+                                    data-sourceurl="/api/pro/source/country"
+                                    data-id="id" data-text="name" disabled>
+                            </select>
+                        </div>
+                        <div class="col-sm-5 offset-sm-3 mb-2">
+                            <select class="form-control select2 select"
+                                    name="preferredLocations[0].stateProvinceId" textName="preferredLocations[0].stateProvinceName"
+                                    data-link="stateProvinceId"
+                                    placeholder="All State"
+                                    data-dependent="countryId:preferredLocations[0].countryId"
+                                    data-sourceurl="/api/pro/source/stateProvince"
+                                    data-id="id" data-text="name">
+                            </select>
+                        </div>
+                        <div class="col-sm-4 mb-2">
+                            <select class="form-control select2 select"
+                                    name="preferredLocations[0].cityId" textName="preferredLocations[0].cityName"
+                                    data-link="cityId"
+                                    placeholder="All City"
+                                    data-dependent="countryId:preferredLocations[0].countryId;stateProvinceId:preferredLocations[0].stateProvinceId"
+                                    data-sourceurl="/api/pro/source/city"
+                                    data-id="id" data-text="name">
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-5">
+                                <select class="form-control select2 select"
+                                        name="preferredLocations[0].stateProvinceId" textName="preferredLocations[0].stateProvinceName"
+                                        data-link="stateProvinceId"
+                                        placeholder="All State"
+                                        data-dependent="countryId:preferredLocations[0].countryId"
+                                        data-sourceurl="/api/pro/source/stateProvince"
+                                        data-id="id" data-text="name">
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control select2 select"
+                                        name="preferredLocations[0].cityId" textName="preferredLocations[0].cityName"
+                                        data-link="cityId"
+                                        placeholder="All City"
+                                        data-dependent="countryId:preferredLocations[0].countryId;stateProvinceId:preferredLocations[0].stateProvinceId"
+                                        data-sourceurl="/api/pro/source/city"
+                                        data-id="id" data-text="name">
+                                </select>
+                            </div>
+                        </div>*@
+                </div>
+                {{/for}}
+                {^{if data.isFreelanceHourly || data.isFreelanceDaily }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Professional Fees</label>
+                        <div class="col-sm-6">
+                            {^{if data.isFreelanceHourly }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">RM</span>
+                                </div>
+                                <input type="number" class="form-control text-right" required data-link="data.hourlyPayAmount"
+                                       name="hourlyPayAmount" placeholder="0.00" max="100000" min="1">
+                                <span class="input-group-text">Per Hour - Hourly Basis</span>
+
+                            </div>
+                            {{/if}}
+
+                            {^{if data.isFreelanceDaily }}
+                            <div class="input-group mt-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">RM</span>
+                                </div>
+                                <input type="number" class="form-control text-right" required data-link="data.dailyPayAmount"
+                                       name="dailyPayAmount" placeholder="0.00" max="100000" min="1">
+                                <span class="input-group-text">Per Day - Daily Basis</span>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {^{if data.isFreelanceHourly || data.isFreelanceDaily }}
+                <div class="col-12">
+                    <div class="form-group row">
+                        <label for="" class="col-sm-3 col-form-label">Availability</label>
+                        <div class="col-sm-6">
+                            {^{if data.isFreelanceHourly }}
+                            <div class="input-group">
+                                <input type="number" class="form-control text-right" required data-link="data.availableHours"
+                                       name="availableHours" placeholder="hour(s)" min="1" max="40">
+                                <span class="input-group-text">hour(s) per week</span>
+                            </div>
+                            {{/if}}
+                            {^{if data.isFreelanceDaily }}
+                            <div class="input-group mt-3">
+                                <input type="number" class="form-control text-right" required data-link="data.availableDays"
+                                       name="availableDays" placeholder="day(s)" min="1" max="28">
+                                <span class="input-group-text">day(s) per month</span>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <div class="row  justify-content-md-center">
+        {^{if !data.id }}
+        <div class="col-12 area-agreement">
+            <div class="form-group row">
+                <div class="col-sm-12 text-center">
+                    <div class="radio d-inline-block mr-4">
+                        <label class="col-form-label form-check-label">
+                            <input type="checkbox" name="agreement" required>
+                            <span>@T("Pro.Service.UserAgreement")</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <div class="col-12 text-center">
+            <button type="button" class="btn btn-primary mb-2 btn-submit">Submit</button>
+            <a class="btn btn-default" data-link="visible{:data.id}" href="/pro/jobseeker">Cancel</a>
+        </div>
+        <div class="col-12">
+            <br />
+        </div>
+    </div>
+</script>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="~/lib/dropzone/5.7/css/dropzone.css" rel="stylesheet" />
+
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/bootstrap-datePicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/dropzone/5.7/js/dropzone.js"></script>
+
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/jobseeker/details.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/jobseeker/details.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -1,0 +1,133 @@
+﻿@using YadiYad.Pro.Web.Enums
+<div class="content">
+    <div class="container">
+        @*<partial name="_Menu" model="ConsultationMenuType.CurrentPostings" />*@
+        @await Component.InvokeAsync("OrganizationConsultationMenu", YadiYad.Pro.Web.Enums.ConsultationMenuType.CurrentPostings)
+        <div class="content-consultation-candidates">
+        </div>
+    </div>
+</div>
+
+
+<script id="tmpl-consultation-candidates" type="text/x-jsrender">
+    <div>
+        <h3>Consultant Job #{{:id}}</h3>
+        <h5>Search Results: <span>{^{:candidateResult.totalCount}} individuals available</span></h5>
+    </div>
+    {^{for candidateResult.data}}
+    <div class="card cursor-pointer">
+        <div class="card-body" data-link="{on 'click' ~root.showMoreCandidateDetail}">
+            {{if invited === true}}
+            <h4>
+                <span class="badge badge-pill badge-primary badge-position-right pl-4 pr-4">Invited</span>
+            </h4>
+            {{/if}}
+            <div class="row">
+                <div class="col-6">
+                    <h5>{^{:code}}</h5>
+                </div>
+                <div class="col-6 text-right">
+                    {{if invited === false}}
+                    <input name="invited" type="checkbox" data-link="selected" />
+                    {{/if}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div>
+                        <small>Age {{:age}}, {{:genderName}} &Iota; {{:categoryName}}</small>
+                    </div>
+                    <div>
+                        <small>Estimated professional fees: <b>RM {{:consultationCharges}}</b> (Not Including Service Charge)</small>
+                    </div>
+                    <div>
+                        {{for serviceExpertises}}
+                        <span class="badge badge-pill badge-secondary">{{:name}}</span>
+                        {{/for}}
+                    </div>
+                    <div>
+                        <span class="badge badge-pill badge-secondary">{{:experienceYearName}} Experience</span>
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                    <h4 class="text-bold">{{:rating.toFixed(1)}}<span class="text-muted">/ 5.0</span></h4>
+                    <div>{{:reviewCount}} reviews</div>
+                    <div class="rating float-right mt-2">
+                        <div data-link="css-width{:(rating/5*100.00)+'%'}"></div>
+                    </div>
+                </div>
+            </div>
+            {^{if showMore === true}}
+            <hr />
+            <h5 class="text-bold">Past Consultant Ratings:</h5>
+            {^{if pastJobs}}
+            {^{if pastJobs.totalCount > 0}}
+            {^{for pastJobs.data}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="text-bold">{{:organizationName}}</h5>
+                        </div>
+                        <div class="col-6 text-right">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="d-inline-block text-bold mr-2">{{:rating.toFixed(1)}}</h4>
+                        <div class="d-inline-block">
+                            <div class="rating">
+                                <div data-link="css-width{:(rating/5*100.00)+'%'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="font-italic">
+                        {{:reviewText}}
+                    </div>
+                </div>
+            </div>
+            {{/for}}
+            {{else}}
+            <div class="text-left">No past job</div>
+            {{/if}}
+            {{/if}}
+            @*{^{if invited === false}}
+            <div class="text-right">
+                <input type="button" value="Invite" class="btn btn-secondary btn-invite" data-link="{on 'click' ~root.inviteCandidates #data}" />
+            </div>
+            {{/if}}*@
+            {{/if}}
+        </div>
+    </div>
+    {{/for}}
+    {^{include ~root.pagination.model tmpl="#tmp-simple-pagination"/}}
+
+    <div class="text-right">
+        <input type="button" value="Search Again" class="btn btn-info btn-search mb-2" data-link="{on 'click' ~root.searchCandidates}" />
+        <input type="button" value="Invite" class="btn btn-secondary btn-invite" data-link="disabled{:!candidateResult.selected} {on 'click' ~root.inviteCandidates null}" />
+    </div>
+</script>
+
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/candidates.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/organization-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/candidates.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

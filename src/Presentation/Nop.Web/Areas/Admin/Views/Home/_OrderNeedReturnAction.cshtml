@@ -1,0 +1,82 @@
+﻿@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    const string panelId = "orders-return-box";
+    const string hidePanelAttributeName = "Reports.HideLatestOrdersPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
+    var gridPageSize = 5;
+}
+
+<div class="box box-info @if(hidePanel){<text>collapsed-box</text>}" id="@panelId">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-cart-plus"></i>
+            Orders Pending Return Request Action
+            <a asp-controller="ReturnRequest" asp-action="List" class="btn btn-xs btn-info btn-flat margin-l-10">View All Returns</a>
+        </h3>
+        <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse">
+                @if (hidePanel)
+                {
+                    <text><i class="fa fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fa fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        @await Html.PartialAsync("Table", new DataTablesModel
+       {
+           Name = "orders-return-grid",
+           UrlRead = new DataUrl("OrderNeedReturnAction", "Order", null),
+           Length = gridPageSize,
+           Dom = "<'row'<'col-md-12't>>" +
+                      "<'row margin-t-5'" +
+                        "<'col-lg-10 col-xs-12'<'float-lg-left'p>>" +
+                        "<'col-lg-2 col-xs-12'<'float-lg-right text-center'i>>" +
+                      ">",
+           ColumnCollection = new List<ColumnProperty>
+                {
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.OrderId))
+                {
+                    Title = "Order #",
+                    Width = "60"
+                },
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.GroupReturnRequestId))
+                {
+                    Title = "Group Return Request #",
+                    Width = "100"
+                },
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.OrderDate))
+                {
+                    Title = "Order Date",
+                    Width = "120",
+                    Render = new RenderDate()
+                },
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.ReturnRequestDate))
+                {
+                    Title = "Return Request Date",
+                    Width = "120",
+                    Render = new RenderDate()
+                },
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.ActBefore))
+                {
+                    Title = "Act Before",
+                    Width = "120",
+                    Render = new RenderDate()
+                },
+                new ColumnProperty(nameof(VendorReturnRequestActionModel.GroupReturnRequestId))
+                {
+                    Title = T("Admin.Common.View").Text,
+                    Width = "50",
+                    ClassName = NopColumnClassDefaults.Button,
+                    Render = new RenderButtonView(new DataUrl("~/Admin/ReturnRequest/EditGroup/"))
+                }
+            }
+        })
+    </div>
+</div>

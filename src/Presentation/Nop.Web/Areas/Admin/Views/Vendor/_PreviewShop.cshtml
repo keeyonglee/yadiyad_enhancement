@@ -1,0 +1,70 @@
+﻿<!--
+    using client side method to pass value to backend
+-->
+<button type="button" class="btn bg-purple btn-preview">
+    <i class="fa fa-eye"></i>
+    @T("Admin.Common.Preview")
+</button>
+
+<script type="text/x-jquery-tmpl" id="tmpl-preview-vendor">
+    <form method="post" action="@Url.Action("PreviewVendor","Catalog", new { Area = ""})" target="_blank" style="display:none;">
+        @*<input type="hidden" value="" name="Name" />
+        <input type="hidden" value="" name="Description" />*@
+    </form>
+</script>
+
+<script type="text/javascript">
+    var VendorPreviewComponent = function () {
+        var tmpl = {
+            previewVendor: $('#tmpl-preview-vendor').html()
+        };
+
+        var $vendorForm = $('#form-vendor');
+
+        var newid = function () {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        };
+        
+        var previewVendor = function () {
+            var formId = 'form-preview-vendor-' + newid();
+
+            var $previewVendorForm = $(tmpl.previewVendor);
+            $previewVendorForm.attr('id', formId);
+            $('body').append($previewVendorForm);
+            $previewVendorForm = $('body').find('#' + formId);
+
+            //$previewVendorForm.find('[name="Name"]').val($vendorForm.find('[name="Name"]').val())
+            //$previewVendorForm.find('[name="Description"]').val($vendorForm.find('[name="Description"]').val());
+
+            $vendorForm.find('[name]').each(function () {
+                var $field = $(this);
+
+                $previewVendorForm.append($field.clone());
+            });
+
+            var vendorDesc = (typeof (tinymce) !== 'undefined' && tinymce.get("Description").getContent()) || $vendorForm.find('[name="Description"]').val();
+
+            $previewVendorForm.find('[name="Description"]').val(vendorDesc);
+
+            $previewVendorForm.submit();
+            $previewVendorForm.remove();
+        };
+
+        var init = function () {
+            $('.btn-preview').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                previewVendor();
+            });
+        };
+
+        init();
+    };
+
+    $(document).ready(function () {
+        var vendorPreviewComponent = new VendorPreviewComponent();
+    });
+</script>

@@ -1,0 +1,94 @@
+﻿<!-- Main Footer -->
+<footer class="main-footer">
+    <!-- Messenger Chat plugin Code -->
+    <div id="fb-root">
+    </div>
+
+
+    <!-- Your Chat plugin code -->
+    <div id="fb-customer-chat" class="fb-customerchat ">
+    </div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "105834631720435");
+      chatbox.setAttribute("attribution", "biz_inbox");
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v11.0'
+        });
+      };
+
+        (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="row footer-parent mt-5 mb-3">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-sm-6 p-4">
+                            <h5 class="mb-3">Info</h5>
+                            <a href="/pro/account/login" class="mb-3 d-block">My Profile</a>
+                            <a href="/pro/home/faq" class="mb-3 d-block">FAQ</a>
+                            <a href="/pro/home/contactus" class="mb-3 d-block">Contact Us</a>
+                            @*<a href="" class="mb-3 d-block">Resources</a>
+                                <a href="" class="mb-3 d-block">Guide for Individual</a>
+                                <a href="" class="mb-3 d-block">Guide for Organinzation</a>*@
+
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-sm-6 p-4">
+                            <h5 class="mb-3">Terms</h5>
+                            <a href="/terms-of-service" class="mb-3 d-block">User Agreement</a>
+                            <a href="/privacy-policy" class="mb-3 d-block">Privacy Policy</a>
+                            <a href="/fee-and-charges" class="mb-3 d-block">Fee and Charges</a>
+                            <a href="/escrow-service-terms" class="mb-3 d-block">Escrow Service Terms</a>
+                            <a href="/cancellation-and-refund-policy" class="mb-3 d-block">Cancellation and Refund Policy</a>
+                            <a href="/dispute-settlement-policy" class="mb-3 d-block">Dispute Settlement Policy</a>
+
+                            @*<a href="/pro/home/vision" class="mb-3 d-block">Vision and Mission</a>
+                                <a href="/pro/home/howitwork" class="mb-3 d-block">How it Works</a>
+                                <a class="mb-3 d-block hidden">Fees and Refund</a>*@
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-sm-6 p-4">
+                            <h5 class="mb-3">Yadiyad</h5>
+                            <a href="/pro/home/info" class="mb-3 d-block">Home</a>
+                            <a href="/pro/home/about" class="mb-3 d-block">About Us</a>
+                            <a href="/pro/home/segment" class="mb-3 d-block">Segments</a>
+                            <a href="/pro/home/individual" class="mb-3 d-block">Individual</a>
+                            <a href="/pro/home/organization" class="mb-3 d-block">Organization</a>
+
+                        </div>
+                        @*<div class="col-xl-2 col-lg-4 col-sm-6 p-4">
+                                <h5 class="mb-3">Help Centre</h5>
+                                <a class="mb-3 d-block hidden">Contact Us</a>
+                            </div>*@
+                        @*<div class="col-xl-2 col-lg-4 col-sm-6 p-4">
+                                <h5 class="mb-3">App</h5>
+                                <img class="footer-ico" src="~/img/pro/home/footer-google-apple.png" />
+                            </div>*@
+                        <div class="col-xl-3 col-lg-4 col-sm-6 p-4">
+                            <h5 class="mb-3">Follow Us</h5>
+                            <div class="d-inline-block">
+                                <a href="https://www.facebook.com/yadiyadglobal" target="_blank" rel="noopener noreferrer"><img class="footer-ico" src="/img/pro/home/footer-facebook.png" /></a>
+                                <a href="https://www.instagram.com/yadiyadglobal/" target="_blank" rel="noopener noreferrer"><img class="footer-ico" src="/img/pro/home/footer-insta.png" /></a>
+                                <a href="https://www.linkedin.com/company/74335011" target="_blank" rel="noopener noreferrer"><img class="footer-ico" src="/img/pro/home/footer-linkedin.png" /></a>
+                            </div>
+                            <div class="text-bold mt-4 mb-1">EXPLORE</div>
+                            <a href="/shuq" target="_blank" rel="noopener noreferrer"><img class="w-100" src="~/img/pro/brand/logo-new-shuq-white.png" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 mb-4" style="border-top: 1px solid white;"></div>
+            <span class="text-center text-white d-block">Copyright &copy; 2021 Yadiyad. All Rights Reserved.</span>
+        </div>
+    </div>
+</footer>

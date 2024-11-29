@@ -1,0 +1,307 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+<form class="content" method="post" action="/api/pro/service/search">
+    <div class="container">
+        @await Component.InvokeAsync("ServiceSellerMenu", YadiYad.Pro.Web.Enums.ServiceSellerMenuType.Received)
+        @*<partial name="../Service/_ServiceSellerMenu" model="YadiYad.Pro.Web.Enums.ServiceSellerMenuType.Received" />*@
+        <div class="row content-service-search">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Current Requests (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body list-service-receives-list">
+                    </div>
+                </div>
+                <div class="pagination-service-receives-list">
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-service-receives-list-response">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<partial name="_Modal"
+         model='
+new BootstrapModel {
+    ID = "modal-service-application-repropose",
+    AreaLabeledId = "modal-action-store-label",
+    Size = ModalSize.Large,
+    AdditionalClass = "no-title"
+}' />
+
+<script id="template-card-service-receives-empty" type="text/x-jsrender">
+    <div class="col-12">
+        <div class="card">
+            <div class="text-center mt-5 mb-5">
+                <h4 class="text-primary text-bold">No Received Request</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-receives-list-empty" type="text/x-jsrender">
+    <div class="text-center">
+        <h4>No received request</h4>
+    </div>
+</script>
+<script id="template-card-service-receives-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-service-receives-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <div>
+                <span>{{:createdOnUTC}}</span>
+                {{if status == 1}}
+                <span class="badge badge-pill badge-gray float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 2}}
+                <span class="badge badge-pill badge-primary float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 3 || status == 5 || status == 6}}
+                <span class="badge badge-pill badge-secondary float-lg-right">{{:statusName}}</span>
+                {{/if}}
+                {{if status == 4}}
+                <span class="badge badge-pill badge-danger float-lg-right">{{:statusName}}</span>
+                {{/if}}
+            </div>
+            <h5 class="text-bold">{{:serviceProfile.categoryName}}</h5>
+            <h6 class="text-bold">{{:serviceProfileServiceTypeName}}</h6>
+            <div><span>{{:serviceProfileServiceModelName}}</span></div>
+            <div>
+                {{if serviceProfileServiceTypeId == 1}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per hour&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 2}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per day&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 3}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> per session&nbsp;
+                {{/if}}
+                {{if serviceProfileServiceTypeId == 4}}
+                <span class="text-bold">RM {{:serviceProfileServiceFee}}</span> for entire project&nbsp;
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-receives-list-response-empty" type="text/x-jsrender">
+    <div class="content-service-list-response">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>No received request</h4>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="template-card-service-receives-list-response" type="text/x-jsrender">
+    <div class="content-service-receives-list-response" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="font-weight-bolder">Skills &amp; Expertise</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <div>{{:serviceProfile.categoryName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Years of Experience</label>
+                            <div class="col-sm-9">
+                                <div>{{:serviceProfile.experienceYearName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Expertise</label>
+                            <div class="col-sm-9 area-expertise">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <h4 class="col-sm-12 font-weight-bolder">Job Details</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Model</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Service Site</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:serviceProfileServiceModelName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceProfileServiceModelId == 1 || serviceProfileServiceModelId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Location</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:location}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 1}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Hourly)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per hour</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3 && serviceProfileServiceFee != 0}}
+                            {{if serviceProfileOnsiteFee != 0}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Hours</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}} hours per week</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Freelance (Daily)</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per day</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Required Days</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:required}} days per month</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 3}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Consultation</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  per session</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if serviceProfileServiceTypeId == 4}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Project-based</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">RM {{:serviceProfileServiceFee}}  for entire project</div>
+                            </div>
+                            {{if serviceProfileServiceModelId != 3}}
+                            <div class="offset-sm-3 col-sm-9">
+                                <div class="col-form-label">*Additional onsite charges = RM {{:serviceProfileOnsiteFee}}</div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Start Date</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:startDate}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{if serviceProfileServiceTypeId == 1 || serviceProfileServiceTypeId == 2}}
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <div for="" class="col-sm-3 col-form-label font-weight-bold">Expected Duration</div>
+                            <div class="col-sm-9">
+                                <div class="col-form-label">{{:duration}} months</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if status == 1}}
+                    <div class="col-12">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-secondary btn-accept">Accept</button>
+                            <input type="button" class="btn btn-info" value="New Start Date?"
+                                   data-toggle="modal" data-target="#modal-service-application-repropose"
+                                   data-keyboard="false"
+                                   href="/pro/serviceApplication/repropose" />
+                            <button type="button" class=" btn btn-default btn-decline">Decline</button>
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+
+@await Component.InvokeAsync("SimplePagination")
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/seller-counter.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/receives.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/seller-counter.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/serviceApplication/receives.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

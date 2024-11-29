@@ -1,0 +1,198 @@
+﻿@using YadiYad.Pro.Core.Domain.Service
+@using YadiYad.Pro.Web.Models.Enums
+
+<div class="content content-consultation-search">
+    <div class="container">
+
+        <h1 class="text-center title-create">@T("Pro.Job.Consultation.Reply.Review")</h1>
+
+        <div class="row">
+            <div class="col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center p-2 bg-gray-dark">
+                        <h6 class="text-bold m-0">Current Postings (<span text="{{totalCount}}">0</span>)</h6>
+                    </div>
+                    <div class="card-body list-consultation-list">
+                    </div>
+                </div>
+                <div class="pagination-consultation-replyreview-list">
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="content-consultation-detail">
+                </div>
+                <div class="card" id="divReplyBtnShow">
+                    <div class="card-body">
+                        <div class="consultation-approval">
+                            <form action="/api/pro/consultationinvitation/approval" method="post" role="form" id="form-consultation-invitation-approval">
+                                <div class="row  justify-content-md-center">
+                                    <div class="col-12">
+                                        <div class="form-group row grp-remark">
+                                            <label for="" class="col-sm-3 col-form-label">Remarks</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" maxlength="1000" name="remarks" placeholder="Additional comments (Optional)"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <label for="" class="col-sm-3 col-form-label">Approval</label>
+                                            <div class="col-sm-3">
+                                                <div class="radio d-inline-block mr-4">
+                                                    <label class="col-form-label form-check-label">
+                                                        <input type="radio" value="true" name="isApproved">
+                                                        Approve
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="radio d-inline-block mr-4">
+                                                    <label class="col-form-label form-check-label">
+                                                        <input type="radio" value="false" name="isApproved">
+                                                        Reject
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                                <div class="col-12">
+                                    <br />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="template-card-consultation-list-empty" type="text/x-jsrender">
+    <div class="card cursor-pointer card-consultation-list">
+        <div class="card-body">
+            <h5 class="text-bold">No Consultation Job</h5>
+        </div>
+    </div>
+</script>
+<script id="template-card-consultation-list" type="text/x-jsrender">
+    {{if #index !== 0}}
+    <hr />
+    {{/if}}
+    <div class="card cursor-pointer card-consultation-list shadow-none {{:(#index === 0?"selected":"")}}" data-entity-id="{{:id}}">
+        <div class="card-body">
+            <h5 class="text-bold">Consultation Request #{{:id}}</h5>
+            <div class="text-truncate"><span>{{:topic}}</span></div>
+        </div>
+    </div>
+</script>
+<script id="template-card-consultation-detail-empty" type="text/x-jsrender">
+    <div class="card-body">
+        <h5 class="text-bold">No Consultation Job</h5>
+    </div>
+</script>
+<script id="template-card-consultation-detail" type="text/x-jsrender">
+    <div class="content-consultation-detail" data-entity-id="{{:id}}">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Segment</label>
+                            <div class="col-sm-9">
+                                {{:segmentName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Topic</label>
+                            <div class="col-sm-9">
+                                {{:topic}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Objective</label>
+                            <div class="col-sm-9">
+                                {{:objective}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h5 class="text-bold">Consultant Available Session</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Time</label>
+                            <div class="col-sm-9">
+                                {{for consultantAvailableTimeSlots}}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div>{{:(#parent.parent.data.timeZoneName)}}, {{:startDateText}}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div>{{:startTimeText}} - {{:endTimeText}}</div>
+                                    </div>
+                                </div>
+                                {{/for}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr class="mb-4" />
+                    </div>
+                    <div class="col-12">
+                        <h5 class="text-bold">Screening Questionnaire:</h5>
+                    </div>
+                    <div class="col-12">
+                        {{for consultantReplys}}
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Question {{:('Q'+(#index+1))}}</label>
+                            <div class="col-sm-9">
+                                <div class="text-gray">{{:title}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Answer {{:('A'+(#index+1))}}</label>
+                            <div class="col-sm-9">
+                                <div class="text-gray">{{:answers}}</div>
+                            </div>
+                        </div>
+                        {{/for}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@await Component.InvokeAsync("SimplePagination")
+
+@section StyleLibs{
+    <link href="~/lib/bootstrap-datePicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jsviews/jsviews.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/jobreplyreview.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/simplepagination/simplepagination.es5.min.js" asp-append-version="true"></script>
+        <script src="~/js/pro/consultation/jobreplyreview.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

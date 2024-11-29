@@ -1,0 +1,201 @@
+﻿@model int?
+@inject IPictureService pictureService
+
+@using Nop.Core;
+@using Nop.Services.Media
+@using Nop.Web.Framework.UI;
+
+@{ //register CSS and JS
+                Html.AddCssFileParts("~/lib/fineuploader/fine-uploader.min.css");
+                Html.AddScriptParts("~/lib/fineuploader/jquery.fine-uploader.min.js");
+
+                //other variables
+                var random = CommonHelper.GenerateRandomInteger();
+                var clientId = "picture" + random;
+                var picture = pictureService.GetPictureById(Model??0);
+
+                const int pictureSize = 100; }
+
+<style>
+    /* fine uploader */
+.upload-picture-block {
+    position: relative;
+}
+
+    .upload-picture-block input[type="file"]{
+        cursor:pointer;
+    }
+
+    .upload-button-container,
+    .upload-image-button,
+    .qq-uploader,
+    .qq-upload-drop-area {
+        position: absolute !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+
+.qq-upload-button > input,
+.qq-upload-button {
+    user-select: none;
+    outline: none;
+    background-color: transparent !important;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    border: none !important;
+    width: 100% !important;
+    height: 100%!important;
+    padding:0!important;
+    cursor: pointer;
+    font-size: 1px!important;
+}
+    .qq-upload-button {
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .uploaded-image {
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        border-style: dashed !important;
+        background-color: #fcf4ff;
+    }
+
+        .uploaded-image.uploaded {
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-style: solid !important;
+            border-color: transparent !important;
+            background-color: #fcf4ff !important;
+        }
+
+        .uploaded-image .label {
+            position: absolute;
+            bottom: 7%;
+            left: 10%;
+            right: 10%;
+            text-align: center;
+            font-weight:600;
+        }
+
+            .uploaded-image img{
+                margin-top: -12%;
+            }
+
+            .qq-upload-file,
+            .qq-upload-size,
+            .qq-upload-status-text,
+            .qq-upload-success {
+                display: none !important;
+            }
+
+.remove-image-button > input {
+    background-color: transparent !important;
+}
+
+.qq-upload-list li {
+    background-color: transparent !important;
+}
+</style>
+<div id="@(clientId + "value")">
+    <input type="hidden" name="pictureId" value="@Model" />
+</div>
+<div class="upload-picture-block ratio-1-1">
+    <div id="@(clientId + "image")" class="uploaded-image w-100 h-100 rounded bg-primary-light overflow-hidden border border-primary"
+         style="@(Model==null?"":"background-image: url(\""+pictureService.GetPictureUrl(Model.Value)+"\");")">
+    @if (Model == null)
+    {
+        <img src="/img/pro/ico/camera.png" class="w-100 h-100" />
+        <span class="label">Upload an image</span>
+    }
+    </div>
+    <div class="upload-button-container">
+        @*fine uploader container*@
+        <div id="@clientId" class="upload-image-button pull-left margin-t-5">
+            <noscript>
+                <p>Please enable JavaScript to use file uploader.</p>
+            </noscript>
+        </div>
+        <div class="remove-image-button pull-left margin-t-5">
+            @if (picture != null)
+            {
+                <span id="@(clientId + "remove")" class=""></span> }
+            else
+            {
+                <span id="@(clientId + "remove")" class="" style="display: none;"></span>
+            }
+        </div>
+    </div>
+</div>
+
+@*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
+<script type="text/template" id="@(clientId)-qq-template">
+    <div class="qq-uploader-selector qq-uploader">
+        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+            <span>@T("Common.FileUploader.DropFiles")</span>
+        </div>
+        <div class="qq-upload-button-selector qq-upload-button">
+        </div>
+        <span class="qq-drop-processing-selector qq-drop-processing">
+            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+        </span>
+        <ul class="qq-upload-list-selector qq-upload-list">
+            <li>
+                <div class="qq-progress-bar-container-selector">
+                    <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                </div>
+                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+            </li>
+        </ul>
+    </div>
+</script>
+<script type="text/template" class="tmpl-default-image">
+    <img src="/img/pro/ico/camera.png" class="w-100 h-100" />
+    <span class="label">Upload an image</span>
+</script>
+<script>
+    $(document).ready(function () {
+        var imageUploadURL = '@(Url.Content("~/api/pro/Picture"))';
+        var clientId = "@(clientId)";
+        var defaultImgHTML = $('.tmpl-default-image:first').html();
+        var imageClientId = clientId + "image";
+        var valueClientId = clientId + "value";
+        var removeClientId = clientId + "remove";
+        var classUploaded = "uploaded";
+
+        $("#" + clientId).fineUploader({
+            validation: {
+                acceptFiles: 'image/*'
+            },
+            request: {
+                endpoint: imageUploadURL
+            },
+            template: clientId+"-qq-template",
+            multiple: false
+        }).on("complete", function(event, id, name, responseJSON, xhr) {
+            if (responseJSON.success) {
+                $("#" + imageClientId).addClass(classUploaded);
+                $("#" + imageClientId).empty();
+                $("#" + imageClientId).css('background-image', 'url(' + responseJSON.imageUrl + ')');
+                $("#" + valueClientId+" input").val(responseJSON.pictureId);
+                $("#" + removeClientId).show();
+            }
+        });
+        $("#" + removeClientId).click(function(e) {
+            $("#" + imageClientId).removeClass(classUploaded);
+            $("#" + imageClientId).html(defaultImgHTML);
+            $("#" + valueClientId+" input").val(0);
+            $("#" + clientId+" .qq-upload-list-selector").empty();
+            $(this).hide();
+        });
+    });
+</script>

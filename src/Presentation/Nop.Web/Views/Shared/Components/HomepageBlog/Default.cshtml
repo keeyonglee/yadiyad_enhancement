@@ -1,0 +1,51 @@
+﻿<style>
+    .blog-img-container {
+        height: 300px;
+        width: 300px;
+        margin-left:auto;
+        margin-right:auto;
+        position:relative;
+    }
+    .blog-img {
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+@model HomepageBlogPostModel
+@if (Model.BlogPost.Count > 0)
+{
+    <div class="news-list-homepage">
+        <div class="title">
+            <strong>@T("Blog")</strong>
+        </div>
+        <div class="row mt-3">
+            @foreach (var item in Model.BlogPost)
+            {
+
+            <div class="col-xs-12 col-sm-6 col-lg-4 mb-2">
+                @if (item.PictureUrl != "")
+                {
+                    <div class="text-center">
+                            <div class="rounded blog-img-container">
+                                <img class="blog-img" src="@item.PictureUrl" />
+                            </div>
+                    </div>
+                }
+                <div class="news-head">
+                    <a class="news-title" href="@Url.RouteUrl("BlogPost", new { SeName = item.SeName })">@item.Title</a>
+                    <span class="news-date">-@item.CreatedOn.ToString("D")</span>
+                </div>
+            </div>
+            }
+        </div>
+          <div class="view-all">
+              <a href="@Url.RouteUrl("Blog")">@T("Blog.ViewAll")</a>
+        </div>
+    </div>
+
+}

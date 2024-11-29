@@ -1,0 +1,180 @@
+@model SellerDisputeModel
+
+@{
+    var disputePictureCols = new List<ColumnProperty>
+                {
+                    new ColumnProperty(nameof(SellerDisputePictureModel.PictureUrl))
+                    {
+                        Title = T("Admin.Catalog.Products.Pictures.Fields.Picture").Text,
+                        Render = new RenderCustom("renderPicturesColumnProductPictureUrl")
+                    },
+                    new ColumnProperty(nameof(SellerDisputePictureModel.DisplayOrder))
+                    {
+                        Title = T("Admin.Catalog.Products.Pictures.Fields.DisplayOrder").Text,
+                        Width = "150",
+                        ClassName = NopColumnClassDefaults.CenterAll,
+                        Editable = true,
+                        EditType = EditType.Number
+                    },
+                    new ColumnProperty(nameof(SellerDisputePictureModel.OverrideAltAttribute))
+                    {
+                        Title = T("Admin.Catalog.Products.Pictures.Fields.OverrideAltAttribute").Text,
+                        Width = "200",
+                        Editable = true,
+                        EditType = EditType.String
+                    },
+                    new ColumnProperty(nameof(SellerDisputePictureModel.OverrideTitleAttribute))
+                    {
+                        Title = T("Admin.Catalog.Products.Pictures.Fields.OverrideTitleAttribute").Text,
+                        Width = "200",
+                        Editable = true,
+                        EditType = EditType.String
+                    }
+
+                };
+    //if (Model.GroupReturnRequestApprovalStatus == "Pending" || Model.GroupReturnRequestApprovalStatus == "InDispute")
+    //{
+    //    disputePictureCols.Add(
+    //    new ColumnProperty(nameof(SellerDisputePictureModel.Id))
+    //            {
+    //                Title = T("Admin.Common.Delete").Text,
+    //                Width = "100",
+    //                Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+    //                ClassName = NopColumnClassDefaults.Button
+    //            });
+    //}
+
+    if (1 == 1)
+    {
+        disputePictureCols.Add(
+        new ColumnProperty(nameof(SellerDisputePictureModel.Id))
+                {
+                    Title = T("Admin.Common.Delete").Text,
+                    Width = "100",
+                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                    ClassName = NopColumnClassDefaults.Button
+                });
+    }
+}
+
+<div class="panel-body">
+    <div class="sub-panel">
+
+        @await Html.PartialAsync("Table", new DataTablesModel
+   {
+       Name = "disputepicture-grid",
+       UrlRead = new DataUrl("SellerDisputePictureList", "Dispute", new RouteValueDictionary { [nameof(Model.SellerDisputePictureSearchModel.GroupReturnRequestId)] = Model.SellerDisputePictureSearchModel.GroupReturnRequestId }),
+       UrlDelete = new DataUrl("SellerDisputePictureDelete", "Dispute", null),
+       Length = Model.SellerDisputePictureSearchModel.PageSize,
+       LengthMenu = Model.SellerDisputePictureSearchModel.AvailablePageSizes,
+       ColumnCollection = disputePictureCols
+
+   })
+        
+        <script>
+            function renderPicturesColumnProductPictureUrl(data, type, row, meta) {
+                return '<a href="' + row.PictureUrl + '" target="_blank"><img alt="' + row.PictureId + '" src="' + row.PictureUrl + '" width="150" /></a>';
+            }
+        </script>
+    </div>
+
+    @if (1 == 1)
+    {
+    <div class="panel panel-default">
+            <div class="panel-heading">
+                @T("Admin.Catalog.Products.Pictures.AddNew")
+            </div>
+        <div class="panel-body">
+            <script>
+                $(document).ready(function() {
+                    $('#addDisputePicture').click(function() {
+                        var pictureId = $("#@Html.IdFor(model => model.AddPictureModel.PictureId)").val();
+                        var overrideAltAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideAltAttribute)").val();
+                        var overrideTitleAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideTitleAttribute)").val();
+                        var displayOrder = $("#@Html.IdFor(model => model.AddPictureModel.DisplayOrder)").val();
+
+                        if (pictureId == 0) {
+                            $("#addProductPictureAlert").click();
+                            return;
+                        }
+
+                        $('#addDisputePicture').attr('disabled', true);
+
+                        var postData = {
+                            pictureId: pictureId,
+                            displayOrder: displayOrder,
+                            overrideAltAttribute: overrideAltAttribute,
+                            overrideTitleAttribute: overrideTitleAttribute,
+                            groupId: '@Model.GroupReturnRequestId'
+                        };
+                        addAntiForgeryToken(postData);
+
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("SellerDisputePictureAdd", "Dispute"))",
+                            data: postData,
+                            success: function (data, textStatus, jqXHR) {
+                                if (!data.Result) {
+                                    return;
+                                }                                        
+                                updateTable('#disputepicture-grid');
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                $("#productPictureAddAlert").click();
+                            },
+                            complete: function (jqXHR, textStatus) {
+                                $('#addDisputePicture').attr('disabled', false);
+                            }
+                        });
+                    });
+                });
+            </script>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddPictureModel.PictureId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddPictureModel.PictureId" />
+                    <span asp-validation-for="AddPictureModel.PictureId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddPictureModel.OverrideAltAttribute" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddPictureModel.OverrideAltAttribute" />
+                    <span asp-validation-for="AddPictureModel.OverrideAltAttribute"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddPictureModel.OverrideTitleAttribute" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddPictureModel.OverrideTitleAttribute" />
+                    <span asp-validation-for="AddPictureModel.OverrideTitleAttribute"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="AddPictureModel.DisplayOrder" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="AddPictureModel.DisplayOrder" />
+                    <span asp-validation-for="AddPictureModel.DisplayOrder"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="button" id="addDisputePicture" class="btn btn-primary">Add Dispute Picture </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    
+</div>
+<nop-alert asp-alert-id="addProductPictureAlert" asp-alert-message="@T("Admin.Catalog.Products.Pictures.Alert.AddNew")" />
+<nop-alert asp-alert-id="productPictureAddAlert" asp-alert-message="@T("Admin.Catalog.Products.Pictures.Alert.PictureAdd")" />

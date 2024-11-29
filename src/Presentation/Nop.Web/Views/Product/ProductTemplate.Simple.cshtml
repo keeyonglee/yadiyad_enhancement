@@ -1,0 +1,428 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Catalog;
+@using Nop.Core.Domain.Seo;
+@inject Nop.Core.IWebHelper webHelper
+@inject SeoSettings seoSettings
+
+@{
+    Layout = "_ColumnsOne";
+
+    var dietaryDescAttrName = "Dietary Description";
+
+    var dietaryDescAttrs = Model.ProductSpecifications.Where(x => x.SpecificationAttributeName.ToLower() == dietaryDescAttrName.ToLower());
+
+    //title
+    Html.AddTitleParts(!string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-product-details-page");
+
+    //canonical URL
+    if (seoSettings.CanonicalUrlsEnabled)
+    {
+        var productUrl = Url.RouteUrl("Product", new { SeName = Model.SeName }, webHelper.CurrentRequestProtocol).ToLowerInvariant();
+        Html.AddCanonicalUrlParts(productUrl, seoSettings.QueryStringInCanonicalUrlsEnabled);
+    }
+
+    //open graph META tags
+    if (seoSettings.OpenGraphMetaTags)
+    {
+        Html.AddHeadCustomParts("<meta property=\"og:type\" content=\"product\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:title\" content=\"" + Html.Encode(Model.Name) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:description\" content=\"" + Html.Encode(Nop.Core.Html.HtmlHelper.StripTags(Model.MetaDescription)) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:image:url\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"og:site_name\" content=\"" + Html.Encode(Model.CurrentStoreName) + "\" />");
+    }
+
+    //Twitter META tags
+    if (seoSettings.TwitterMetaTags)
+    {
+        Html.AddHeadCustomParts("<meta property=\"twitter:card\" content=\"summary\" />");
+        Html.AddHeadCustomParts("<meta property=\"twitter:site\" content=\"" + Html.Encode(Model.CurrentStoreName) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"twitter:title\" content=\"" + Html.Encode(Model.Name) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"twitter:description\" content=\"" + Html.Encode(Nop.Core.Html.HtmlHelper.StripTags(Model.MetaDescription)) + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"twitter:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        Html.AddHeadCustomParts("<meta property=\"twitter:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
+    }
+}
+<!--product breadcrumb-->
+@section Breadcrumb
+{
+    @await Html.PartialAsync("_ProductBreadcrumb", Model.Breadcrumb)
+}
+@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsAfterBreadcrumb, additionalData = Model })
+
+<style>
+    .review-thumbnail {
+        height: 50px;
+    }
+</style>
+
+<div class="page product-details-page">
+    <div class="page-body">
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsTop, additionalData = Model })
+        <form asp-route="Product" asp-route-sename="@Model.SeName" method="post" id="product-details-form">
+            @if (seoSettings.MicrodataEnabled)
+            {
+                @await Html.PartialAsync("_Microdata", Model)
+            }
+            <div data-productid="@Model.Id">
+
+                <div class="card">
+                    <div class="card-body">
+                        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsEssentialTop, additionalData = Model })
+                        <!--product pictures-->
+                        @await Html.PartialAsync("_ProductDetailsPictures", Model)
+                        <div class="overview">
+                            @await Html.PartialAsync("_Discontinued", Model)
+                            <div class="product-name mb-4">
+                                <h1>
+                                    @Model.Name
+                                </h1>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.ShortDescription))
+                            {
+                                <div class="short-description">
+                                    @Html.Raw(Model.ShortDescription)
+                                </div>
+                            }
+                            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsOverviewTop, additionalData = Model })
+                            <!--product reviews-->
+                            @await Html.PartialAsync("_ProductReviewOverview", Model.ProductReviewOverview)
+
+                            @{
+                                var dataDictPrice = new ViewDataDictionary(ViewData);
+                                dataDictPrice.TemplateInfo.HtmlFieldPrefix = $"price_{Model.Id}";
+                                @await Html.PartialAsync("_ProductPrice", Model.ProductPrice, dataDictPrice)
+
+                                @await Html.PartialAsync("_ProductTierPrices", Model.TierPrices)
+                            }
+                            <!--manufacturers-->
+                            @*@await Html.PartialAsync("_ProductManufacturers", Model.ProductManufacturers)*@
+                            <!--availability-->
+                            @await Html.PartialAsync("_Availability", Model)
+                            <!--SKU, MAN, GTIN, vendor-->
+                            @*@await Html.PartialAsync("_SKU_Man_GTIN_Ven", Model)*@
+                            <!--delivery-->
+                            @*@await Html.PartialAsync("_DeliveryInfo", Model)*@
+                            <!--sample download-->
+                            @*@await Html.PartialAsync("_DownloadSample", Model)*@
+                            <!--attributes-->
+                            @{
+                                var dataDictAttributes = new ViewDataDictionary(ViewData);
+                                dataDictAttributes.TemplateInfo.HtmlFieldPrefix = $"attributes_{Model.Id}";
+                                @await Html.PartialAsync("_ProductAttributes", Model.ProductAttributes, dataDictAttributes)
+                            }
+                            <!--gift card-->
+                            @{
+                                var dataDictGiftCard = new ViewDataDictionary(ViewData);
+                                dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = $"giftcard_{Model.Id}";
+                                @await Html.PartialAsync("_GiftCardInfo", Model.GiftCard, dataDictGiftCard)
+                            }
+                            <!--rental info-->
+                            @{
+                                var dataDictRental = new ViewDataDictionary(ViewData);
+                                dataDictRental.TemplateInfo.HtmlFieldPrefix = $"rental_{Model.Id}";
+                                @await Html.PartialAsync("_RentalInfo", Model, dataDictRental)
+                            }
+
+                            @if (Model.ShowVendor && Model.VendorModel.Address != null)
+                            {
+                                <div class="mb-4">
+                                    <span class="text-bold">@Model.VendorModel.Address.City, @Model.VendorModel.StateProvince</span>
+                                </div>
+                            }
+
+                            <!--price & add to cart & estimate shipping-->
+                            @{
+                                var dataDictAddToCart = new ViewDataDictionary(ViewData);
+                                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = $"addtocart_{Model.Id}";
+                                @await Html.PartialAsync("_AddToCart", Model.AddToCart, dataDictAddToCart)
+
+                                @await Html.PartialAsync("_ProductEstimateShipping", Model.ProductEstimateShipping)
+                            }
+                            <!--wishlist, compare, email a friend-->
+                            <div class="overview-buttons">
+                                @*@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsInsideOverviewButtonsBefore, additionalData = Model })
+                                    @{
+                                        var dataDictAddToWishlist = new ViewDataDictionary(ViewData);
+                                        dataDictAddToWishlist.TemplateInfo.HtmlFieldPrefix = $"addtocart_{Model.Id}";
+                                        @await Html.PartialAsync("_AddToWishlist", Model.AddToCart, dataDictAddToWishlist)
+                                    }*@
+                                @*@await Html.PartialAsync("_CompareProductsButton", Model)
+                                    @await Html.PartialAsync("_ProductEmailAFriendButton", Model)*@
+                                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsInsideOverviewButtonsAfter, additionalData = Model })
+                            </div>
+                            @*@await Html.PartialAsync("_ShareButton", Model)*@
+                            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsOverviewBottom, additionalData = Model })
+                        </div>
+
+                    </div>
+
+                </div>
+                @if (Model.ProductSpecifications.Count > 0 || string.IsNullOrEmpty(Model.FullDescription) == false)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            @if (Model.ProductSpecifications.Count > 0)
+                            {
+                                var specOptionGroup = Model.ProductSpecifications
+                                    .GroupBy(x => new
+                                    {
+                                        x.SpecificationAttributeName,
+                                        DisplayType = (x.AttributeTypeId == (int)SpecificationAttributeType.Option) ? 0 : 1
+                                    })
+                                    .Select(g => new
+                                    {
+                                        g.Key.DisplayType,
+                                        g.Key.SpecificationAttributeName,
+                                        DisplayOrder = g.Min(x => x.DisplayOrder)
+                                    })
+                                    .OrderBy(x => x.DisplayOrder)
+                                    .ToList();
+
+                                var lastSpecificationAttributeName = "";
+
+                                foreach (var item in specOptionGroup)
+                                {
+                                    <div class="row mt-2">
+                                        @{
+                                            var specs = Model.ProductSpecifications
+                                                .Where(x => x.SpecificationAttributeName == item.SpecificationAttributeName
+                                                && ((x.AttributeTypeId == (int)SpecificationAttributeType.Option) ? 0 : 1) == item.DisplayType)
+                                                .OrderBy(x => x.DisplayOrder).ToList();
+
+                                            var specType = specs.OrderByDescending(x => x.AttributeTypeId).Select(x => x.AttributeTypeId).First();
+
+                                            if (lastSpecificationAttributeName != item.SpecificationAttributeName)
+                                            {
+                                                <div class="text-bold col-lg-12 col-xl-12 mb-4"><h4>@item.SpecificationAttributeName</h4></div>
+                                            }
+
+                                            if (specType == (int)SpecificationAttributeType.Option)
+                                            {
+
+                                                foreach (var ingredient in specs)
+                                                {
+                                                    <div class="mx-auto mb-4">
+                                                        <div class="text-center d-inline-block">
+                                                            @if (ingredient.PictureUrl != null)
+                                                            {
+                                                                <img src="@ingredient.PictureUrl">
+                                                            }
+                                                            <div>@Html.Raw(ingredient.ValueRaw)</div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                foreach (var ingredient in specs)
+                                                {
+                                                    <div class="col-12 mb-4">
+                                                        <div class="d-block">
+                                                            <div>@Html.Raw(ingredient.ValueRaw)</div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+
+                                            lastSpecificationAttributeName = item.SpecificationAttributeName;
+                                        }
+                                    </div>
+                                }
+                            }
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12">
+
+                                    @if (!string.IsNullOrEmpty(Model.FullDescription))
+                                    {
+                                        <div class="text-bold"><h4>Product Description</h4></div>
+                                        <div class="full-description mb-4">
+                                            @Html.Raw(Model.FullDescription)
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            @*<hr class="" />*@
+                            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsEssentialBottom, additionalData = Model })
+                        </div>
+                    </div>
+                }
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBeforeCollateral, additionalData = Model })
+
+                @if (Model.ShowVendor)
+                {
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="row" style="margin-top:24px;">
+                                    <div class="col-xl-4 product-merchant-card">
+                                        <img class="product-merchant-logo" src="@Model.VendorModel.PictureUrl">
+                                    </div>
+                                    <div class="col-lg-12 col-xl-8 mt-4 mb-4">
+                                        <div class="text-bold">
+                                            <a href="@Url.RouteUrl("Vendor", new { SeName = Model.VendorModel.SeName })">
+                                                <i class="fa fa-home" aria-hidden="true"></i>
+                                                @Model.VendorModel.Name
+                                            </a>
+                                        </div>
+                                        @*<div>@Model.VendorModel.Address?.Address1</div>
+                                            <div>@Model.VendorModel.Address?.Address2</div>*@
+                                        <div>@Model.VendorModel.Address?.City</div>
+                                        @*<div class="mt-2 mb-2">Bakery</div>*@
+                                        <div class="product-reviews-overview">
+                                            <div class="product-review-box">
+                                                <div class="rating @(Model.ProductBusinessNature == "Eat"?"eat-rating-1":"mart-rating-1")">
+                                                    <div class="@(Model.ProductBusinessNature == "Eat"?"eat-rating-2":"mart-rating-2")" style="width: @(Model.VendorModel.TotalReviews==0?0:((Model.VendorModel.RatingSum * 100) / Model.VendorModel.TotalReviews) / 5)%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-review-txt @(Model.ProductBusinessNature == "Eat" ?"eat-color":"mart-color")" style="border-color:black">@(Model.VendorModel.TotalReviews == 0 ? 0 : Model.VendorModel.RatingSum / Model.VendorModel.TotalReviews)</div>
+                                            <div class="@(Model.ProductBusinessNature == "Eat" ?"eat-color":"mart-color")">@Model.VendorModel.ProductQty Products</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.AdditionalProducts.Count > 0)
+                            @if (Model.AdditionalProducts.Count > 0)
+                            {
+                                <div class="col-lg-12 col-xl-6">
+                                    <a class="mb-2 d-block" href="@Url.RouteUrl("Vendor", new { SeName = Model.VendorModel.SeName })">View Other Products > </a>
+                                    <div class="product-additional-list">
+                                        @foreach (var ingredient in Model.AdditionalProducts.ToList())
+                                        {
+                                            <div class="item-box">
+                                                <div class="picture">
+                                                    <a href="@Url.RouteUrl("Product", new { SeName = ingredient.SeName })">
+                                                        <img alt="@ingredient.DefaultPictureModel.AlternateText" src="@ingredient.DefaultPictureModel.ImageUrl" title="@ingredient.DefaultPictureModel.Title"
+                                                             onerror="loadDefaultImage(event)" />
+                                                    </a>
+                                                </div>
+                                                <p class="text-center"><a href="@Url.RouteUrl("Product", new { SeName = ingredient.SeName })">@ingredient.Name</a></p>
+                                            </div>
+                                            }
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
+
+
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <div class="text-center product-detail-title mb-2">Reviews</div>
+                        <div class="text-center mb-2">
+                            @await Html.PartialAsync("_ProductReviewOverview", Model.ProductReviewOverview)
+                        </div>
+                        @*<div class="text-center mb-2">
+                                <a class="btn btn-outline-primary" href="@Url.RouteUrl("ProductReviews", new { productId = Model.ProductReviewOverview.ProductId })">Write a Review</a>
+                            </div>*@
+                    </div>
+                    @if (Model.ProductReviews.Items.Count > 0)
+                    {
+                        <div class="product-review-list">
+                            @{
+                                int i = 0;
+
+                                foreach (var review in Model.ProductReviews.Items)
+                                {
+                                    i++;
+                                    if (i <= 5)
+                                    {
+                                        var ratingPercent = review.Rating * 20;
+                                        <div class="product-review-item">
+                                            <div class="review-item-head">
+
+                                                <div class="review-title">
+                                                    @review.CustomerName on @review.WrittenOnStr
+                                                </div>
+                                                <div class="product-review-box">
+                                                    <div class="rating @(Model.ProductBusinessNature == "Eat"?"eat-rating-1":"mart-rating-1")">
+                                                        <div class="@(Model.ProductBusinessNature == "Eat"?"eat-rating-2":"mart-rating-2")" style="width: @(ratingPercent)%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="review-content">
+                                                <div class="review-text">
+                                                    @if (!string.IsNullOrEmpty(review.CustomerAvatarUrl))
+                                                    {
+                                                        <div class="avatar">
+                                                            @if (review.AllowViewingProfiles)
+                                                            {
+                                                                <a href="@Url.RouteUrl("CustomerProfile", new { id = review.CustomerId })" class="avatar-img-link">
+                                                                    <img src="@(review.CustomerAvatarUrl)" class="avatar-img" alt="Avatar" />
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@(review.CustomerAvatarUrl)" class="avatar-img" alt="Avatar" />
+                                                            }
+                                                        </div>
+                                                    }
+                                                    <div class="text-bold-600 @(Model.ProductBusinessNature == "Eat" ?"eat-color":"mart-color")">
+                                                        @Html.Raw(Nop.Core.Html.HtmlHelper.FormatText(review.ReviewText, false, true, false, false, false, false))
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @if (review.PictureUrls != null)
+                                                    {
+                                                        foreach (var item in review.PictureUrls)
+                                                        {
+                                                            if (item != null || item != "")
+                                                            {
+                                                                <div class="col-1 review-content review-image-container">
+                                                                    <div class="mr-3">
+                                                                        <div class="ratio-1-1 rounded bg-gray-light border border-light">
+                                                                            <a href="@item" target="_blank">
+                                                                                <img class="w-100 review-thumbnail" src="@item" />
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                                if (Model.ProductReviews.Items.Count > 5)
+                                {
+                                    <div class="text-center">
+                                        <a class="btn btn-primary" href="@Url.RouteUrl("ProductReviews", new { productId = Model.ProductReviewOverview.ProductId })">View More</a>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    }
+                </div>
+
+                @*@await Component.InvokeAsync("ProductsAlsoPurchased", new { productId = Model.Id })*@
+                @await Component.InvokeAsync("RelatedProducts", new { productId = Model.Id })
+
+                @*<div class="row">
+                        <div class="col-lg-12 col-xl-6 mb-4">
+                            <img class="w-100" src="~/img/shuq/product/BottomPanelAd1.png">
+                        </div>
+                        <div class="col-lg-12 col-xl-6 mb-4">
+                            <img class="w-100" src="~/img/shuq/product/BottomPanelAd2.png">
+                        </div>
+                    </div>*@
+            </div>
+        </form>
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBottom, additionalData = Model })
+    </div>
+</div>

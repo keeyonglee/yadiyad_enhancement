@@ -1,0 +1,139 @@
+@model SellerDisputeModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="panel-group">
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsTop, additionalData = Model })
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.ReturnList[0].CustomOrderNumber" />
+                </div>
+                <div class="col-md-9">
+                    @if (Model.ReturnList[0].OrderId > 0)
+                    {
+                        <a asp-controller="Order" asp-action="Edit" asp-route-id="@Model.ReturnList[0].OrderId">@Model.ReturnList[0].CustomOrderNumber</a>
+                    }
+                    else
+                    {
+                        <text>Order item is deleted</text>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="control-label">Customer</label></div>
+                </div>
+                <div class="col-md-9">
+                    <div class="form-text-row">@Model.ReturnList[0].CustomerInfo</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="control-label">Products</label></div>
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-hover table-bordered" id="prod-table">
+                        <thead>
+                            <tr>
+                                <th>Product No.</th>
+                                <th>@T("Admin.ReturnRequests.Fields.ProductName")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Quantity")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Order")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Date")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Edit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ReturnList)
+                            {
+                            <tr>
+                                <td style="width: 5%;" class="text-left">
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.ProductName</p>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.Quantity</p>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <a class="btn btn-default" href=@Url.Content("~/Admin/Order/Edit/"+item.OrderId)><i class="fa fa-eye"></i> - @T("Admin.Common.View")</a>
+                                </td>
+                                <td style="width: 15%;" class="text-left">
+                                    <p>@item.CreatedOn</p>
+                                </td>
+                                <td><a class="btn btn-default" href="@Url.Content("~/Admin/ReturnRequest/Edit/"+item.Id)"><i class="fa fa-eye"></i> - @T("Admin.Common.Edit")</a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $('#prod-table tbody tr').each(function (idx) {
+                    $(this).children("td:eq(0)").html(idx + 1);
+                });
+            </script>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="DisputeReasonId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-select asp-for="DisputeReasonId" asp-items="@(((DisputeReasonEnum)Model.DisputeReasonId).ToSelectList())" disabled="" />
+                    <span asp-validation-for="DisputeReasonId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="DisputeDetail" />
+                </div>
+                <div class="col-md-9">
+                    <nop-textarea asp-for="DisputeDetail" disabled="!@Model.CanRaiseDispute" />
+                    <span asp-validation-for="DisputeDetail"></span>
+                </div>
+            </div>
+            @*<div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="PictureId" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="PictureId" />
+                </div>
+            </div>*@
+        </div>
+    </div>
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsBottom, additionalData = Model })
+</div>
+<script>
+     $(document).ready(function () {
+         toggleFields();
+    });
+
+    //function toggleFields() {
+    //    if ('@Model.GroupReturnRequestApprovalStatus' != "Pending" || '@Model.GroupReturnRequestApprovalStatus' != "InDispute"){
+    //        $("#@Html.IdFor(model => model.DisputeReasonId)").attr('disabled','disabled');
+    //        $("#@Html.IdFor(model => model.DisputeDetail)").attr('disabled','disabled');
+    //    }
+    //    else {
+    //        $("#@Html.IdFor(model => model.DisputeReasonId)").removeAttr('disabled');
+    //        $("#@Html.IdFor(model => model.DisputeDetail)").removeAttr('disabled');
+    //    }
+    //}
+
+    function toggleFields() {
+        if (1 == 2){
+            $("#@Html.IdFor(model => model.DisputeReasonId)").attr('disabled','disabled');
+            $("#@Html.IdFor(model => model.DisputeDetail)").attr('disabled','disabled');
+        }
+        else {
+            $("#@Html.IdFor(model => model.DisputeReasonId)").removeAttr('disabled');
+            $("#@Html.IdFor(model => model.DisputeDetail)").removeAttr('disabled');
+        }
+    }
+</script>
+

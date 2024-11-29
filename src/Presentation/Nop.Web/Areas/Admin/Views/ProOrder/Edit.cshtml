@@ -1,0 +1,45 @@
+@model ProOrderModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Orders.EditOrderDetails").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Orders");
+}
+
+@{
+    const string hideInfoBlockAttributeName = "OrderPage.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+
+    const string hideBillingAndShippingBlockAttributeName = "OrderPage.HideBillingAndShippingBlock";
+    var hideBillingAndShippingBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideBillingAndShippingBlockAttributeName);
+
+    const string hideProductsBlockAttributeName = "OrderPage.HideProductsBlock";
+    var hideProductsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideProductsBlockAttributeName);
+
+    const string hideNotesBlockAttributeName = "OrderPage.HideNotesBlock";
+    var hideNotesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideNotesBlockAttributeName);
+}
+
+<form asp-controller="ProOrder" asp-action="Edit" method="post" id="order-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Orders.EditOrderDetails") - @Model.OrderNumber
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.Orders.BackToList")</a>
+            </small>
+        </h1>
+    </div>
+
+    <div asp-validation-summary="All"></div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            
+            <nop-panels id="order-panels">
+                <nop-panel asp-name="order-info" asp-icon="fa fa-info" asp-title="@T("Admin.Orders.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_OrderDetails.Info", Model)</nop-panel>
+            </nop-panels>
+        </div>
+    </div>
+</form>

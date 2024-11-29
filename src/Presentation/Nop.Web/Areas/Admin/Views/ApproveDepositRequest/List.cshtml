@@ -1,0 +1,247 @@
+﻿@using Nop.Web.Areas.Pro.Models.ApproveDepositRequest
+@using YadiYad.Pro.Core.Domain.DepositRequest
+@using Nop.Services.Stores
+
+@model ApproveDepositRequestSearchModel
+@inject IStoreService storeService
+
+@{
+    //page title
+    ViewBag.PageTitle = "Campaign Management List";
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Approve Deposit Request");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "OrdersPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="ApproveDepositRequest" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Approve Deposit Request List
+        </h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>From</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="From" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Status</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select asp-for="StatusId" class="form-control" asp-items="@Html.GetEnumSelectList<DepositRequestStatus>()">
+                                                <option value="0">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label>Until</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <nop-editor asp-for="Until" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-7 col-md-offset-5">
+                                    <button type="button" id="search-approve-depositrequest" class="btn btn-primary btn-search"><i class="fa fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @{
+                            var gridModel = new DataTablesModel
+                            {
+                                Name = "orders-grid",
+                                UrlRead = new DataUrl("ApproveDepositRequestList", "ApproveDepositRequest", null),
+                                SearchButtonId = "search-approve-depositrequest",
+                                Length = Model.PageSize,
+                                LengthMenu = Model.AvailablePageSizes,
+                                Filters = new List<FilterParameter>
+                                                {
+                                    new FilterParameter(nameof(Model.From)),
+                                    new FilterParameter(nameof(Model.Until)),
+                                    new FilterParameter(nameof(Model.StatusId)),
+                                }
+                            };
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.EngagementId))
+                            {
+                                Title = "Engagement Id",
+                                ClassName = "text-center",
+
+                            });
+
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.Bank))
+                            {
+                                Title = "Bank",
+                                ClassName = "text-center",
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.BankInDateText))
+                            {
+                                Title = "Bank In Date",
+                                ClassName = "text-center",
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.Reference))
+                            {
+                                Title = "Reference",
+                                ClassName = "text-center",
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.Total))
+                            {
+                                Title = "Total",
+                                ClassName = "text-right",
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.DepositStatus))
+                            {
+                                Title = "Status",
+                                ClassName = "text-center",
+                                Render = new RenderCustom("renderStatusColour")
+
+
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(ApproveDepositRequestModel.Id))
+                            {
+                                Title = "Edit",
+                                Width = "50",
+                                ClassName = NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            });
+                        }
+
+                        @await Html.PartialAsync("Table", gridModel)
+
+                        <script>
+                            function renderStatusColour(data, type, row, meta) {
+                                let color;
+                                switch (data) {
+                                    case 'New':
+                                        color = 'blue';
+                                        break;
+                                    case 'Paid':
+                                        color = 'green';
+                                        break;
+                                    case 'Invalid':
+                                        color = 'red';
+                                        break;
+                                }
+                                return '<span class="grid-report-item ' + color + '">' + data + '</span >';
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@*export selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportXmlSelected" method="post" id="export-xml-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#exportxml-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#exportXmlSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#exportXmlSelected").click();
+            }
+            else {
+                $('#export-xml-selected-form #selectedIds').val(ids);
+                $('#export-xml-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="exportXmlSelected" />
+
+@*export selected (Excel). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="ExportExcelSelected" method="post" id="export-excel-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#exportexcel-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#exportExcelSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#exportExcelSelected").click();
+            }
+            else {
+                $('#export-excel-selected-form #selectedIds').val(ids);
+                $('#export-excel-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="exportExcelSelected" />
+
+@*Print packaging slips selected (XML). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="Order" asp-action="PdfInvoiceSelected" method="post" id="pdf-invoice-selected-form">
+    <input type="hidden" id="selectedIds" name="selectedIds" value="" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#pdf-invoice-selected').click(function (e) {
+            e.preventDefault();
+            var ids = selectedIds.join(",");
+            if (!ids) {
+                $('#pdfInvoiceSelected-info').text("@T("Admin.Orders.NoOrders")");
+                $("#pdfInvoiceSelected").click();
+            }
+            else {
+                $('#pdf-invoice-selected-form #selectedIds').val(ids);
+                $('#pdf-invoice-selected-form').submit();
+                updateTable('#orders-grid');
+            }
+            return false;
+        });
+    });
+</script>
+<nop-alert asp-alert-id="pdfInvoiceSelected" />

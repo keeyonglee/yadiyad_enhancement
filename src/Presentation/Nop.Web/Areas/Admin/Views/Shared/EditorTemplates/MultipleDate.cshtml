@@ -1,0 +1,106 @@
+﻿@model string
+@{
+    var dateList = (Model??"").Split(',', StringSplitOptions.RemoveEmptyEntries).ToList();
+}
+<input asp-for="@Model" value="" type="hidden" />
+<div class="multi-date-wrapper">
+    <div class="date-picker">
+
+    </div>
+    <div class="date-list">
+    </div>
+</div>
+
+<script>
+    var MultiDateInput = function (id, dates) {
+        var $input = $('#'+id);
+        var $wrapper = $input.find(" + .multi-date-wrapper");
+        var $datePicker = $wrapper.find('.date-picker');
+        var $datePickerList = $wrapper.find('.date-list');
+
+        var tmplDate = '<div class="date-tag {{modeClass}}" data-date="{{date}}">'
+            + '<span>{{formatedDate}}</span>'
+            + '<a class="remove"><i class="fa fa-close"></i></a>'
+            + '</div>';
+
+        function updateInputValue(dates) {
+            $input.val(dates.join(','));
+        }
+
+        function renderSelectedDateTag(dates) {
+            $datePickerList.empty();
+
+            $.each(dates, function (i, date) {
+                var mDate = moment(date, 'YYYY-MM-DD');
+                var formatedDate = mDate.format('DD MMM YYYY');
+                var modeClass = "";
+
+                if (mDate.toDate() < moment(new Date()).startOf('day').toDate()) {
+                    modeClass = 'overdue';
+                }
+
+                var selectedDate = tmplDate.format({
+                    date: date,
+                    formatedDate: formatedDate,
+                    modeClass: modeClass
+                });
+                $datePickerList.append(selectedDate);
+            })
+
+            updateInputValue(dates);
+        };
+
+        function initDatePicker() {
+            $datePicker.multiDatesPicker({
+                "dateFormat": "yy-mm-dd",
+                onSelect: function (date, item) {
+                    var dates = $(this).multiDatesPicker('getDates');
+                    renderSelectedDateTag(dates);
+                    updateInputValue(dates);
+                }
+            });
+
+            if (dates && dates.length > 0) {
+                $datePicker.multiDatesPicker('addDates', dates);
+            }
+        };
+
+        function initEvent() {
+            $datePickerList.on('click', '.date-tag .remove', function () {
+                var $dateTag = $(this).closest('.date-tag');
+                var strDate = $(this).closest('.date-tag').data('date');
+                var date = moment(strDate, "YYYY-MM-DD").toDate();
+
+                $datePicker.multiDatesPicker('toggleDate', date);
+
+                var dates = $datePicker.multiDatesPicker('getDates');
+                updateInputValue(dates);
+
+                $dateTag.remove();
+            });
+        };
+
+        function init() {
+            renderSelectedDateTag(dates);
+            initDatePicker();
+            initEvent();
+        };
+
+        init();
+    };
+
+    $(document).ready(function () {
+        var id = '@Html.IdForModel()';
+        var dates = [
+            @{
+                var count = 0;
+                foreach (var date in dateList)
+                {
+                    <text>@(count==0?"":",")'@date'</text>
+                    count++;
+                }
+            }
+        ];
+        var multiDateInput = new MultiDateInput(id, dates);
+    });
+</script>

@@ -1,0 +1,195 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@inject AccountContext accountContext
+@{
+    ViewData["Layout"] = "Home";
+    ViewData["Theme"] = "info";
+}
+
+<style>
+    #navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .account-menu {
+        position: fixed;
+        width: 100%;
+        top: 86px;
+        z-index: 100;
+    }
+
+    @@media (max-width: 1200px) {
+        .account-menu {
+            top: 146px;
+        }
+    }
+
+    .login-content {
+        margin-top: 86px;
+    }
+</style>
+
+<div class="content home-part-first home-about-1 pt-5 pb-5 @(accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email) == false ? "login-content" : "")">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-xl-8 d-none d-xl-block">
+
+                    </div>
+                    <div class="col-lg-12 col-xl-4 row">
+                        <div class="col-12 mb-4">
+                            <div class="text-right text-secondary text-bold home-master-txt-1">Hand In Hand With You In The Digital Age</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="text-primary text-bold home-master-txt-1">About Yadiyad</div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="">
+                    Yadiyad was founded in 2021 by a group of medical and ICT professionals who are passionate
+                    about using technology to improve livelihood. Driving digital inclusion is the core purpose of
+                    Yadiyad, which means 'hand in hand'.
+                </div>
+            </div>
+            <div class="col-12 mb-5">
+                <div class="">
+                    Our platforms Yadiyad Pro and Yadiyad Shuq enable individuals and families
+                    to participate and thrive in the digital gig economy with their expertise, experience,
+                    skills, and talents in two ways - freelancing and home-based entrepreneurship.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-6 pl-5 pr-5 mb-4">
+                        <div class="text-center">
+                            <img class="pl-4 pr-4 mb-4 w-100" src="/img/pro/brand/logo-pro-filled.png" />
+                        </div>
+                        <h3 class="text-primary text-bold mb-2">
+                            <span>Yadiyad Pro</span><span style="border-bottom: 3px solid #ffd757;display: block;margin-left: 175px;"></span>
+                        </h3>
+                        <div class="mb-4">Hire senior and experienced freelance professionals</div>
+                        <div class="text-center">
+                            <a href="/pro/home/info" class="text-bold btn btn-primary pl-4 pr-4 w-auto">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pl-5 pr-5 mb-4">
+                        <div class="text-center">
+                            <img class="pl-4 pr-4 mb-4 w-100" src="/img/pro/brand/logo-shuq-filled.png" />
+                        </div>
+                        <h3 class="text-primary text-bold mb-2"><span>Yadiyad Shuq</span><span style="border-bottom:3px solid #7CD8BF;display:block;margin-left: 195px;"></span></h3>
+                        <div class="mb-4">Buy and sell homemade food and handmade products of skills and talents​​​</div>
+                        <div class="text-center">
+                            <a href="/shuq" class="text-bold btn btn-primary text-center pl-4 pr-4 w-auto">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<div class="content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 about-sub-card-parent-2 d-lg-none">
+                <div class="about-sub-card-inner-2">
+                </div>
+            </div>
+            <div class="col-lg-6 about-sub-card-parent-1">
+                <div class="about-sub-card-inner-1 p-4">
+                    <h1 class="text-bold text-white">Vision</h1>
+                    <div class="text-white">We are inspired to be a positive impact in the digital economy enabled by technology and driven by purpose. Our C.O.R.E values are Connect, Ownership, Responsible and Empower.</div>
+                </div>
+            </div>
+            <div class="col-lg-6 about-sub-card-parent-2 d-none d-lg-block">
+                <div class="about-sub-card-inner-2">
+                </div>
+            </div>
+            <div class="col-lg-6 about-sub-card-parent-3">
+                <div class="about-sub-card-inner-3">
+                </div>
+            </div>
+            <div class="col-lg-6 about-sub-card-parent-4">
+                <div class="about-sub-card-inner-4 p-4">
+                    <h1 class="text-bold text-white">Mission</h1>
+                    <div class="text-white">
+                        <ul style="list-style-type: circle;">
+                            <li>Enable and facilitate hybrid freelancing and home-based entrepreneurship in Malaysia and Asia through localized platforms</li>
+                            <li>Make the digital experience simple, rewarding and worthwhile with our straightforward and easy-to-use online interfaces and tools</li>
+                            <li>Leverage technology and partnerships for platform value creation and sharing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row h-100">
+                    <div class="col-lg-6 p-4">
+                        <img class="w-100" src="https://static.yadiyad.com/Assets/Images/HomeAboutUs/about-4.jpg" />
+                    </div>
+                    <div class="col-lg-6 p-4">
+                        <h1 class="text-bold text-primary mb-4" style="border-bottom: 1px solid #7CD8BF">The Yadiyad Differentiation</h1>
+                        <h4 class="text-bold mb-2">Customer Experience</h4>
+                        <div class="mb-4">We strive to make it simple and easy for those seeking job or freelancer to utilize the platform through intuitive and seamless interfaces.</div>
+                        <h4 class="text-bold mb-2">Continuous Innovation</h4>
+                        <div class="mb-4">Innovation is in our DNA and our platform services are constantly being updated from time to time to bring you up to date service offerings.</div>
+                        <h4 class="text-bold mb-2">Collaboration &amp; Partnership</h4>
+                        <div class="mb-4">We are open to foster win-win relationships with partners and clients to maximize the benefits of digital ecosystems.</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (accountContext.CurrentAccount == null || string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email))
+{
+    <div class="content home-about-2 pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-8 row">
+                            <div class="col-12 mb-2">
+                                <div class="text-primary text-bold p-0 m-0 home-master-txt-1">Take the first step towards your freelance journey - offer or seek expertise now</div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <h4 class="text-bold text-primary">Registration is Free</h4>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <a href="/pro/account/register" class="btn-primary btn text-bold individual-banner-btn-1">Sign Up</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 d-none d-xl-block">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

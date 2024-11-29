@@ -1,0 +1,32 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+
+@using YadiYad.Pro.Web
+@using YadiYad.Pro.Web.Models
+@using YadiYad.Pro.Web.Models.Common
+@using YadiYad.Pro.Web.Models.Customer
+@using YadiYad.Pro.Web.Models.Category
+@using YadiYad.Pro.Web.Models.Setting
+@using YadiYad.Pro.Web.Models.Expertise
+@using YadiYad.Pro.Web.Models.News
+@using YadiYad.Pro.Web.Models.Moderator
+@using YadiYad.Pro.Web.DTO
+@using YadiYad.Pro.Web.Validators
+@using YadiYad.Pro.Web.Components
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+
+
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Microsoft.AspNetCore.Routing
+
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+@using Nop.Web.Framework.Extensions
+@using Nop.Web.Framework.Infrastructure
+@using Nop.Web.Framework.Models.DataTables
+@using Nop.Web.Framework.Models
+
+@using Nop.Core
+@using System.Text.Encodings.Web

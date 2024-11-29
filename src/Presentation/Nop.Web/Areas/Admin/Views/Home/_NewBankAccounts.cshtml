@@ -1,0 +1,79 @@
+﻿@using Nop.Services.Orders;
+
+@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    const string panelId = "bestsellers-report-amount-box";
+    const string hidePanelAttributeName = "Reports.HideBestsellersBriefReportByAmountPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
+    var gridPageSize = 5;
+
+}
+
+<div class="box box-info @if (hidePanel){<text>collapsed-box</text>}" id="@panelId">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-university"></i>
+            New Bank Accounts
+            <a asp-controller="BankAccount" asp-action="BankAccount" class="btn btn-xs btn-info btn-flat margin-l-10">View All Bank Accounts</a>
+
+        </h3>
+        <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse">
+                @if (hidePanel)
+                {
+                    <text><i class="fa fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fa fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            @*$('#@panelId').on('click', 'button[data-widget="collapse"]', function () {
+                var collapsed = !$('#@panelId').hasClass('collapsed-box');
+                saveUserPreferences('@(Url.Action("SavePreference", "Preferences"))', '@hidePanelAttributeName', collapsed);
+            });*@
+        });
+    </script>
+    <div class="box-body">
+
+        @await Html.PartialAsync("Table", new DataTablesModel
+   {
+       Name = "new-bank-accounts-grid",
+       UrlRead = new DataUrl("NewBankAccounts", "Operation", null),
+       Length = gridPageSize,
+       Info = true,
+       ColumnCollection = new List<ColumnProperty>
+        {
+            new ColumnProperty(nameof(OperationModel.AccountHolderName))
+            {
+                Title = "Account Holder Name"
+            },
+            new ColumnProperty(nameof(OperationModel.BankName))
+            {
+                Title = "Bank Name"
+            },
+            new ColumnProperty(nameof(OperationModel.Comment))
+            {
+                Title = "Comment"
+            },
+            new ColumnProperty(nameof(OperationModel.CreatedDateTimeText))
+            {
+                Title = "Created Date"
+            },
+            new ColumnProperty(nameof(OperationModel.Id))
+            {
+                Title = T("Admin.Common.View").Text,
+                Width = "50",
+                ClassName = NopColumnClassDefaults.Button,
+                Render = new RenderButtonView(new DataUrl("~/Admin/BankAccount/BankAccountEdit/"))
+            }
+
+        }
+   })
+    </div>
+</div>

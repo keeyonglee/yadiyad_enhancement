@@ -1,0 +1,34 @@
+﻿@model SettingChangeProModel
+
+<div class="content ">
+    <div class="container">
+        <header class="pt-5 pb-5">
+            <div class="text-center">
+            </div>
+        </header>
+        <form asp-controller="Account" asp-action="SettingChange" method="post" autocomplete="off">
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="card p-3 col-lg-6 ml-auto mr-auto col-lg-6 bg-primary-light content-sign-up-form ">
+                <h2 class="text-center mt-2 text-primary text-bold">User Setting</h2>
+                <div class="card p-3 m-0">
+                    <label for="" class="col-sm-3 col-form-label">Availability</label>
+                    <div class="col-sm-9">
+                        <div class="radio d-inline-block mr-4">
+                            <label class="col-form-label form-check-label">
+                                <input type="radio" asp-for="IsOnline" value="true" checked required>
+                                Show Profile
+                            </label>
+                        </div>
+                        <div class="radio d-inline-block mr-4">
+                            <label class="col-form-label form-check-label">
+                                <input type="radio" asp-for="IsOnline" value="false">
+                                Hide Profile
+                            </label>
+                        </div>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

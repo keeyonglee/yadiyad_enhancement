@@ -1,0 +1,534 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@inject AccountContext accountContext
+@{
+    ViewData["Layout"] = "Home";
+    ViewData["Theme"] = "info";
+    var youtubeUrl = ViewData["PrimaryVideoUrl"];
+}
+
+<style>
+    #navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .account-menu {
+        position: fixed;
+        width: 100%;
+        top: 86px;
+        z-index: 100;
+    }
+
+    @@media (max-width: 1200px) {
+        .account-menu {
+            top: 146px;
+        }
+    }
+
+    .login-content {
+        margin-top: 86px;
+    }
+
+    .for-individual-button{
+        margin-top: -50px !important;
+    }
+</style>
+
+<script src="https://unpkg.com/sal.js@0.8.2/dist/sal.js"></script>
+<link href="https://unpkg.com/sal.js@0.8.2/dist/sal.css" rel="stylesheet">
+
+<div class="content home-part-first home-part-1 @(accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email) == false ? "login-content" : "")">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6 row mb-5 mb-xl-0"
+                         data-sal-duration="1000"
+                         data-sal="slide-down"
+                         data-sal-delay="200"
+                         data-sal-easing="ease-out-bounce">
+                        <div class="col-12 mb-4">
+                            <div class="text-secondary text-bold home-master-txt-1">Find and offer expertise to organizations or individuals on your terms.​</div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="text-bold text-white">
+                                Freelance marketplace for senior and experienced professionals.
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex">
+                            <a href="/pro/home/individual" class="btn-white btn mr-4 text-bold">Individual</a>
+                            <a href="/pro/home/organization" class="btn-outline-white btn text-bold">Organization</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="video-container">
+                            <iframe width="560" height="315" src="@youtubeUrl" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                    @if (accountContext.CurrentAccount == null || string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email))
+                    {
+                        <div class="col-12 mb-4"
+                             data-sal-duration="1000"
+                             data-sal="slide-down"
+                             data-sal-delay="200"
+                             data-sal-easing="ease-out-bounce">
+                            <div class="text-bold text-secondary">
+                                <br />
+                                Free registration. Sign up today to start your search.
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="content pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-md-3 text-left">
+                            <h2 class="text-gray text-bold">As Seen On</h2>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div class="content home-part-2 pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="text-secondary text-bold text-center home-master-txt-1">Our Freelance Professionals</div>
+                    </div>
+                    @* <div class="col-12 mb-4">
+                            <h3 class="text-center text-bold">Get your work done right, at the first time</h3>
+                        </div> *@
+
+                    <div class="col-12">
+                        <div id="carousel-our-freelance" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="content">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 text-center"
+                                                             data-sal-duration="1000"
+                                                             data-sal="slide-right"
+                                                             data-sal-delay="200"
+                                                             data-sal-easing="ease-out-bounce">
+                                                            <img class="w-75 img-shrink m-4" src="https://static.yadiyad.com/Assets/Images/HomeInfo/home-freelance-1-paint.jpg" loading="lazy" />
+                                                        </div>
+                                                        <div class="col-lg-6 text-left d-flex align-items-center">
+                                                            <div>
+                                                                <h1 class="text-bold mb-4">Retired</h1>
+                                                                <h3 class="text-bold">Individuals who officially retired from the workforce but wish to monetize their in-depth experience in their free time.</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="content">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 text-center"
+                                                             data-sal-duration="1000"
+                                                             data-sal="slide-right"
+                                                             data-sal-delay="200"
+                                                             data-sal-easing="ease-out-bounce">
+                                                            <img class="w-75 img-shrink m-4" src="https://static.yadiyad.com/Assets/Images/HomeInfo/home-freelance-2paint.jpg" loading="lazy" />
+                                                        </div>
+                                                        <div class="col-lg-6 text-left d-flex align-items-center">
+                                                            <div>
+                                                                <h1 class="text-bold mb-4">Retrenched</h1>
+                                                                <h3 class="text-bold">Individuals who lost their jobs or experience pay cuts and needed to find additional source of income.</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="content">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 text-center"
+                                                             data-sal-duration="1000"
+                                                             data-sal="slide-right"
+                                                             data-sal-delay="200"
+                                                             data-sal-easing="ease-out-bounce">
+                                                            <img class="w-75 img-shrink m-4" src="https://static.yadiyad.com/Assets/Images/HomeInfo/home-freelance-3-paint.jpg" loading="lazy" />
+                                                        </div>
+                                                        <div class="col-lg-6 text-left d-flex align-items-center">
+                                                            <div>
+                                                                <h1 class="text-bold mb-4">Returning</h1>
+                                                                <h3 class="text-bold">Individuals who wish to return to the workforce after a break due to maternity, sickness or family issues.</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel-our-freelance" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-our-freelance" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="home-main-3 content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="home-part-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h1 class="text-bold text-white mb-5">For Individual</h1>
+                                    <div class="text-bold text-primary mt-5 mb-5 home-master-txt-1">
+                                        Offer your expertise to organizations or other individuals on your terms. Find the right expertise for your gig.
+                                    </div>
+                                    <div class="text-bold text-primary">
+                                        Sign up and create your profile to search for individual sellers and freelance jobs.
+                                    </div>
+                                    @* <div class="text-bold text-primary">Proin gravida nibh vel velit auctor aliquet.</div>
+                                        <div class="text-bold text-primary mb-5">Aenean sollicitudin, lorem quis bibendum.</div> *@
+                                    <a href="" class="w-auto btn-outline-primary btn text-bold d-block mb-3 d-lg-none">Seek Freelance Jobs</a>
+                                    <a href="" class="w-auto btn-outline-primary btn text-bold d-block mb-3 d-lg-none">Buy Services</a>
+                                    <a href="" class="w-auto btn-outline-primary btn text-bold d-block mb-3 d-lg-none">Sell Services</a>
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 pl-5 pr-5 d-none d-lg-block">
+                        <div class="row">
+                            <div class="col-lg-4 mb-4"
+                                 data-sal-duration="1000"
+                                 data-sal="slide-right"
+                                 data-sal-delay="200"
+                                 data-sal-easing="ease-out-bounce">
+                                <a href="/pro/home/individual#section-seek-freelance-job" class="p-4 home-content-card d-block" style="margin-top: -30px;">
+                                    <h3 class="text-bold mb-4 text-white">Seek Freelance Jobs</h3>
+                                    <div class="d-flex justify-content-between text-white">
+                                        <div>Find out more</div><div class="fa fa-arrow-right"></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4 mb-4"
+                                 data-sal-duration="1000"
+                                 data-sal="slide-right"
+                                 data-sal-delay="300"
+                                 data-sal-easing="ease-out-bounce">
+                                <a href="/pro/home/individual#section-buy-service" class="p-4 home-content-card d-block" style="margin-top: -30px;">
+                                    <h3 class="text-bold mb-4 text-white">Buy Services</h3>
+                                    <div class="d-flex justify-content-between text-white">
+                                        <div>Find out more</div><div class="fa fa-arrow-right"></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4 mb-4"
+                                 data-sal-duration="1000"
+                                 data-sal="slide-right"
+                                 data-sal-delay="400"
+                                 data-sal-easing="ease-out-bounce">
+                                <a href="/pro/home/individual#section-sell-service" class="p-4 home-content-card d-block" style="margin-top: -30px;">
+                                    <h3 class="text-bold mb-4 text-white">Sell Services</h3>
+                                    <div class="d-flex justify-content-between text-white">
+                                        <div>Find out more</div><div class="fa fa-arrow-right"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="home-main-4 content pt-5 pb-5"
+     data-sal-duration="1000"
+     data-sal="slide-right"
+     data-sal-delay="200"
+     data-sal-easing="ease-out-bounce">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 home-part-4">
+                <div class="row h-100">
+                    <div class="col-lg-6">
+
+                    </div>
+                    <div class="col-lg-6 p-4"
+                         data-sal-duration="1000"
+                         data-sal="slide-left"
+                         data-sal-delay="500"
+                         data-sal-easing="ease-out-bounce">
+                        <h1 class="text-bold text-white mb-5">For Organization</h1>
+                        <div class="text-secondary text-bold mb-4 home-master-txt-1">Find the right expertise for your business.</div>
+                        @* <div class="text-bold text-white mb-5">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec</div> *@
+                        <a href="/pro/home/organization#section-offer-freelance-job" class="p-4 w-auto btn-outline-white btn text-bold d-block mb-4">
+                            <h3 class="text-left text-bold mb-4">Offer Freelance Jobs</h3>
+                            <div class="d-flex justify-content-between">
+                                <div>Find out more</div><div class="fa fa-arrow-right"></div>
+                            </div>
+                        </a>
+                        <a href="/pro/home/organization#section-seek-consultation" class="p-4 w-auto btn-outline-white btn text-bold d-block">
+                            <h3 class="text-left text-bold mb-4">Seek Consultations</h3>
+                            <div class="d-flex justify-content-between">
+                                <div>Find out more</div><div class="fa fa-arrow-right"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="content pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <h1 class="text-tertiary text-bold">What They're Saying</h1>
+                        </div>
+
+                        <div class="col-12">
+                            <div id="carousel-what-say" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="content">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-sm-12 home-part-5 p-5">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 text-center">
+                                                                <img class="w-50 mb-4" src="~/img/pro/home/testimonial-1.jpg" />
+                                                                <div class="text-primary mb-2">Samuel Davis</div>
+                                                                <div class="text-primary mb-4">Director of SEO Vision</div>
+                                                            </div>
+                                                            <div class="col-lg-6 text-left d-flex align-items-center">
+                                                                <h4 class="text-primary text-bold">"The freelance talent we work with are more productive than we ever thought possible."</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carousel-what-say" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carousel-what-say" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div class="content home-part-6 pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <h1 class="text-primary text-bold">Top Professional Segments</h1>
+            </div>
+            <div class="col-12 mb-4">
+                <h4 class="text-primary text-bold mb-4">
+                    Broad categories of in-demand job and service segments.
+                </h4>
+            </div>
+            <div class="col-12 mb-2">
+                <h3 class="text-primary text-bold mb-4 underline-tertiary">Essential</h3>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_health.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Healthcare</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_edu.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Education</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_finance.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Finance</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-2">
+                <h3 class="text-primary text-bold mb-4 underline-tertiary">
+                    Technology
+                </h3>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_engineer.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Engineering</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_media.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Media &amp; Communications</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_ict.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">ICT</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-2">
+                <h3 class="text-primary text-bold mb-4 underline-tertiary">Recreational</h3>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_sport.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Sports Coaching</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/category/Fitness_Wellness-01.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Fitness &amp; Wellness</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="ml-4 mr-4 mb-4">
+                            <div class="bg-white pl-5 pr-5 pt-4 pb-4">
+                                <div class="background-forth circle p-4 smallcard-circle">
+                                    <img src="~/img/pro/home/ico_crafts.svg" loading="lazy">
+                                </div>
+                            </div>
+                            <h4 class="background-forth p-4 text-primary text-bold home-service-card-content-1">Arts &amp; Crafts</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-2 text-center">
+                <a href="/pro/home/segment" class="btn btn-outline-primary text-bold btn-home-browse-all">Browse All Segments</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content  pt-5 pb-5"
+     data-sal-duration="1000"
+     data-sal="slide-right"
+     data-sal-delay="200"
+     data-sal-easing="ease-out-bounce">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row h-100">
+                    <div class="col-lg-6 p-4">
+                        <img class="w-100" src="https://static.yadiyad.com/Assets/Images/HomeInfo/home-jobmodel-1.jpg" loading="lazy" />
+                    </div>
+                    <div class="col-lg-6 p-4">
+                        <div class="text-bold text-primary mb-2 home-master-txt-1">Job and Service Models</div>
+                        <h4 class="text-primary text-bold mb-5">Flexible job and service models to fast track your freelance career.</h4>
+                        <a href="/pro/home/organization#section-offer-freelance-job" class="w-auto outline-tertiary btn text-bold d-block mb-2 text-primary text-left h4">
+                            <img class="ml-2 mr-2" style="width:50px;height:50px;" src="~/img/pro/home/freelance-model-1.svg" loading="lazy">&nbsp;&nbsp;&nbsp;Freelance Job (Hourly/Daily)
+                        </a>
+                        <a href="/pro/home/organization#section-offer-freelance-job" class="w-auto outline-tertiary btn text-bold d-block mb-2 text-primary text-left hh4">
+                            <img class="ml-2 mr-2" style="width:50px;height:50px;" src="~/img/pro/home/project-model-1.svg" loading="lazy">&nbsp;&nbsp;&nbsp;Project-Based
+                        </a>
+                        <a href="/pro/home/organization#section-seek-consultation" class="w-auto outline-tertiary btn text-bold d-block mb-2 text-primary text-left h4">
+                            <img class="ml-2 mr-2" style="width:50px;height:50px;" src="~/img/pro/home/consultation-model-1.svg" loading="lazy">&nbsp;&nbsp;&nbsp;Consultation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    sal();
+
+    //sal({
+        //once: false,
+    //});
+</script>

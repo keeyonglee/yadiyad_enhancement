@@ -1,0 +1,43 @@
+@model BankAccountModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Customers.BankAccount.EditBankAccountDetails").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Bank Accounts");
+}
+
+<form asp-controller="BankAccount" asp-action="Edit" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Customers.BankAccount.EditBankAccountDetails") - @Model.AccountHolderName
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="BankAccount">@T("Admin.Customers.BankAccount.BackToList")</a>
+            </small>
+            <small>
+                <i class="fa fa-tasks"></i>
+                <a href="/Admin/Home/ShuqOperation">back to Shuq Operation</a>
+            </small>
+        </h1>
+        @if (!Model.IsVerified.HasValue || Model.IsVerified.Value)
+        {
+            <div class="pull-right">
+                <button type="submit" id="bankaccount-reject" name="bankaccount-reject" class="btn bg-red">
+                    @T("Admin.Customers.BankAccount.Reject")
+                </button>
+            </div>
+            <nop-action-confirmation asp-model-id="@Model.Id" asp-button-id="bankaccount-reject" />
+        }
+        @if (!Model.IsVerified.HasValue)
+        {
+            <div class="pull-right">
+                <button type="submit" name="save" class="btn bg-blue">
+                    @T("Admin.Customers.BankAccount.Approve")
+                </button>
+                @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.BankAccountDetailsButtons, additionalData = Model.Id })
+            </div>
+        }
+    </div>
+    @await Html.PartialAsync("_CreateOrUpdate", Model)
+</form>

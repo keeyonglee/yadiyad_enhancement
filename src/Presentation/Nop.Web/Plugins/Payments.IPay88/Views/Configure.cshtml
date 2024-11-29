@@ -1,0 +1,124 @@
+﻿@model Nop.Plugin.Payments.IPay88.Models.ConfigurationModel
+@inject Nop.Core.IWebHelper webHelper
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+
+@*<script>
+	$(document).ready(function () {
+        $("#@Html.IdFor(model => model.PassProductNamesAndTotals)").click(togglePassProductNamesAndTotals);
+	    togglePassProductNamesAndTotals();
+	});
+
+    function togglePassProductNamesAndTotals() {
+        warningValidation('@Url.Action("RoundingWarning", "PaymentIPay88")', '@Html.NameFor(model => model.PassProductNamesAndTotals)',
+            { passProductNamesAndTotals: $('#@Html.IdFor(model => model.PassProductNamesAndTotals)').is(':checked') });
+    }
+</script>*@
+
+<form asp-controller="PaymentIPay88" asp-action="Configure" method="post">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.Raw(T("Plugins.Payments.IPay88.Instructions"))
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="MerchantCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="MerchantCode" />
+                        <span asp-validation-for="MerchantCode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="MerchantKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="MerchantKey" />
+                        <span asp-validation-for="MerchantKey"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CurrencyCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="CurrencyCode" />
+                        <span asp-validation-for="CurrencyCode"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaymentId" />
+                        <span asp-validation-for="PaymentId"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ProductDesc" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ProductDesc" />
+                        <span asp-validation-for="ProductDesc"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ProxyPaymentURL" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ProxyPaymentURL" />
+                        <span asp-validation-for="ProxyPaymentURL"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaymentUrl" />
+                        <span asp-validation-for="PaymentUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentRequeryUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaymentRequeryUrl" />
+                        <span asp-validation-for="PaymentRequeryUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="InvoicePrefix" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InvoicePrefix" />
+                        <span asp-validation-for="InvoicePrefix"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentPrefix" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaymentPrefix" />
+                        <span asp-validation-for="PaymentPrefix"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

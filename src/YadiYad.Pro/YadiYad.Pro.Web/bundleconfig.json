@@ -1,0 +1,26 @@
+[
+  {
+    "outputFileName": "wwwroot/css/pro/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/pro/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/pro/customAdminlte.min.css",
+    "inputFiles": [
+      "wwwroot/css/pro/customAdminlte.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/drivertour/driver.min.min.css",
+    "inputFiles": [
+      "wwwroot/lib/drivertour/driver.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/drivertour/driver.min.min.js",
+    "inputFiles": [
+      "wwwroot/lib/drivertour/driver.min.js"
+    ]
+  }
+]

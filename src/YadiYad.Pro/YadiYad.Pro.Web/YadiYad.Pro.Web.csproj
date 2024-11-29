@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath></OutputPath>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Pro\Views\Subscription\**" />
+    <Content Remove="Areas\Pro\Views\Subscription\**" />
+    <EmbeddedResource Remove="Areas\Pro\Views\Subscription\**" />
+    <None Remove="Areas\Pro\Views\Subscription\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\js\pro\job\organization-counter - Copy.es5.min.js" />
+    <Content Remove="wwwroot\js\pro\job\organization-counter.es5.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\pro\job\organization-counter.es5.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\YadiYad.Pro.Services\YadiYad.Pro.Services.csproj" />
+    <ProjectReference Include="..\..\Vendors\Wkhtmltopdf.NetCore\Wkhtmltopdf.NetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\pro\about\" />
+    <Folder Include="wwwroot\img\pro\organization\" />
+    <Folder Include="wwwroot\js\pro\payment\" />
+    <Folder Include="wwwroot\js\pro\simpleform\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="wwwroot\js\pro\job\organization-counter.es5.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="5.7.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\js\pro\individual\index.es5.min.js">
+      <DependentUpon>index.es5.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\js\pro\job\index.es5.min.js">
+      <DependentUpon>index.es5.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\js\pro\organization\index.es5.min.js">
+      <DependentUpon>index.es5.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+</Project>

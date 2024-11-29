@@ -1,0 +1,42 @@
+@model ReturnOrderModel
+
+@{
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Return requests");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "ReturnRequestsPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<div class="content">
+    <div class="form-horizontal">
+        <form asp-controller="ReturnRequest" asp-action="EditReturnOrder" method="post">
+            <div class="content-header clearfix">
+                <h1 class="pull-left">
+                    Return Order Details
+                    <small>
+                        <i class="fa fa-arrow-circle-left"></i>
+                        <a asp-action="List">@T("Admin.ReturnRequests.BackToList")</a>
+                    </small>
+                </h1>
+                <div class="pull-right">
+                    <button type="submit" name="save" class="btn bg-blue">
+                        <i class="fa fa-floppy-o"></i>
+                        @T("Admin.Common.Save")
+                    </button>
+                    <button type="submit" name="save-continue" class="btn bg-blue">
+                        <i class="fa fa-floppy-o"></i>
+                        @T("Admin.Common.SaveContinue")
+                    </button>
+
+                    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsButtons, additionalData = Model })
+                </div>
+            </div>
+        @await Html.PartialAsync("_CreateOrUpdate.ReturnOrder", Model)
+        </form>
+
+        @await Html.PartialAsync("_CreateOrUpdate.ReturnOrderItem", Model)
+    </div>
+</div>

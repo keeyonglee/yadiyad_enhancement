@@ -1,0 +1,39 @@
+﻿@model YadiYad.Pro.Web.Models.Customer.RegisterResultModel
+@{
+    ViewData["Layout"] = "Blank";
+    ViewData["Theme"] = "signup";
+}
+
+
+
+<div class="content">
+    <div class="container">
+        <header class="pt-5 pb-5">
+            <div class="text-center">
+                <img class="logo-sign-up" src="/img/pro/brand/logo-new-pro-color.png" alt="YadiYad Pro Logo" />
+            </div>
+        </header>
+        <form asp-route="RegisterResult" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post">
+            <div class="card p-3 col-lg-6 ml-auto mr-auto col-lg-6 bg-primary-light content-sign-up-form">
+                <h2 class="text-center mt-2 text-primary text-bold">Email Confirmation</h2>
+                <div class="card p-3 m-0 mt-3 ">
+                    <div asp-validation-summary="ModelOnly" class="message-error"></div>
+                    <div class="page registration-result-page">
+                        <div class="page-body">
+                            <div class="result">
+                                @Html.Raw(Model.Result)
+                            </div>
+                            <div class="text-muted">
+                                @T("Pro.Account.EmailConfirmation.Message")
+                            </div>
+                            <div class="buttons">
+                                <input type="submit" name="register-continue" class="w-100 btn btn-lg btn-info mt-3"
+                                       value="@T("Account.Register.Result.Continue")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

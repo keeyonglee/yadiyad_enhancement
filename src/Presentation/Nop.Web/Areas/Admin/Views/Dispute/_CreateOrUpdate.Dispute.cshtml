@@ -1,0 +1,237 @@
+@model DisputeSubmitModel
+
+@using Nop.Core.Domain.Orders;
+@using Nop.Services
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="panel-group">
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsTop, additionalData = Model })
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.ReturnList[0].CustomOrderNumber" />
+                </div>
+                <div class="col-md-9">
+                    @if (Model.ReturnList[0].OrderId > 0)
+                    {
+                        <a asp-controller="Order" asp-action="Edit" asp-route-id="@Model.ReturnList[0].OrderId">@Model.ReturnList[0].CustomOrderNumber</a>
+                    }
+                    else
+                    {
+                        <text>Order item is deleted</text>
+                    }
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.ReturnList[0].CustomerInfo" />
+                    @*<div class="label-wrapper"><label class="control-label">Customer</label></div>*@
+                </div>
+                <div class="col-md-9">
+                    <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.ReturnList[0].CustomerId">@Model.ReturnList[0].CustomerInfo</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="ReturnList[0].ReasonForReturn" />
+                </div>
+                <div class="col-md-9">
+                    @Model.ReturnList[0].ReasonForReturn
+                </div>
+            </div>
+            @if (Model.ReturnList[0].CustomerComments != null && Model.ReturnList[0].CustomerComments != "")
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ReturnList[0].CustomerComments" />
+                    </div>
+                    <div class="col-md-9">
+                        @Model.ReturnList[0].CustomerComments
+                    </div>
+                </div>
+            }
+            <hr />
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.VendorName" />
+                </div>
+                <div class="col-md-9">
+                    <a asp-controller="Vendor" asp-action="Edit" asp-route-id="Model.VendorId">@Model.VendorName</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="control-label">Seller's Dispute Reason</label></div>
+                </div>
+                <div class="col-md-9">
+                    @Model.DisputeReasonStr
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <div class="label-wrapper"><label class="control-label">Products</label></div>
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-hover table-bordered" id="prod-table">
+                        <thead>
+                            <tr>
+                                <th>Product No.</th>
+                                <th>@T("Admin.ReturnRequests.Fields.ProductName")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Quantity")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Order")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Date")</th>
+                                <th>@T("Admin.ReturnRequests.Fields.Edit")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ReturnList)
+                            {
+                                <tr>
+                                    <td style="width: 5%;" class="text-left">
+                                    </td>
+                                    <td style="width: 15%;" class="text-left">
+                                        <p>@item.ProductName</p>
+                                    </td>
+                                    <td style="width: 15%;" class="text-left">
+                                        <p>@item.Quantity</p>
+                                    </td>
+                                    <td style="width: 15%;" class="text-left">
+                                        <a class="btn btn-default" href=@Url.Content("~/Admin/Order/Edit/"+item.OrderId)><i class="fa fa-eye"></i> - @T("Admin.Common.View")</a>
+                                    </td>
+                                    <td style="width: 15%;" class="text-left">
+                                        <p>@item.CreatedOn</p>
+                                    </td>
+                                    <td><a class="btn btn-default" href="@Url.Content("~/Admin/ReturnRequest/Edit/"+item.Id)"><i class="fa fa-eye"></i> - @T("Admin.Common.Edit")</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+                $('#prod-table tbody tr').each(function (idx) {
+                    $(this).children("td:eq(0)").html(idx + 1);
+                });
+            </script>
+            @if (!String.IsNullOrWhiteSpace(Model.DisputeDetail))
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="control-label">Dispute Detail</label></div>
+                    </div>
+                    <div class="col-md-9">
+                        @Model.DisputeDetail
+                    </div>
+                </div>
+            }
+
+            <hr />
+            @if(Model.IsReturnDispute != true)
+            {
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <div class="label-wrapper"><label class="control-label" for="NeedReturnShipping">Need to return</label></div>
+                    </div>
+                    @if (Model.CanProductShip == true && Model.DisputeAction == (int)DisputeActionEnum.Pending && Model.IsReturnDispute == false)
+                    {
+                        <div class="col-md-9">
+                            <nop-editor asp-for="NeedReturnShipping" />
+                            <span asp-validation-for="NeedReturnShipping"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        @if (Model.CanProductShip == false)
+                        {
+     
+                            <div class="col-md-9">
+                                No Product is available to ship
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-9">
+                                <nop-editor asp-for="NeedReturnShipping" asp-disabled="true" />
+                                <span asp-validation-for="NeedReturnShipping"></span>
+                            </div>
+                        }
+      
+                    }
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.DisputeAction" />
+                </div>
+                <div class="col-md-9">
+                    @if(Model.DisputeAction == (int)DisputeActionEnum.Pending)
+                    {
+                        <nop-select asp-for="DisputeAction" asp-items="@(((DisputeActionEnum)Model.DisputeAction).ToSelectList())" />
+                    }else
+                    {
+                        <nop-select asp-for="DisputeAction" asp-items="@(((DisputeActionEnum)Model.DisputeAction).ToSelectList())" asp-disabled="true" />
+                    }
+                    <span asp-validation-for="DisputeAction"></span>
+                </div>
+            </div>
+            <div class="form-group grp-partial-amount">
+                <div class="col-md-3">
+                    <nop-label asp-for="@Model.PartialAmount"  />
+                </div>
+                <div class="col-md-9">
+                    @*<nop-editor asp-for="PartialAmount" />*@
+                    <input asp-for="PartialAmount" step=".01" class="form-control"  />
+                    <span asp-validation-for="PartialAmount"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("AdminWidget", new { widgetZone = AdminWidgetZones.ReturnRequestDetailsBottom, additionalData = Model })
+</div>
+
+<script>
+    var grpPartialAmount = $(".grp-partial-amount");
+
+    $("#DisputeAction").on('change', function (e, isInit) {
+        setGrpPartialAmountField();
+    });
+
+    $(document).ready(function () {
+        if(@Model.DisputeAction != 0){
+            setGrpPartialAmountField();
+            $("#NeedReturnShipping").prop("disabled", true);
+            $("#PartialAmount").prop("disabled", true);
+        }else{
+            setGrpPartialAmountField();
+        }
+    });
+
+    function setGrpPartialAmountField() {
+
+        var value = $("#DisputeAction").val();
+
+        switch (value) {
+            case "0":
+                grpPartialAmount.addClass("hidden");
+                $("#NeedReturnShipping").prop("disabled", false);
+                break;
+
+            case "10":
+                grpPartialAmount.addClass("hidden");
+                $("#NeedReturnShipping").prop("disabled", false);
+                break;
+            case "20":
+                grpPartialAmount.removeClass("hidden");
+                $("#NeedReturnShipping").prop("disabled", false);
+                break;
+            case "30":
+                grpPartialAmount.addClass("hidden");
+                $("#NeedReturnShipping").prop("disabled", true);
+                break;
+        }
+    }
+</script>

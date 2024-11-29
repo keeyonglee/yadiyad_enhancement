@@ -1,0 +1,81 @@
+﻿
+<script id="template-simple-form-builder" type="text/x-jsrender">
+    {^{for fields  ~fields=fields}}
+    <div class="container-field" data-link="data-model-id{:(#index+1)}">
+        <div class="form-group row">
+            <label for="" class="col-sm-3 col-form-label">Question {^{:(#index+1)}}</label>
+            <div class="col-sm-9">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <label class="col-form-label form-check-label mr-4 cursor-pointer">
+                                <input type="radio" class="field-type mr-2" value="comment" {{:(type==='comment'?'checked':'')}}
+                                       data-link="{:type trigger=true:} name{:('Q'+(#index+1)+'-type')} {on 'click' ~root.changeMode #data 'comment'}" />
+                                <span><i class="fa fa fa-align-left mr-1"></i> Paragraph</span>
+                            </label>
+                            <label class="col-form-label form-check-label mr-4 cursor-pointer">
+                                <input type="radio" class="field-type mr-2" value="radiogroup" {{:(type==='radiogroup'?'checked':'')}}
+                                       data-link="{:type trigger=true:} name{:('Q'+(#index+1)+'-type')} {on 'click' ~root.changeMode #data 'radiogroup'}" />
+                                <span><i class="fa fa-check-circle mr-1"></i> Multiple Choice</span>
+                            </label>
+                            <label class="col-form-label form-check-label mr-4 cursor-pointer">
+                                <input type="radio" class="field-type mr-2" value="checkbox" {{:(type==='checkbox'?'checked':'')}}
+                                       data-link="{:type trigger=true:} name{:('Q'+(#index+1)+'-type')} {on 'click' ~root.changeMode #data 'checkbox'}" />
+                                <span><i class="fa fa-check-square mr-1"></i> Checkboxes</span>
+                            </label>
+                            {^{if ~root.fields.length > 1}}
+                            <label class="col-form-label form-check-label float-right">
+                                <a href="#" class="text-muted" data-link="{on ~root.removeField  ~fields #parent.index}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </label>
+                            {{/if}}
+                        </div>
+                        {^{if type != null }}
+                        @*<input class="form-control mb-2 border-0 pl-0 pr-0" type="text" placeholder="enter your question." 
+                               data-link="{:title trigger=true:} name{:('Q'+(#index+1))}" required
+                               />*@
+                        <textarea class="form-control mb-2 border-0 pl-0 pr-0" type="text" placeholder="enter your question." 
+                               data-link="{:title trigger=true:} name{:('Q'+(#index+1))}" required maxlength="200"></textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="topic" data-valmsg-replace="true"
+                              data-link="data-valmsg-for{:('Q'+(#index+1))}"
+                              ></span>
+                        {{/if}}
+                        {^{if type == "comment"}}
+                        @*<textarea class="form-control" placeholder="enter your answer."></textarea>*@
+                        {{else type == "radiogroup" || type == "checkbox"}}
+                        {^{for choices  ~choices=choices}}
+                        <label class="form-check-label d-block">
+                            <input data-link="value{:value} name{:('Q'+(#parent.parent.getIndex()+1))} type{:(#parent.parent.data.type == 'radiogroup'?'radio':'checkbox')}">
+                            <input class="form-control border-0 d-inline-block w-50 ml-2 p-0 shadow-none" type="text" placeholder="enter your option"
+                                   data-link="{:value trigger=true:}" maxlength="56" />
+                            {^{if ~choices.length > 1 }}
+                            <label class="col-form-label form-check-label float-right">
+                                <a href="#" class="text-muted" data-link="{on ~root.removeChoice ~choices #parent.index}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </label>
+                            {{/if}}
+                        </label>
+                        {{/for}}
+                        {^{if choices.length < 5}}
+                        <button type="button" class="btn btn-default btn-add-field w-100"
+                                data-link="{on ~root.addChoice #parent.data.choices}">
+                            Add Choice
+                        </button>
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/for}}
+    {^{if fields.length < 5}}
+    <div class="form-group row">
+        <div class="col-sm-9 offset-sm-3">
+            <button type="button" class="btn btn-default btn-add-field w-100" data-link="{on addField}">+&nbsp;&nbsp;More</button>
+        </div>
+    </div>
+    {{/if}}
+</script>

@@ -1,0 +1,336 @@
+﻿@using Nop.Web.Areas.Pro.Models.CampaignManagement
+@using YadiYad.Pro.Core.Domain.Campaign
+@model CampaignManagementModel
+
+<div class="panel-body">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <div asp-validation-summary="All">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Title</label>
+        </div>
+        <div class="col-md-9">
+            <input class="form-control" asp-for="Title" />
+        </div>
+    </div>
+    @if (Model.Id == 0)
+    {
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Channel</label>
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="Channel" asp-items="@Html.GetEnumSelectList<CampaignChannel>()" />
+            </div>
+        </div>
+        <div id="jobTypeEnum" class="form-group">
+            <div class="col-md-3">
+                <label>Engagement Type</label>
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="EngagementType" asp-items="@Html.GetEnumSelectList<CampaignEngagementType>()" />
+            </div>
+        </div>
+        <div id="divBeneficiary" class="form-group">
+            <div class="col-md-3">
+                <label>Beneficiary</label>
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="Beneficiary" asp-items="@Html.GetEnumSelectList<CampaignBeneficiary>()" />
+            </div>
+        </div>
+        <div id="divActivityIndividual" hidden class="form-group">
+            <div class="col-md-3">
+                <label>Activity Ind</label>
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="Activity" id="selectActivityIndividual" asp-items="@Html.GetEnumSelectList<CampaignActivityIndividual>()" />
+            </div>
+        </div>
+        <div id="divActivityOrganization" hidden class="form-group">
+            <div class="col-md-3">
+                <label>Activity Org</label>
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="Activity" id="selectActivityOrganization" asp-items="@Html.GetEnumSelectList<CampaignActivityOrganization>()" />
+            </div>
+        </div>
+
+        <div id="divCampaignType" hidden class="form-group">
+            <div class="col-md-3">
+                <label>Type</label>
+
+            </div>
+            <div class="col-md-9">
+                <nop-select asp-for="Type" asp-items="@Html.GetEnumSelectList<CampaignType>()" />
+            </div>
+        </div>
+        <div id="divSelectValues" hidden>
+            <div id="divTransactionLimit" class="form-group">
+                <div class="col-md-3">
+                    <label>Transaction Limit</label>
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="TransactionLimit" asp-required="true" />
+                </div>
+            </div>
+            <div id="divValue1" class="form-group">
+                <div class="col-md-3">
+                    <label id="labelValue1">Primary Value</label>
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="Value1" asp-required="true" />
+                </div>
+            </div>
+            <div id="divValue2" class="form-group">
+                <div class="col-md-3">
+                    <label id="labelValue2">Secondary Value</label>
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="Value2" asp-required="true" />
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="Activity" />
+        <input type="hidden" asp-for="Beneficiary" />
+        <input type="hidden" asp-for="Type" />
+        <input type="hidden" asp-for="Value1" />
+    }
+    <div id="divSelectDates" hidden>
+        <div id="divFrom" class="form-group">
+            <div class="col-md-3">
+                <label>From</label>
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="From" asp-required="true" />
+            </div>
+        </div>
+        <div id="divUntil" class="form-group">
+            <div class="col-md-3">
+                <label>Until</label>
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="Until" value="" asp-required="true" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var from = @Html.Raw(Json.Serialize(Model.From));
+    var until = @Html.Raw(Json.Serialize(Model.Until));
+    var id = @Html.Raw(Json.Serialize(Model.Id));
+    var validRewardsIndividual = @Html.Raw(Json.Serialize(ViewData["ValidIndividualRewardTypes"]));
+    var validShuqRewardsIndividual = @Html.Raw(Json.Serialize(ViewData["ValidShuqRewardsIndividual"]));
+    var validRewardsOrganization = @Html.Raw(Json.Serialize(ViewData["ValidIndividualRewardTypes"]));
+
+    var today = new Date()
+    var fromSelect = new Date()
+    var untilSelect = new Date()
+    fromSelect.setDate(today.getDate());
+    untilSelect.setDate(today.getDate() + 1);
+
+    var optionsActivity = $('#Activity option');
+    var activities = $.map(optionsActivity, function (option) {
+        return option.value;
+    });
+
+    var optionsType = $('#Type option');
+    var types = $.map(optionsType, function (option) {
+        return parseInt(option.value) ;
+    });
+
+    function filterType(typeIds) {
+        types.forEach(function (a) {
+            if (typeIds.includes(a)) {
+                $(`#Type option[value='${a}']`).show();
+            }
+            else {
+                $(`#Type option[value='${a}']`).hide();
+            }
+        })
+    }
+
+    $('#Channel').on("change", function () {
+        hideSelectValues()
+
+        var $Beneficiary = $('[name="Beneficiary"]');
+        var $Activity = $('[name="Activity"]');
+        var $jobTypeEnum = $('#jobTypeEnum');
+        var $EngagementType = $('#EngagementType');
+
+        $('#divCampaignType').attr('hidden', true)
+        $('#selectActivityOrganization').val('');
+        $('#selectActivityIndividual').val('');
+
+        $('#divActivityIndividual').attr('hidden', true);
+        $('#divActivityOrganization').attr('hidden', true);
+
+        var value = $('#Channel').val();
+        if (value == 2) {
+            $EngagementType.val('');
+            $jobTypeEnum.attr('hidden', true);
+
+           $Beneficiary.val('2');
+           $Beneficiary.trigger('change');
+           $Beneficiary.find('option').each(function (i, elem) {
+                var $option = $(elem);
+                var value = $option.attr('value');
+
+                if (value !== '2') {
+                    $option.hide();
+                }
+            });
+
+           $Activity.val('3');
+           $Activity.trigger('change');
+           $Activity.find('option').each(function (i, elem) {
+                var $option = $(elem);
+                var value = $option.attr('value');
+
+                if (value !== '3') {
+                    $option.hide();
+                }
+            });
+        }
+        else {
+            $EngagementType.val('1');
+            $jobTypeEnum.attr('hidden', false);
+
+           $Beneficiary.find('option').each(function (i, elem) {
+                var $option = $(elem);
+                $option.show();
+            });
+
+           $Activity.find('option').each(function (i, elem) {
+                var $option = $(elem);
+                $option.show();
+            });
+        }
+    });
+
+    $('#Beneficiary').on("change", function () {
+        hideSelectValues()
+        $('#divCampaignType').attr('hidden', true)
+        value = $('#Beneficiary').val();
+        $('#selectActivityOrganization').val('');
+        $('#selectActivityIndividual').val('');
+
+        if (value == 1) {
+            $('#divActivityOrganization').attr('hidden', false)
+            $('#divActivityIndividual').attr('hidden', true)
+        }
+        else {
+            $('#divActivityIndividual').attr('hidden', false)
+            $('#divActivityOrganization').attr('hidden', true)
+        }
+    });
+
+    $('#selectActivityIndividual').on("change", function () {
+        hideSelectValues()
+        value = $('#selectActivityIndividual').val();
+        $('#divCampaignType').attr('hidden', false)
+
+        let activityType = [];
+
+        var channel = $('#Channel').val();
+        if (channel == 2) {
+            for (var n = 0; n < validShuqRewardsIndividual[value].length; n++) {
+                activityType.push(validShuqRewardsIndividual[value][n])
+            }
+        } else {
+            for (var n = 0; n < validRewardsIndividual[value].length; n++) {
+                activityType.push(validRewardsIndividual[value][n])
+            }
+        }
+
+        filterType(activityType)
+        $('#Type').val('');
+    });
+
+    $('#selectActivityOrganization').on("change", function () {
+        hideSelectValues()
+        value = $('#selectActivityOrganization').val();
+        $('#divCampaignType').attr('hidden', false)
+
+        let activityType = [];
+        for (var n = 0; n < validRewardsOrganization[value].length; n++) {
+            activityType.push(validRewardsOrganization[value][n])
+        }
+
+        filterType(activityType)
+        $('#Type').val('');
+    });
+
+    $('#Type').on("change", function () {
+
+        let value = $('#Type').val();
+        if (value == 1 || value == 2) {
+            document.getElementById('labelValue1').innerHTML
+                = 'Primary Value (days)';
+            $('#divValue2').attr('hidden', true)
+        }
+        else if (value == 3) {
+            document.getElementById('labelValue1').innerHTML
+                = 'Primary Value (MYR)';
+            $('#divValue2').attr('hidden', true)
+        }
+        else if (value == 4) {
+            document.getElementById('labelValue1').innerHTML
+                = 'Primary Value (Percentage)';
+            $('#divValue2').attr('hidden', true)
+        }
+        else {
+            document.getElementById('labelValue1').innerHTML
+                = 'Primary Value (MYR - Referrer)';
+            document.getElementById('labelValue2').innerHTML
+                = 'Primary Value (MYR - Referee)';
+        }
+
+        showSelectValues()
+
+    });
+
+    function hideSelectValues() {
+        $('#divSelectValues').attr('hidden', true)
+        $('#divSelectDates').attr('hidden', true)
+    }
+
+    function showSelectValues() {
+        $('#divSelectValues').attr('hidden', false)
+        $('#divSelectDates').attr('hidden', false)
+    }
+
+    $(document).ready(function () {
+        var datepickerFrom = $("#From").data("kendoDatePicker");
+        var datepickerUntil = $("#Until").data("kendoDatePicker");
+        if (id) {
+            if (from) {
+                if (Date.parse(from) < fromSelect.setHours(0, 0, 0, 0)) {
+                    datepickerFrom.readonly();
+                }
+            }
+            if (until) {
+                if (Date.parse(until) < untilSelect.setHours(0, 0, 0, 0)) {
+                    datepickerFrom.readonly();
+                }
+            }
+            $('#Title').attr('readonly', true)
+            $('#divSelectDates').attr('hidden', false)
+        }
+
+        datepickerFrom.min(fromSelect);
+        datepickerUntil.min(untilSelect);
+        if (id == 0) {
+            $('#Beneficiary').val('');
+        }
+    });
+</script>

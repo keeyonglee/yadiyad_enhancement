@@ -1,0 +1,96 @@
+﻿@model ProductReviewsModel
+
+@using Nop.Core
+
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts(Model.ProductName);
+    Html.AddTitleParts(T("PageTitle.ProductReviews").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-product-reviews-page");
+}
+    <div class="card">
+        <div class=" card-content page product-reviews-page">
+            <div class="page-title mt-4 mb-2">
+                <h1 style="color:black">@T("Reviews.ProductReviewsFor") <a style="color:black" href="@Url.RouteUrl("Product", new { SeName = Model.ProductSeName })">@Model.ProductName</a></h1>
+            </div>
+            <div class="page-body">
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductReviewsPageTop, additionalData = Model })
+                @if (Model.Items.Count > 0)
+                {
+                    <div class="product-review-list">
+                        @*<div class="title">
+                    <strong>@T("Reviews.ExistingReviews")</strong>
+                </div>*@
+                        @foreach (var review in Model.Items)
+                        {
+                            var ratingPercent = review.Rating * 20;
+                            <div class="product-review-item">
+                                <div class="review-item-head">
+
+                                    <div class="review-title">
+                                        @review.CustomerName on @review.WrittenOnStr
+                                    </div>
+                                    <div class="product-review-box">
+                                        <div class="rating @(Model.ProductBusinessNature == "Eat"?"eat-rating-1":"mart-rating-1")">
+                                            <div class="@(Model.ProductBusinessNature == "Eat"?"eat-rating-2":"mart-rating-2")" style="width: @(ratingPercent)%">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="review-content">
+                                    <div class="review-text">
+                                        @if (!string.IsNullOrEmpty(review.CustomerAvatarUrl))
+                                        {
+                                            <div class="avatar">
+                                                @if (review.AllowViewingProfiles)
+                                                {
+                                                    <a href="@Url.RouteUrl("CustomerProfile", new { id = review.CustomerId })" class="avatar-img-link">
+                                                        <img src="@(review.CustomerAvatarUrl)" class="avatar-img" alt="Avatar" />
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@(review.CustomerAvatarUrl)" class="avatar-img" alt="Avatar" />
+                                                }
+                                            </div>
+                                        }
+                                        <div class="text-bold-600 @(Model.ProductBusinessNature == "Eat" ?"eat-color":"mart-color")">
+                                            @Html.Raw(Nop.Core.Html.HtmlHelper.FormatText(review.ReviewText, false, true, false, false, false, false))
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @if (review.PictureUrls != null)
+                                        {
+                                            foreach (var item in review.PictureUrls)
+                                            {
+                                                if (item != null || item != "")
+                                                {
+                                                    <div class="col-1 review-content review-image-container">
+                                                        <div class="mr-3">
+                                                            <div class="ratio-1-1 rounded bg-gray-light border border-light">
+                                                                <a href="@item" target="_blank">
+                                                                    <img class="w-100 review-thumbnail" src="@item" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                }
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductReviewsPageBottom, additionalData = Model })
+
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "IPay88",
+  "SystemName": "Payments.IPay88",
+  "Version": "1.60",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "LiePang",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Payments.IPay88.dll",
+  "Description": "This plugin allows paying with IPay88"
+}

@@ -1,0 +1,252 @@
+﻿@model CustomerOrderListModel
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-account-page");
+    Html.AppendPageCssClassParts("html-order-list-page");
+}
+@section left
+{
+    @await Component.InvokeAsync("CustomerNavigation", new { selectedTabId = CustomerNavigationEnum.Orders })
+}
+<div class="page account-page order-list-page">
+    <div class="page-title">
+        <h1>@T("Account.MyAccount") - @T("Account.CustomerOrders")</h1>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link active" href="#tab-table1"><icon class="fa fa-home"></icon>  All</a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link" href="#tab-table2"><i class="fa fa-user"></i>  To Ship</a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link" href="#tab-table3"><i class="fa fa-user"></i>  To Receive</a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link" href="#tab-table4"><i class="fa fa-user"></i>  Completed</a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link" href="#tab-table5"><i class="fa fa-user"></i>  Cancelled</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active py-3" id="tab-table1">
+            <div class="page-body">
+                @if (Model.Orders.Count > 0)
+                {
+                    <div class="order-list">
+                        @foreach (var order in Model.Orders)
+                        {
+                            <div class="section order-item">
+                                <div class="title">
+                                    <b>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</b>
+                                </div>
+                                <ul class="info">
+                                    <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()"><b>@order.OrderStatus</b></span></li>
+                                    <li>@T("Order.Payment.Status"): <span>@order.PaymentStatus</span></li>
+                                    @*<li>@T("Order.Shipping.Status"): <span>@order.ShippingStatus</span></li>*@
+                                    <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                                    <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total"><b>@order.OrderTotal</b></span></li>
+                                </ul>
+                                <div class="buttons">
+                                    @if (order.IsReturnRequestAllowed)
+                                    {
+                                        <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest_Customer", new { orderId = order.Id })')" />
+                                    }
+                                    @if (order.IsCancelOrderAllowed)
+                                    {
+                                        <input type="button" value="Cancel Order " class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderCancellation", new { orderId = order.Id })')" />
+                                    }
+                                    <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-data">
+                        @T("Account.CustomerOrders.NoOrders")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade py-3" id="tab-table2">
+            <div class="page-body">
+                @if (Model.Orders.Where(order => order.OrderStatus == "Processing" || order.OrderStatus == "Preparing").ToList().Count > 0)
+                {
+                    <div class="order-list">
+                        @foreach (var order in Model.Orders)
+                        {
+                            if (order.OrderStatus == "Processing" || order.OrderStatus == "Preparing" || order.OrderStatus == "Shipped")
+                            {
+                                <div class="section order-item">
+                                    <div class="title">
+                                        <b>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</b>
+                                    </div>
+                                    <ul class="info">
+                                        <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()"><b>@order.OrderStatus</b></span></li>
+                                        <li>@T("Order.Payment.Status"): <span>@order.PaymentStatus</span></li>
+                                        @*<li>@T("Order.Shipping.Status"): <span>@order.ShippingStatus</span></li>*@
+                                        <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                                        <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total"><b>@order.OrderTotal</b></span></li>
+                                    </ul>
+                                    <div class="buttons">
+                                        @if (order.IsReturnRequestAllowed)
+                                        {
+                                            <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest_Customer", new { orderId = order.Id })')" />
+                                        }
+                                        @if (order.IsCancelOrderAllowed)
+                                        {
+                                            <input type="button" value="Cancel Order " class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderCancellation", new { orderId = order.Id })')" />
+                                        }
+                                        <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-data">
+                        @T("Account.CustomerOrders.NoOrders")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade py-3" id="tab-table3">
+            <div class="page-body">
+                @if (Model.Orders.Where(order => order.OrderStatus == "Delivered").ToList().Count > 0)
+                {
+                    <div class="order-list">
+                        @foreach (var order in Model.Orders)
+                        {
+                            if (order.OrderStatus == "Delivered")
+                            {
+                                <div class="section order-item">
+                                    <div class="title">
+                                        <b>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</b>
+                                    </div>
+                                    <ul class="info">
+                                        <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()"><b>@order.OrderStatus</b></span></li>
+                                        <li>@T("Order.Payment.Status"): <span>@order.PaymentStatus</span></li>
+                                        @*<li>@T("Order.Shipping.Status"): <span>@order.ShippingStatus</span></li>*@
+                                        <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                                        <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total"><b>@order.OrderTotal</b></span></li>
+                                    </ul>
+                                    <div class="buttons">
+                                        @if (order.IsReturnRequestAllowed)
+                                        {
+                                            <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest_Customer", new { orderId = order.Id })')" />
+                                        }
+                                        @if (order.IsCancelOrderAllowed)
+                                        {
+                                            <input type="button" value="Cancel Order " class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderCancellation", new { orderId = order.Id })')" />
+                                        }
+                                        <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-data">
+                        @T("Account.CustomerOrders.NoOrders")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade py-3" id="tab-table4">
+            <div class="page-body">
+                @if (Model.Orders.Where(order => order.OrderStatus == "Complete").ToList().Count > 0)
+                {
+                    <div class="order-list">
+                        @foreach (var order in Model.Orders)
+                        {
+                            if (order.OrderStatus == "Complete" || order.OrderStatus == "Return / Refund Processing" || order.OrderStatus == "Return / Refund Completed")
+                            {
+                                <div class="section order-item">
+                                    <div class="title">
+                                        <b>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</b>
+                                    </div>
+                                    <ul class="info">
+                                        <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()"><b>@order.OrderStatus</b></span></li>
+                                        <li>@T("Order.Payment.Status"): <span>@order.PaymentStatus</span></li>
+                                        @*<li>@T("Order.Shipping.Status"): <span>@order.ShippingStatus</span></li>*@
+                                        <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                                        <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total"><b>@order.OrderTotal</b></span></li>
+                                    </ul>
+                                    <div class="buttons">
+                                        @if (order.IsReturnRequestAllowed)
+                                        {
+                                            <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest_Customer", new { orderId = order.Id })')" />
+                                        }
+                                        <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-data">
+                        @T("Account.CustomerOrders.NoOrders")
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade py-3" id="tab-table5">
+            <div class="page-body">
+                @if (Model.Orders.Where(order => order.OrderStatus == "Cancelled").ToList().Count > 0)
+                {
+                    <div class="order-list">
+                        @foreach (var order in Model.Orders)
+                        {
+                            if (order.OrderStatus == "Cancelled")
+                            {
+                                <div class="section order-item">
+                                    <div class="title">
+                                        <b>@T("Account.CustomerOrders.OrderNumber"): @order.CustomOrderNumber</b>
+                                    </div>
+                                    <ul class="info">
+                                        <li>@T("Account.CustomerOrders.OrderStatus"): <span class="order-status @order.OrderStatusEnum.ToString().ToLowerInvariant()"><b>@order.OrderStatus</b></span></li>
+                                        <li>@T("Order.Payment.Status"): <span>@order.PaymentStatus</span></li>
+                                        @*<li>@T("Order.Shipping.Status"): <span>@order.ShippingStatus</span></li>*@
+                                        <li>@T("Account.CustomerOrders.OrderDate"): <span class="order-date">@order.CreatedOn.ToString()</span></li>
+                                        <li>@T("Account.CustomerOrders.OrderTotal"): <span class="order-total"><b>@order.OrderTotal</b></span></li>
+                                    </ul>
+                                    <div class="buttons">
+                                        @if (order.IsReturnRequestAllowed)
+                                        {
+                                            <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="button-2 return-items-button" onclick="setLocation('@Url.RouteUrl("ReturnRequest_Customer", new { orderId = order.Id })')" />
+                                        }
+                                        <input type="button" value="@T("Account.CustomerOrders.OrderDetails")" class="button-2 order-details-button" onclick="setLocation('@Url.RouteUrl("OrderDetails", new { orderId = order.Id })')" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="no-data">
+                        @T("Account.CustomerOrders.NoOrders")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+ 
+</div>

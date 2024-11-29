@@ -1,0 +1,355 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@inject AccountContext accountContext
+@{
+    ViewData["Layout"] = "Home";
+    ViewData["Theme"] = "info";
+}
+
+
+<style>
+    #navbar {
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    .account-menu {
+        position: fixed;
+        width: 100%;
+        top: 86px;
+        z-index: 100;
+    }
+
+    @@media (max-width: 1200px) {
+        .account-menu {
+            top: 146px;
+        }
+    }
+
+    .login-content {
+        margin-top: 86px;
+    }
+</style>
+
+<div class="content home-part-first home-organization-1 pt-5 pb-5 @(accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email) == false ? "login-content" : "")">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6 row">
+                        <div class="col-12 mb-4">
+                            <div class="text-white text-bold home-master-txt-1">What can Organizations do?</div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="text-white text-bold">Find the right expertise for your business.</div>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <a href="#section-offer-freelance-job" class="btn-outline-white btn text-bold organization-banner-btn-1">Offer Freelance Jobs</a>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <a href="#section-seek-consultation" class="btn-outline-white btn text-bold organization-banner-btn-1">Seek Consultations</a>
+                        </div>
+                        @if (accountContext.CurrentAccount == null || string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email))
+                        {
+                            <div class="col-12 mb-2">
+                                <a href="/pro/account/register" class="btn-secondary btn text-bold organization-banner-btn-1">Sign Up</a>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="text-white text-bold">Sign up and create your job ad to search for freelancers.</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xl-6 d-none d-xl-block">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content home-organization-2 pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-lg-6 mb-2">
+                        <div>
+                            <div class="organization-sub-card-inner-1 p-4">
+                                <h3 class="text-bold text-primary">Offer Freelance Jobs</h3>
+                            </div>
+                            <div class="organization-sub-card-inner-2 p-4">
+                                <div class="mb-2">Find, hire and pay freelancers with the right experience, whether for hourly or daily, or project-based job models.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-2">
+                        <div>
+                            <div class="organization-sub-card-inner-3 p-4">
+                                <h3 class="text-bold text-primary">Seek Consultations</h3>
+                            </div>
+                            <div class="organization-sub-card-inner-2 p-4">
+                                <div class="mb-2">Select and hire from our pool of freelancers who are subject matter experts across a gamut of segments for specialized one-off consultation sessions.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row h-100">
+                    <div class="col-lg-6 p-4">
+                        <h3 class="text-bold text-primary mb-2">How Do We Help</h3>
+                        <div class="text-bold text-primary mb-4 home-master-txt-1">Organizations</div>
+                        <div class="d-inline-flex mb-4">
+                            <img class="mr-5" style="width:50px;height:50px;" src="~/img/pro/home/ico-database.svg">
+                            <div>
+                                <div class="text-bold">Database</div>
+                                <div>of freelancers from wide category of in-demand professional segments</div>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex mb-4">
+                            <img class="mr-5" style="width:50px;height:50px;" src="~/img/pro/home/ico-immediate.svg">
+                            <div>
+                                <div class="text-bold">Immediate and rapid</div>
+                                <div>data tech driven matching of the right candidate with right experience &amp; expertise</div>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex mb-4">
+                            <img class="mr-5" style="width:50px;height:50px;" src="~/img/pro/home/ico-tool.svg">
+                            <div>
+                                <div class="text-bold">Digital tools</div>
+                                <div>to streamline your organization's freelancers hiring process</div>
+                            </div>
+                        </div>
+                        <div class="d-inline-flex mb-4">
+                            <img class="mr-5" style="width:50px;height:50px;" src="~/img/pro/home/ico-analytic.svg">
+                            <div>
+                                <div class="text-bold">Analytics</div>
+                                <div>to predict and plan your organization's bulk hiring of freelancers to achieve cost savings</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 p-4">
+                        <img class="w-100" src="https://static.yadiyad.com/Assets/Images/HomeOrganization/organization-4paint.jpg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="section-offer-freelance-job" class="content home-organization-3 pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <div class="text-bold text-primary home-master-txt-1">Offer Freelance Job</div>
+                    </div>
+                    <div class="col-12 pr-5 pl-5 mb-4 d-none d-lg-block">
+                        <div class="organization-sub-card-inner-4">
+                            <div class="d-inline-flex justify-content-around  w-100">
+                                <div class="text-center">
+                                    <img class="sub-card-inner-ico-1" src="~/img/pro/individual/ico-organization.svg" />
+                                    <h4 class="text-tertiary">Organization</h4>
+                                </div>
+                                <div class="text-center">
+                                    <div style="height:50px"></div>
+                                    <h4 class="text-white">Offer Freelance Job</h4>
+                                    <img src="~/img/pro/individual/img-arrow-right.svg" />
+                                </div>
+                                <div class="text-center">
+                                    <img class="sub-card-inner-ico-1" src="~/img/pro/individual/ico-freelancer.svg" />
+                                    <h4 class="text-secondary">Freelancer</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4 text-center">
+                        <div>When you offer freelance job, there are two types of job models: </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-2 mb-4"></div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="ml-2 mb-2 p-2 bg-white organization-sub-card-inner-5">
+                                    <div class="d-inline-flex p-2">
+                                        <img class="mr-4" style="width:50px;height:50px;" src="~/img/pro/home/freelance-model-1.svg">
+                                        <div>
+                                            <div class="text-bold text-primary">Freelance</div>
+                                            <div class="text-bold text-primary">(Daily)</div>
+                                        </div>
+                                    </div>
+                                    <div style="border-top: 1px solid #7CD8BF">
+                                    </div>
+                                    <div class="p-2">Freelancers are paid based on hourly or daily rate</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="ml-2 mb-2 p-2 bg-white organization-sub-card-inner-5">
+                                    <div class="d-inline-flex p-2">
+                                        <img class="mr-4" style="width:50px;height:50px;" src="~/img/pro/home/ico-project.svg">
+                                        <div>
+                                            <div class="text-bold text-primary">Project- Based</div>
+                                        </div>
+                                    </div>
+                                    <div style="border-top: 1px solid #7CD8BF">
+                                    </div>
+                                    <div class="p-2">Freelancers are paid after completion of project milestone</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 mb-4"></div>
+                            <div class="col-12 mb-4">
+                                <h3 class="text-bold text-primary text-center">How It Works</h3>
+                            </div>
+                            <div class="col-12">
+                                <div class="row h-100">
+                                    <div class="col-lg-6 p-5 d-none d-lg-block">
+                                        <img class="w-100 hiw-freelance-img" src="~/img/pro/organization/howitwork/hiw-freelance-1.png" />
+                                    </div>
+                                    <div class="col-lg-6 p-4">
+                                        <h4 class="text-bold text-primary mb-4 pb-2" style="border-bottom: 1px solid #7CD8BF">Freelance (Daily), Project-Based</h4>
+                                        <img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-freelance-1.png" />
+                                        <div class="text-primary text-bold hiw-freelance-1">1. Create your job ad</div>
+                                        <div class="mb-4 hiw-freelance-1">List your expected experience, skill and expertise, job model, location and salary. Then search for potential freelancers right away.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-freelance-2.png" />*@
+                                        <div class="text-primary text-bold hiw-freelance-2">2. Pay for full profile viewing and invites</div>
+                                        <div class="mb-4 hiw-freelance-2">Pay to view full freelancer profiles and send unlimited invitations.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-freelance-3.png" />*@
+                                        <div class="text-primary text-bold hiw-freelance-3">3. Flexible engagement</div>
+                                        <div class="mb-4 hiw-freelance-3">You can contact the freelancer directly or update the hiring status on Yadiyad for tracking purposes.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-freelance-4.png" />*@
+                                        <div class="text-primary text-bold hiw-freelance-4">4. Payment options to pay your freelancer</div>
+                                        <div class="mb-4 hiw-freelance-4">
+                                            When responding to your job invite, your freelancer will state their payment preference, either to be paid directly by your organization or through Yadiyad with Escrow option.<br />
+                                            Escrow option enables your freelancer to receive timely payment through Yadiyad after completion of job. For more information on Escrow, go to <a class="underline-href" href="/escrow-service-terms">Escrow Service</a>.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="section-seek-consultation" class="content pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <h1 class="text-bold text-primary ">Seek Consultation</h1>
+                    </div>
+                    <div class="col-12 pr-5 pl-5 mb-4 d-none d-lg-block">
+                        <div class="organization-sub-card-inner-4">
+                            <div class="d-inline-flex justify-content-around  w-100">
+                                <div class="text-center">
+                                    <img class="sub-card-inner-ico-1" src="~/img/pro/individual/ico-organization.svg" />
+                                    <h4 class="text-tertiary">Organization</h4>
+                                </div>
+                                <div class="text-center">
+                                    <div style="height:50px"></div>
+                                    <h4 class="text-white">Seek Consultation</h4>
+                                    <img src="~/img/pro/individual/img-arrow-right.svg" />
+                                </div>
+                                <div class="text-center">
+                                    <img class="sub-card-inner-ico-1" src="~/img/pro/individual/ico-consultant.svg" />
+                                    <h4 class="text-secondary">Consultant</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mb-4">
+                        <div>Select and hire from our pool of freelancers who are subject matter experts across a gamut of segments for specialized one-off consultation sessions.</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-4 mb-4">
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="ml-2 mb-2 p-2 bg-white organization-sub-card-inner-5 justify-content-between">
+                                    <div class="d-inline-flex p-2">
+                                        <img class="mr-4" style="width:50px;height:50px;" src="~/img/pro/home/ico-consultation.svg">
+                                        <div>
+                                            <div class="text-bold text-primary">Consultation</div>
+                                        </div>
+                                    </div>
+                                    <div style="border-top: 1px solid #7CD8BF">
+                                    </div>
+                                    <div class="p-2">Freelancers are paid after completion of the one-off consultation session</div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <h3 class="text-bold text-primary text-center">How It Works</h3>
+                            </div>
+                            <div class="col-12">
+                                <div class="row h-100">
+                                    <div class="col-lg-6 p-5 d-none d-lg-block">
+                                        <img class="w-100 hiw-consultation-img" src="~/img/pro/organization/howitwork/hiw-consultation-1.png" />
+                                    </div>
+                                    <div class="col-lg-6 p-4">
+                                        <h4 class="text-bold text-primary mb-4 pb-2" style="border-bottom: 1px solid #7CD8BF">Consultation</h4>
+                                        <img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-consultation-1.png" />
+                                        <div class="text-primary text-bold hiw-consultation-1">1. Create your consultation ad</div>
+                                        <div class="mb-4 hiw-consultation-1">List your segment, topic and screening questions. Then search for potential consultants right away.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-consultation-2.png" />*@
+                                        <div class="text-primary text-bold hiw-consultation-2">2. Pay and hire</div>
+                                        <div class="mb-4 hiw-consultation-2">Pay the one time matching fee and consultation fee in advance to secure the consultant.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-consultation-3.png" />*@
+                                        <div class="text-primary text-bold hiw-consultation-3">3. Session coordination</div>
+                                        <div class="mb-4 hiw-consultation-3">A moderator from Yadiyad will contact you via email to confirm the session date and time.</div>
+                                        @*<img class="w-100 d-lg-none" src="~/img/pro/organization/howitwork/hiw-consultation-4.png" />*@
+                                        <div class="text-primary text-bold hiw-consultation-4">4. Consult and complete</div>
+                                        <div class="mb-4 hiw-consultation-4">Yadiyad will securely pay the consultant after the session is completed.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (accountContext.CurrentAccount == null || string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email))
+{
+    <div class="content home-organization-4 pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-8 row">
+                            <div class="col-12 mb-2">
+                                <div class="text-primary text-bold p-0 m-0 home-master-txt-1">Take the first step towards your freelance journey - offer or seek expertise now</div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <h4 class="text-bold text-primary">Registration is Free</h4>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <a href="/pro/account/register" class="btn-primary btn text-bold individual-banner-btn-1">Sign Up</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 d-none d-xl-block">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/home/organization.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/home/organization.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

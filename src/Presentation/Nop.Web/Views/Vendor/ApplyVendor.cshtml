@@ -1,0 +1,306 @@
+﻿
+@using Nop.Core.Domain.Vendors
+
+@inject VendorSettings vendorSettings
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .business-selection-wrap {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .business-selection-selected {
+        border-color: black;
+    }
+
+    .business-selection-txt-eat {
+        color: #0fb8af;
+    }
+
+    .business-selection-txt-mart {
+        color: #9f11d2;
+    }
+</style>
+
+<div class="content content-apply-vendor">
+    <div class="container">
+        <form id="form-apply-vendor" method="post" enctype="multipart/form-data">
+            <div class="position-relative">
+                <div class="row mt-3 mb-3 ">
+                    <div class="col-lg-12 text-center ">
+                        <h1 class="text-center font-weight-bolder text-primary">Apply to Sell on Yadiyad Shuq</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Store Name</label>
+                                    <div class="col-form-label pt-0">The name of store</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="name" required placeholder="Store Name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Nature of your Store</label>
+                                    <div class="col-form-label pt-0">Do you need to ship produce using dispatch / courier</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="radio col-12 col-md-6">
+                                            <div class="p-4 d-block text-center business-selection-wrap business-selection-eat">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <img class="business-selection-img w-100" src="~/img/shuq/vendor/eat_logo.png">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h4 class="business-selection-txt-eat mt-2">Fresh / Frozen Food</h4>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <img class="business-selection-img w-100" src="~/img/shuq/vendor/shuq-eats-sample.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="radio col-12 col-md-6">
+                                            <div class="p-4 d-block text-center business-selection-wrap business-selection-mart">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <img class="business-selection-img w-100" src="~/img/shuq/vendor/mart_logo.png">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h4 class="business-selection-txt-mart mt-2">Storable Food / Art & Crafts</h4>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <img class="business-selection-img w-100" src="~/img/shuq/vendor/shuq-mart-sample.png">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input name="businessNatureCategoryId" type="hidden" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 eatCategoryGroup">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Category</label>
+                                    <div class="col-form-label pt-0">Select a category that best represent your produce</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="eatCategoryId" textName="eatCategoryName"
+                                            placeholder="Select a category"
+                                            data-sourceurl="/api/shuq/source/eatCategory"
+                                            data-id="value" data-text="text">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 martCategoryGroup">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Category</label>
+                                    <div class="col-form-label pt-0">Select a category that best represent your produce</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="martCategoryId" textName="martCategoryName"
+                                            placeholder="Select a category"
+                                            data-sourceurl="/api/shuq/source/martCategory"
+                                            data-id="value" data-text="text">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 newCategoryGroup">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Cant find suitable category?</label>
+                                    <div class="col-form-label pt-0">Propose a new category</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="proposedCategory" placeholder="Propose a New Category" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div for="" class="col-sm-3">
+                                    <label class="text-primary col-form-label">Sample Products</label>
+                                    <div class="col-form-label pt-0">Share image(s) of your produce</div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input name="photos" class="form-control input-dropzone" type="hidden" data-name-multiple="downloadIdMultiple" data-max-file="5" data-url="picture" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  justify-content-md-center">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-submit btn-primary">Submit</button>
+                        <button type="button" class="btn btn-cancel btn-outline-primary">Cancel</button>
+                    </div>
+                    <div class="col-12">
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<link href="/lib/dropzone/5.7/css/dropzone.css" rel="stylesheet" />
+<link href="/lib/select2/css/select2.min.css" rel="stylesheet" />
+
+<script src="/lib/dropzone/5.7/js/dropzone.js" asp-location="Footer"></script>
+<script src="/lib/select2/js/select2.full.min.js" asp-location="Footer"></script>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
+@await Html.PartialAsync("~/Areas/Pro/Views/Shared/_FormComponent.cshtml")
+
+<script type="text/javascript" asp-location="Footer">
+    var PageApplyVendor = function (opts) {
+        var shuqEatsCategoryId = '@vendorSettings.ShuqEatsCategoryId';
+        var shuqMartCategoryId = '@vendorSettings.ShuqMartCategoryId';
+
+        var base = this;
+        var model = opts.model;
+        var url = opts.url;
+        var $content = $('.content-apply-vendor');
+        var $form = $content.find('#form-apply-vendor');
+
+        base.submitApplyVendor = function (callback) {
+            var data = app.getFormValue($form);
+            data.businessNatureCategoryId = $('input[name="businessNatureCategoryId"]').val();
+            data.categoryId = data.businessNatureCategoryId === shuqMartCategoryId ? data.martCategoryId : data.eatCategoryId;
+            data.sampleProductPictureIds = $('[name="photos"]').data("downloadIdMultiple");
+
+            var settings = {
+                "url": url.submitApplyVendor,
+                "method": 'POST',
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                'data': JSON.stringify(data)
+            };
+            $.ajax(settings).done(callback);
+        };
+
+        base.onSubmitApplyVendorResponse = function (response) {
+            if (response
+                && response.status
+                && response.status.code === 1) {
+                swal({
+                    icon: "success",
+                    title: "Application Successfully Submitted",
+                    text: "You will be notified by email of the status within 2 working days."
+                }).then(function () {
+                    location.href = '/shuq';
+                });
+            } else {
+                swal({
+                    icon: "warning",
+                    title: "Fail",
+                    text: response.status.message
+                }).then(function () {
+                });
+            }
+        };
+
+        base.validationForm = function () {
+            var valid = true;
+            valid = $form.valid() && valid;
+            return valid;
+        };
+
+        base.setUserEvent = function () {
+            $form.find(".btn-submit").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (base.validationForm()) {
+                    base.submitApplyVendor(base.onSubmitApplyVendorResponse);
+                }
+            });
+            $form.find(".btn-cancel").on("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                location.href = '/shuq';
+            });
+
+            $form.find(".business-selection-eat").on("click", function (e) {
+                $(".business-selection-eat").addClass("business-selection-selected");
+                $(".business-selection-mart").removeClass("business-selection-selected");
+
+                $('input[name="businessNatureCategoryId"]').val(shuqEatsCategoryId);
+                $(".eatCategoryGroup").attr("hidden", true);
+                $(".martCategoryGroup").attr("hidden", true);
+                $(".eatCategoryGroup").attr("hidden", false);
+                $(".newCategoryGroup").attr("hidden", false);
+
+
+            });
+            $form.find(".business-selection-mart").on("click", function (e) {
+                $(".business-selection-eat").removeClass("business-selection-selected");
+                $(".business-selection-mart").addClass("business-selection-selected");
+
+                $('input[name="businessNatureCategoryId"]').val(shuqMartCategoryId);
+                $(".eatCategoryGroup").attr("hidden", true);
+                $(".martCategoryGroup").attr("hidden", true);
+                $(".martCategoryGroup").attr("hidden", false);
+                $(".newCategoryGroup").attr("hidden", false);
+
+            });
+
+            $form.find("input[name='proposedCategory']").on("change", function (e) {
+                var proposeCat = $("input[name='proposedCategory']").val();
+                if (proposeCat !== "") {
+                    $("[name='eatCategoryId']").val(null).trigger('change');
+                    $("[name='martCategoryId']").val(null).trigger('change');
+                }
+            });
+            $form.find("[name='eatCategoryId'], [name='martCategoryId']").on("change", function (e) {
+                var eatCat = $("[name='eatCategoryId']").val();
+                var martCat = $("[name='martCategoryId']").val();
+
+                if (eatCat !== null || martCat !== null) {
+                    $("input[name='proposedCategory']").val(null);
+
+                }
+            });
+
+        };
+
+        var init = function () {
+            $(".eatCategoryGroup").attr("hidden", true);
+            $(".martCategoryGroup").attr("hidden", true);
+            $(".newCategoryGroup").attr("hidden", true);
+
+            app.initFormComponent($form);
+            base.setUserEvent();
+        };
+        init();
+    };
+    var pageApplyVendor = new PageApplyVendor(
+        {
+            'url': {
+                'submitApplyVendor': '/api/shuq/vendorapplication/create',
+            }
+        }
+    );
+</script>
+

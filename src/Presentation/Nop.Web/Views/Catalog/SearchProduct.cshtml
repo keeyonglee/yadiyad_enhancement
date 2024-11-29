@@ -1,0 +1,314 @@
+﻿@model Nop.Web.Models.Catalog.SearchModel
+@using Nop.Core.Domain.Vendors
+
+@inject VendorSettings vendorSettings
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Search").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-search-page");
+    Html.AddCssFileParts(ResourceLocation.Head, "~/lib/fontAwesome/css/font-awesome.min.css");
+
+    var startCategoryLevel = 2;
+}
+
+<script asp-location="Footer">
+    var searchMartProduct = new function () {
+        var model = {
+            lng: null,
+            lat: null
+        };
+
+        var componentProductFilter = null;
+
+        function searchProduct(url, data, callback) {
+            var settings = {
+                "url": url || window.location.pathname,
+                "method": 'get',
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                'data': data || ''
+            };
+
+            hideProductFilter();
+            $.ajax(settings).done(callback);
+        }
+
+        function getProductFilterData(productFilterData) {
+            var orderByURL = ($('#products-orderby').val() || "").getUrlQueryParams();
+
+            var data = {
+                pf: productFilterData.minPrice,
+                pt: productFilterData.maxPrice,
+                rf: productFilterData.minRating,
+                rt: productFilterData.maxRating,
+                specs: productFilterData.specificationAttributeOptionIds.join(),
+                cids: productFilterData.categoryIds.join(),
+                sid: true,
+                q: $('input.search-box-text#q').val(),
+                orderby: orderByURL['orderby'],
+                lng: $('[name="lng"]').val(),
+                lat: $('[name="lat"]').val()
+            };
+
+            return data;
+        }
+
+        function updateProductList(response) {
+            var $filteredItemGrid = $(response)
+                .find('.search-page > .page-body')
+                .closest('.search-page');
+
+            $('.search-page > .page-body')
+                .closest('.search-page')
+                .replaceWith($filteredItemGrid);
+
+            initUserEvent();
+        }
+
+        function initUserEvent() {
+            $('.search-page .pager ul li a').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var link = $(this).attr('href');
+
+                searchProduct(link, null, updateProductList);
+            });
+        }
+
+        function overwriteSetLocation() {
+            //overwrite setLocation method
+            setLocation = function (url) {
+                searchProduct(url, null, updateProductList);
+            }
+        }
+
+        function intProductFilter() {
+            componentProductFilter = new ComponentProductFilter();
+
+            componentProductFilter.on('search', function (e) {
+                var data = getProductFilterData(e.data);
+
+                searchProduct(null, data, updateProductList);
+            });
+        }
+
+        function getDistance(lat1, lng1, lat2, lng2) {
+            var distanceInKM = (
+                3959
+                * Math.acos(
+                    Math.cos(radians(lat1))
+                    * Math.cos(radians(lat2))
+                    * Math.cos(radians(lng2) - radians(lng1))
+                    + Math.sin(radians(lat1))
+                    * Math.sin(radians(lat2))
+                )
+            );
+
+            return distanceInKM;
+        }
+
+        function radians(degrees) {
+            var pi = Math.PI;
+            return degrees * (pi / 180);
+        }
+
+        function updateCoordinate(latitude, longitude) {
+            var lat = parseFloat($('[name="lat"]').val() || 0);
+            var lng = parseFloat($('[name="lng"]').val() || 0);
+            var isLocationChanged = false;
+
+            if ((lat || 0) !== (latitude || 0)) {
+                $('[name="lat"]').val(latitude || 0);
+                isLocationChanged = true;
+            }
+
+            if ((lng || 0) !== (longitude || 0)) {
+                $('[name="lng"]').val(longitude || 0);
+                isLocationChanged = true;
+            }
+
+            if (isLocationChanged && lat && lng && latitude && longitude) {
+                var distance = getDistance(lat, lng, latitude, longitude);
+
+                if (distance < 0.5) {
+                    isLocationChanged = false;
+                }
+            }
+
+            if (isLocationChanged) {
+                var data = getProductFilterData(componentProductFilter.data);
+                searchProduct(null, data, updateProductList);
+            }
+
+            if (latitude && longitude) {
+                $('.location-on').removeClass('hidden');
+            }
+        }
+
+        var x = document.getElementById("search-note");
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(onSucceedGetLocation, onFailGetLocation, {
+                    enableHighAccuracy: true,
+                    maximumAge: 30000,
+                    timeout: 27000
+                });
+            }
+            else { x.innerHTML = "Geolocation is not supported by this browser."; }
+        }
+
+        function onFailGetLocation(e) {
+            updateCoordinate(null, null);
+            x.innerHTML = e.message;
+        }
+
+        function onSucceedGetLocation(position) {
+            updateCoordinate(position.coords.latitude, position.coords.longitude);
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+                "<br>Longitude: " + position.coords.longitude;
+        }
+
+        function showProductFilter() {
+            $('.side-2').addClass('toggled');
+            $('.header-lower').addClass('hidden');
+            $('body').addClass('modal-open');
+        }
+
+        function hideProductFilter() {
+            $('.side-2').removeClass('toggled');
+            $('.header-lower').removeClass('hidden');
+            $('body').removeClass('modal-open');
+        }
+
+        function initProductFilterMobileMode(){
+            $('.btn-side-2-show').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showProductFilter();
+            });
+
+            $('.btn-side-2-hide').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                hideProductFilter();
+            });
+
+            $(window).on('resize', function () {
+                hideProductFilter();
+            });
+        }
+
+        $(document).ready(function () {
+            intProductFilter();
+            initUserEvent();
+            overwriteSetLocation();
+            getLocation();
+            initProductFilterMobileMode();
+        });
+    }
+</script>
+<div class="nivo">
+    @await Component.InvokeAsync("Widget", new { widgetZone = Model.TopSliderWidgetZone })
+</div>
+<div class="search-input">
+    <form action="@Context.Request.Path" method="get">
+        <div class="basic-search center-1">
+            <h3 asp-for="q" class="title">@T("Search.LookingFor")</h3>
+            <div class="inputs">
+                <div class="search-box">
+                    <a class="btn-icon btn-side-2-show">
+                        <i class="fa fa-lg fa-filter"></i>
+                    </a>
+                    <input asp-for="q" class="search-box-text" placeholder="@(Model.cid==vendorSettings.ShuqMartCategoryId?T("Search.ShuqMartSearchKeywordPlaceholder"):T("Search.ShuqEatSearchKeywordPlaceholder"))" />
+                    <div class="location-on hidden">
+                        <img src="~/img/shuq/common/location-on.svg" />
+                    </div>
+                </div>
+                <input type="submit" class="button-1 search-button" value="@T("Search.Button")" />
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductSearchPageBasic })
+            </div>
+            <div id="search-note" class="text-center hidden"></div>
+        </div>
+    </form>
+</div>
+<div class="side-2 hideable">
+    <a class="btn-icon btn-side-2-hide">
+        <i class="fa fa-lg fa-times"></i>
+    </a>
+    @await Component.InvokeAsync("ProductFilter", new
+    {
+        searchModel = Model,
+        filteredCategoryId = Model.cid,
+        startCategoryLevel = startCategoryLevel
+    })
+    <div class="block d-n-md-none">
+        <div class="nivo">
+            @await Component.InvokeAsync("Widget", new
+            {
+                widgetZone = Model.SideSliderWidgetZone,
+                additionalData = new
+                {
+                    IsVerticalView = true
+                }
+            })
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show"></div>
+<div class="center-2">
+    <div class="page search-page">
+        <div class="page-title text-left">
+            <strong class="float-left">@T("DealsNearYou")</strong>
+            @if (Model.Products.Count > 0)
+            {
+                @await Html.PartialAsync("_CatalogSelectors", Model.PagingFilteringContext)
+            }
+        </div>
+        <div class="page-body">
+            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductSearchPageBeforeResults })
+            <div class="search-results">
+                @if (!string.IsNullOrEmpty(Model.Warning))
+                {
+                    <div class="warning">
+                        @Model.Warning
+                    </div>
+                }
+                @if (Model.NoResults)
+                {
+                    <div class="no-result">
+                        @T("Search.NoResultsText")
+                    </div>
+                }
+
+                @if (Model.Products.Count > 0)
+                {
+                    <div class="@(Model.PagingFilteringContext.ViewMode == "list" ? "product-list" : "product-grid")
+                         @(Model.cid == vendorSettings.ShuqMartCategoryId?"theme-shuq-mart":"theme-shuq-eats")">
+                        <div class="item-grid">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="item-box">
+                                    @await Html.PartialAsync("_ProductBox", product)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                @{
+                    var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber").BooleanParameterName("adv").BooleanParameterName("isc").BooleanParameterName("sid").RenderEmptyParameters(true);
+                }
+                @if (!pager.IsEmpty())
+                {
+                    <div class="pager">
+                        @pager
+                    </div>
+                }
+            </div>
+            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductSearchPageAfterResults })
+        </div>
+    </div>
+</div>

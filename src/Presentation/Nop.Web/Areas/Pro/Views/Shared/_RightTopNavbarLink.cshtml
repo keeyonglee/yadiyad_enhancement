@@ -1,0 +1,215 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@using YadiYad.Pro.Web.Enums
+@using Nop.Services.Customers
+@using Nop.Core.Domain.Customers
+@inject AccountContext accountContext
+@inject IWorkContext workContext
+@inject ICustomerService customerService;
+
+@if (accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Email) == false)
+{
+    <ul class="navbar-nav navbar-no-expand">
+        <li class="nav-item dropdown d-none d-md-flex">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <span class="text-primary text-bold">Individual</span>
+                <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="~/pro/home/individual#section-seek-freelance-job">
+                    <span class="d-none d-inline-block ml-1">Seek Freelance Jobs</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/individual#section-buy-service">
+                    <span class="d-none d-inline-block ml-1">Buy Services</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/individual#section-sell-service">
+                    <span class="d-none d-inline-block ml-1">Sell Services</span>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropdown d-none d-md-flex">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <span class="text-primary text-bold">Organization</span>
+                <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="~/pro/home/organization#section-offer-freelance-job">
+                    <span class="d-none d-inline-block ml-1">Offer Freelance Jobs</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/organization#section-seek-consultation">
+                    <span class="d-none d-inline-block ml-1">Seek Consultations</span>
+                </a>
+            </div>
+        </li>
+
+        <li class="nav-item d-none d-md-block">
+            <a href="/pro/home/about" class="nav-link">
+                <span class="text-primary text-bold">About Us</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <div id="google_translate_element"></div>
+        </li>
+        <li class="nav-item account-img">
+            <div class="ratio-1-1 rounded bg-gray-light border border-light">
+                <img class="w-100 h-100 profile-img" src="@accountContext.CurrentAccount.AccountImageURL" />
+            </div>
+        </li>
+        @if (accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Name) == false)
+        {
+            <li class="nav-item d-none d-md-block">
+                <a class="nav-link">
+                    <span>@accountContext.CurrentAccount.Name</span>
+                </a>
+            </li>
+        }
+        <li id="driver-main-menu" class="nav-item dropdown">
+            <a  class="nav-link" data-toggle="dropdown" href="#">
+                <i class="fa fa-chevron-down"></i>
+            </a>
+            <div  class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                @if (accountContext.CurrentAccount != null && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Name) == false)
+                {
+                    @if (accountContext.CurrentAccount.AccountType == AccountType.Individual)
+                    {
+                        //disabled until individual query is ready
+                        @*<a class="dropdown-item" href="@Url.Action("Dashboard", "Individual", new { Area = "Pro" }).ToLower()">
+                    <span class="d-none d-inline-block ml-1">Dashboard</span>
+                </a>*@
+                        <a class="dropdown-item" href="@Url.Action("Index", "Individual", new { Area = "Pro" }).ToLower()">
+                            <span class="d-none d-inline-block ml-1 ">My Profile</span>
+                        </a>
+                    }
+                    else if (accountContext.CurrentAccount.AccountType == AccountType.Organization)
+                    {
+                        //disabled temporarily for further optimization
+                        @*<a class="dropdown-item" href="@Url.Action("Dashboard", "Organization", new { Area = "Pro" }).ToLower()">
+                    <span class="d-none d-inline-block ml-1">Dashboard</span>
+                </a>*@
+                        <a class="dropdown-item" href="@Url.Action("Index", "Organization", new { Area = "Pro" }).ToLower()">
+                            <span class="d-none d-inline-block ml-1">My Profile</span>
+                        </a>
+                    }
+                    <a class="dropdown-item" href="~/pro/Account/bankAccount">
+                        <span class="d-none d-inline-block ml-1">Bank Account</span>
+                    </a>
+                    @*if (accountContext.CurrentAccount.AccountType == AccountType.Individual)
+                    {
+                        <a class="dropdown-item" href="~/pro/Account/taxAccount">
+                            <span class="d-none d-inline-block ml-1">Tax Account</span>
+                        </a>
+                    }*@
+                    <a class="dropdown-item" href="~/pro/Account/passwordchange">
+                        <span class="d-none d-inline-block ml-1">Setting</span>
+                    </a>
+                }
+                else
+                {
+                    var roles = customerService.GetCustomerRoles(workContext.CurrentCustomer);
+
+                    @if (roles.Any(x => x.SystemName == NopCustomerDefaults.OrganizationRoleName))
+                    {
+                        <a class="dropdown-item" href="@Url.Action("Details", "Organization", new { Area = "Pro" }).ToLower()">
+                            <span class="d-none d-inline-block ml-1">Create Profile</span>
+                        </a>
+                    }
+                    else if (roles.Any(x => x.SystemName == NopCustomerDefaults.IndividualRoleName))
+                    {
+                        <a class="dropdown-item" href="@Url.Action("Details", "Individual", new { Area = "Pro" }).ToLower()">
+                            <span class="d-none d-inline-block ml-1">Create Profile</span>
+                        </a>
+                    }
+                }
+                
+                <a class="dropdown-item" href="~/pro/Account/logout">
+                    <span class="d-none d-inline-block ml-1 ">Sign out</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav navbar-no-expand ">
+
+        <li class="nav-item dropdown d-none d-md-flex">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <span class="text-primary text-bold">Individual</span>
+                <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="~/pro/home/individual#section-seek-freelance-job">
+                    <span class="d-none d-inline-block ml-1 ">Seek Freelance Jobs</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/individual#section-buy-service">
+                    <span class="d-none d-inline-block ml-1">Buy Services</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/individual#section-sell-service">
+                    <span class="d-none d-inline-block ml-1">Sell Services</span>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropdown d-none d-md-flex">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <span class="text-primary text-bold">Organization</span>
+                <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="~/pro/home/organization#section-offer-freelance-job">
+                    <span class="d-none d-inline-block ml-1">Offer Freelance Jobs</span>
+                </a>
+                <a class="dropdown-item" href="~/pro/home/organization#section-seek-consultation">
+                    <span class="d-none d-inline-block ml-1">Seek Consultations​</span>
+                </a>
+            </div>
+        </li>
+
+        <li class="nav-item d-none d-md-block">
+            <a href="/pro/home/about" class="nav-link">
+                <span class="text-primary text-bold">About Us</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <div id="google_translate_element"></div>
+        </li>
+        <li class="nav-item">
+            <a href="/pro/account/login" class="text-bold btn text-primary float-right pl-4 pr-4 w-auto">Log In</a>
+        </li>
+        <li class="nav-item">
+            <a href="/pro/account/register" class="text-bold btn btn-primary float-right pl-4 pr-4 w-auto">Sign Up</a>
+        </li>
+        <li class="nav-item navbar navbar-light d-md-none d-lg-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </li>
+
+    </ul>
+    <div class="collapse custom-navbar d-md-none d-lg-none" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-bold text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Individual
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-bold" href="~/pro/home/individual#section-seek-freelance-job">Seek Freelance Jobs</a>
+                    <a class="dropdown-item text-bold" href="~/pro/home/individual#section-sell-service">Buy Services</a>
+                    <a class="dropdown-item text-bold" href="~/pro/home/individual#section-sell-service">Sell Services</a>
+
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-bold text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Organization
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item text-bold" href="~/pro/home/organization#section-offer-freelance-job">Seek Freelance Jobs</a>
+                    <a class="dropdown-item text-bold" href="~/pro/home/organization#section-seek-consultation">Seek Freelance Jobs</a>
+                </div>
+            </li>
+            <li class="nav-item d-md-none d-lg-block">
+                <a class="nav-link text-bold text-primary" href="/pro/home/about">About Yadiyad PRO</a>
+            </li>
+        </ul>
+    </div>
+}
+

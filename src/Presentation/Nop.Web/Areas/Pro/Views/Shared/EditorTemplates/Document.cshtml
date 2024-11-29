@@ -1,0 +1,150 @@
+﻿@model int?
+@inject IDownloadService downloadService
+
+@using Nop.Core;
+@using Nop.Services.Media
+@using Nop.Web.Framework.UI;
+
+@{
+    //register CSS and JS
+    Html.AddCssFileParts("~/lib/fineuploader/fine-uploader.min.css");
+    Html.AddScriptParts("~/lib/fineuploader/jquery.fine-uploader.min.js");
+
+    //other variables
+    var randomNumber = CommonHelper.GenerateRandomInteger();
+    var clientId = "download" + randomNumber;
+    var download = downloadService.GetDownloadById(Model ?? 0);
+    var fieldName = ViewData.TemplateInfo.HtmlFieldPrefix;
+
+    var attr = ViewData["htmlAttributes"] as Dictionary<string, object>;
+    var disabled = attr.Where(x => x.Key.ToLower() == "disabled" && x.Value.ToString().ToLower() == "disabled").Any();
+    var showicon = attr.Where(x => x.Key.ToLower() == "asp-showicon" && x.Value.ToString().ToLower() == "true").Any();
+
+    fieldName = Char.ToLowerInvariant(fieldName[0]) + fieldName.Substring(1);
+}
+
+<div class="nopui-file-attachment">
+    <style>
+        .view .qq-uploader {
+            display: none !important;
+        }
+
+        .view .remove-download {
+            display: none !important;
+        }
+
+        .nopui-file-attachment .qq-upload-success,
+        .nopui-file-attachment.readonly .qq-uploader,
+        .nopui-file-attachment.readonly .btn-remove
+        /*.nopui-file-attachment:not(.readonly) .ico-file,
+        .nopui-file-attachment:not(.readonly) .ico-file,
+        .nopui-file-attachment.readonly .lbl-file-name*/
+        {
+            display: none !important;
+        }
+    </style>
+
+
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group" id="pnlDownloadFile@(randomNumber)">
+                <div class="col-xs-12">
+                    @if (disabled == false)
+                    {
+                        <div id="@clientId" class="mb-3">
+                            <noscript>
+                                <p>
+                                    Please enable JavaScript to use file uploader.
+                                </p>
+                            </noscript>
+                        </div>
+                    }
+                    <div class="clearfix download-content" style="@(download != null ? "" : "display:none;")">
+                        @if (disabled == false)
+                        {
+                            <span id="@(clientId + "remove")" class="d-inline-block btn-remove"><i class="fa fa-trash" style="@(download != null ? "" : "display:none;")"></i></span>
+                        }
+                        <div id="@(clientId + "downloadurl")" class="d-inline-block">
+                            @if (download != null)
+                            {
+                                <a class="text-primary" href="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))" target="_blank">
+                                    <i class="fas fa-file-alt fa-3x ico-file" style="display:@(showicon ? "" : "none")"></i>
+                                    @*<span class="ico-file" ></span>*@
+                                    <span class="lbl-file-name" style="display:@(!showicon ? "" : "none")" >@(download.Filename+ download.Extension)</span>
+                                </a>
+                                @*<a class="col-sm-9 text-underline" target="_blank" href="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))"><i class="fas fa-file-alt"></i></a>*@
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="@(clientId + "value")">
+        <input type="hidden" name="@fieldName" value="@Model" />
+    </div>
+
+    <script type="text/template" id="@(clientId)-qq-template">
+        <div class="qq-uploader-selector qq-uploader">
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                <span>@T("Common.FileUploader.DropFiles")</span>
+            </div>
+            <div>
+                <div class="d-inline-block qq-upload-button-selector btn btn-primary">
+                    <div>@T("Common.FileUploader.Upload")</div>
+                </div>
+                <div class="d-inline-block">Supported Document Type : PDF, Image</div>
+            </div>
+            <span class="qq-drop-processing-selector qq-drop-processing">
+                <span>@T("Common.FileUploader.Processing")</span>
+                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+            </span>
+            <ul class="qq-upload-list-selector qq-upload-list">
+                <li>
+                    <div class="qq-progress-bar-container-selector">
+                        <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                    </div>
+                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                    <span class="qq-upload-file-selector qq-upload-file"></span>
+                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                    <span class="qq-upload-size-selector qq-upload-size"></span>
+                    <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">@T("Common.FileUploader.Cancel")</a>
+                    <a class="qq-upload-retry-selector qq-upload-retry" href="#">@T("Common.FileUploader.Retry")</a>
+                    <a class="qq-upload-delete-selector qq-upload-delete" href="#">@T("Common.FileUploader.Delete")</a>
+                    <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                </li>
+            </ul>
+        </div>
+    </script>
+    <script>
+    $(document).ready(function () {
+        $("#@clientId").fineUploader({
+            request: {
+                endpoint: '@(Url.Content("~/api/pro/Document"))'
+            },
+            template: "@(clientId)-qq-template",
+            multiple: false
+        }).on("complete", function (event, id, name, responseJSON, xhr) {
+            $("#@(clientId + "downloadurl")").html("<a href='" + responseJSON.downloadUrl + "' target='_blank'>" + name + "</a>");
+                        $(".download-content").css("display", "block");
+            $("#@(clientId + "value") input").val(responseJSON.downloadId);
+            $("#@(clientId + "remove")").show();
+        });
+
+
+        $("#@(clientId + "remove")").click(function (e) {
+            $("#@(clientId + "downloadurl")").html("");
+            $(".download-content").css("display", "none");
+            $("#@(clientId + "value") input").val(null);
+            $("#@(clientId) .qq-upload-list-selector").empty();
+            $(this).hide();
+        });
+    });
+
+    </script>
+    <nop-alert asp-alert-id="saveDownloadUrlAlert" asp-alert-message="@T("Admin.Download.SaveDownloadURL.Alert.FailedSave")" />
+    <nop-alert asp-alert-id="saveDownloadUrlFailed" />
+</div>

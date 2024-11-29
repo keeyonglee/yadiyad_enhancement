@@ -1,0 +1,87 @@
+﻿@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+@inject IWorkContext workContext
+@{
+    const string panelId = "orders-pending-box";
+    const string hidePanelAttributeName = "Reports.HideLatestOrdersPanel";
+    var hidePanel = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePanelAttributeName);
+    var gridPageSize = 5;
+}
+
+<div class="box box-info @if(hidePanel){<text>collapsed-box</text>}" id="@panelId">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <i class="fa fa-cart-plus"></i>
+            Payout List
+            @*<a asp-controller="Order" asp-action="List" class="btn btn-xs btn-info btn-flat margin-l-10">@T("Admin.Dashboard.LatestOrders.ViewAll")</a>*@
+        </h3>
+        <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse">
+                @if (hidePanel)
+                {
+                    <text><i class="fa fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fa fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="box-body">
+        @await Html.PartialAsync("Table", new DataTablesModel
+   {
+       Name = "vendor-payout-grid",
+       UrlRead = new DataUrl("PayoutVendorList", "Payout", null),
+       Length = gridPageSize,
+       Dom = "<'row'<'col-md-12't>>" +
+                      "<'row margin-t-5'" +
+                        "<'col-lg-10 col-xs-12'<'float-lg-left'p>>" +
+                        "<'col-lg-2 col-xs-12'<'float-lg-right text-center'i>>" +
+                      ">",
+       ColumnCollection = new List<ColumnProperty>
+                {
+                new ColumnProperty(nameof(PayoutVendorModel.DateText))
+                {
+                    Title = "Date",
+                },
+                // new ColumnProperty(nameof(PayoutVendorModel.Id))
+                //{
+                //    Title = "Id",
+                //},
+                  new ColumnProperty(nameof(PayoutVendorModel.StatusText))
+                {
+                    Title = "Status",
+                },
+                 new ColumnProperty(nameof(PayoutVendorModel.NumberOfOrders))
+                {
+                    Title = "Number of Orders",
+                    ClassName = "text-right"
+                },
+
+                new ColumnProperty(nameof(PayoutVendorModel.Amount))
+                {
+                    Title = "Amount",
+                    ClassName = "text-right"
+                },
+                new ColumnProperty(nameof(PayoutVendorModel.PayoutGroupId))
+                {
+                    Title = "Details",
+                    Width = "100",
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderButtonView(new DataUrl("VendorPayoutDetails"))
+                },
+                new ColumnProperty(nameof(PayoutVendorModel.PayoutGroupId))
+                {
+                    Title = "Order List",
+                    Width = "100",
+                    ClassName =  NopColumnClassDefaults.Button,
+                    Render = new RenderButtonView(new DataUrl("VendorPayoutOrderlist"))
+                }
+            }
+   })
+
+    </div>
+</div>

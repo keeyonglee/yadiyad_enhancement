@@ -1,0 +1,15 @@
+﻿@using YadiYad.Pro.Web.Enums
+@model JobSeekerMenuType
+<div class="row align-items-center mb-4 mt-4 partial-header">
+    <div class="col-lg-4 col-sm-12">
+        <partial name="../Account/_AccountInfo" />
+    </div>
+    <div class="col-lg-8 col-sm-12 text-md-right mt-4 mt-md-0 content-job-seeker-counter">
+        <div class="">
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobSeekerMenuType.MyJobseekerProfile?"btn-primary":"btn-default")" href="@Url.Action("Index","JobSeeker", new { Area = "Pro" }).ToLower()">Job CV</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobSeekerMenuType.SearchFreelanceJobs?"btn-primary":"btn-default")" href="@Url.Action("Search","Job", new { Area = "Pro" }).ToLower()">Search Jobs</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobSeekerMenuType.Invites?"btn-primary":"btn-default")" href="@Url.Action("Invites","JobInvitation", new { Area = "Pro" }).ToLower()">Invites (<span text="{{noJobInvited}}">0</span>)</a>
+            <a class="btn mr-2 mb-2 btn-round w-auto @(Model == JobSeekerMenuType.Applied?"btn-primary":"btn-default")" href="@Url.Action("List","JobApplication", new { Area = "Pro" }).ToLower()">Applied (<span text="{{noJobApplied}}">0</span>)</a>
+        </div>
+    </div>
+</div>

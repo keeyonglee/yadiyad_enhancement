@@ -1,0 +1,150 @@
+@model PayoutGroupSearchModel
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Customers.Payout.Group").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Payout");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "NewsContentPage.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Payout Batch - @Model.BatchNumber
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="Batch">@T("Admin.Customers.Payout.BackToBatch")</a>
+            </small>
+        </h1>
+    </div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @*hide the entire search block if no elements are displayed*@
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                        <div class="row">
+                            <input asp-for="BatchId" hidden/>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>User</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="CustomerId" asp-items="Model.CustomerList"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-select asp-for="Status" asp-items="Model.StatusList" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-10">
+                                <button type="button" id="search-payout-group" class="btn btn-primary btn-search">
+                                    <i class="fa fa-search"></i>
+                                    @T("Admin.Common.Search")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel
+               {
+                   Name = "payout-group-grid",
+                   UrlRead = new DataUrl("GroupList", "Payout", null),
+                   SearchButtonId = "search-payout-group",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                   {
+                       new FilterParameter(nameof(Model.BatchId)),
+                       new FilterParameter(nameof(Model.CustomerId)),
+                       new FilterParameter(nameof(Model.Status))
+                   },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(PayoutGroupModel.CustomerName))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Name").Text
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.RequestCount))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Records").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.StatusText))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Status").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.Remarks))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Remarks").Text,
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.Amount))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.Amount").Text,
+                                Render = new RenderCustom("renderAmount"),
+                                ClassName = "text-right",
+                                Width = "100"
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.BankName))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.BankName").Text,
+  
+                            },
+                            new ColumnProperty(nameof(PayoutGroupModel.AccountNumber))
+                            {
+                                Title = T("Admin.Customers.Payout.Fields.BankAccountNo").Text,
+                            },
+
+                            new ColumnProperty(nameof(PayoutGroupModel.Id))
+                            {
+                                Title = T("Admin.Common.Action").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonView(new DataUrl("/Admin/Payout/PayoutRequest"))
+                            },
+                        }
+               })
+
+                    <script>
+                        function renderColumnComments(data, type, row, meta) {
+                            var link = "NewsComments?filterByNewsItemId=" + data;
+                            var title = '@T("Admin.ContentManagement.News.NewsItems.Fields.Comments")';
+                            var countComments = row.ApprovedComments + row.NotApprovedComments;
+                            return '<a class="btn btn-default" href="' + link + '">' + title + ' - ' + countComments + ' (' + row.NotApprovedComments + ')' + '</a>';
+                        }
+
+
+                        function renderAmount(data, type, row, meta) {
+                            return $.fn.dataTable.render.number(',', '.', 2, 'RM ').display(data);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

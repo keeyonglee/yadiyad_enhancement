@@ -1,0 +1,37 @@
+﻿
+<script id="tmp-simple-form" type="text/x-jsrender">
+    {^{for ~model  ~fields=~model}}
+    <div class="form-group row">
+        <label for="" class="col-sm-3 col-form-label">Question {^{:(#index+1)}}</label>
+        <div class="col-sm-9">
+            <div class="form-control mb-2 border-0 pl-0 pr-0 h-auto">{{:title}}</div>
+            {^{if type == "comment"}}
+            <textarea class="form-control" placeholder="enter your answer."
+                      data-link="{:answers trigger=true:} name{:('Q'+(#parent.parent.getIndex()+1))}" required maxlength="1000"></textarea>
+            {{else type == "checkbox"}}
+            {^{checkboxgroup answers}}
+            <div class="form-group">
+                {^{for choices  ~choices=choices}}
+                <label class="form-check-label d-block cursor-pointer checkbox">
+                    <input class="mr-2" data-link="{:answers trigger=true:} value{:value} name{:('Q'+(#parent.parent.getIndex()+1))} type{:(#parent.parent.data.type == 'radiogroup'?'radio':'checkbox')}" required />
+                    <span>{{:value}}</span>
+                </label>
+                {{/for}}
+            </div>
+            {{/checkboxgroup}}
+            {{else type == "radiogroup"}}
+            {^{radiogroup  answers}}
+            <div class="form-group">
+                {^{for choices  ~choices=choices}}
+                <label class="form-check-label d-block cursor-pointer radio">
+                    <input class="mr-2" data-link="{:answers trigger=true:} value{:value} name{:('Q'+(#parent.parent.getIndex()+1))} type{:(#parent.parent.data.type == 'radiogroup'?'radio':'checkbox')}" required />
+                    <span>{{:value}}</span>
+                </label>
+                {{/for}}
+            </div>
+            {{/radiogroup }}
+            {{/if}}
+        </div>
+    </div>
+    {{/for}}
+</script>

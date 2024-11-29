@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Layout"] = "Blank";
+    ViewData["Theme"] = "splash";
+}
+
+<div class="content">
+    <div class="container">
+        <header class="pt-S">
+            <div class="text-center">
+                <img class="splash-title" src="/img/pro/splash/title.svg" alt="YadiYad Pro Logo" />
+            </div>
+        </header>
+        <div class="text-center">
+            <img class="splash-content" src="~/img/pro/splash/clapsing-hand.gif" />
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/pro/home/splash.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/pro/home/splash.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

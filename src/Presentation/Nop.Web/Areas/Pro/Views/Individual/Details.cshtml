@@ -1,0 +1,360 @@
+﻿@using YadiYad.Pro.Core.Domain.Common
+@using YadiYad.Pro.Services.DTO.Individual
+@model IndividualProfileDTO
+<div class="content content-individual-profile">
+    <div class="container">
+        <form method="post" id="form-individual-profile" role="form" action="/api/pro/individual" form-validation-alert>
+            @*<div class="mt-3 mb-3">
+                    <h1 class="text-center font-weight-bolder title-create hidden">Create Individual Profile</h1>
+                    <h1 class="text-center font-weight-bolder title-update hidden">Update Individual Profile</h1>
+                </div>*@
+            <div class="position-relative">
+                <div class="row mt-3 mb-3 ">
+                    <div class="col-lg-4">
+
+                    </div>
+                    <div class="col-lg-4 text-center ">
+                        <h1 class="text-center font-weight-bolder title-create hidden text-primary">Create Profile</h1>
+                        <h1 class="text-center font-weight-bolder title-update hidden text-primary">Update Profile</h1>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="row  float-left">
+                        <div class="col-6 col-lg-6 ">
+                            <nop-editor asp-for="PictureId" />
+                        </div>
+                        <div class="col-6 col-lg-6">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-12 col-form-label">Viewable By</label>
+                                <div class="col-sm-12">
+                                    <input type="checkbox" name="profileImagePublicViewable" class="switch"
+                                           data-on-text="Public" data-off-text="Organization Only"
+                                           data-handle-width="150px" data-label-width="5px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Personal Info</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Title</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="title" textName="titleName"
+                                            placeholder="Individual Title"
+                                            data-sourceurl="/api/pro/source/individualTitle"
+                                            data-id="value" data-text="text" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Full Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="200"
+                                           name="fullName" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Nick Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="200"
+                                           name="nickName" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Gender</label>
+                                <div class="col-sm-9">
+                                    @foreach (Gender option in Enum.GetValues(typeof(Gender)))
+                                    {
+                                        <div class="radio d-inline-block mr-4">
+                                            <label class="col-form-label form-check-label">
+                                                <input type="radio" name="gender" value="@((int)option)" required>
+                                                @option.GetDescription()
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Date of Birth</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-datepicker-tdp"
+                                           name="dateOfBirth" required maxdate="-12y" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Email Address</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" disabled
+                                           name="email" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Contact No</label>
+                                <div class="col-sm-9">
+                                    <input type="tel" class="form-control" maxlength="15"
+                                           name="contactNo" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Nationality</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="nationalityId" textName="nationalityName"
+                                            placeholder="Nationality"
+                                            data-sourceurl="/api/pro/source/country"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Place of Residence</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Country</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="countryId" textName="countryName"
+                                            placeholder="Country"
+                                            data-sourceurl="/api/pro/source/country"
+                                            data-id="id" data-text="name" disabled="disabled" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">State</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="stateProvinceId" textName="stateProvinceName"
+                                            placeholder="State"
+                                            data-sourceurl="/api/pro/source/stateProvince"
+                                            data-dependent="countryId:countryId"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">City</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="cityId" textName="cityName"
+                                            placeholder="City"
+                                            data-sourceurl="/api/pro/source/city"
+                                            data-dependent="stateProvinceId:stateProvinceId"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address Line 1</label>
+                                <div class="col-sm-9">
+                                    <input id="test" type="text" class="form-control" maxlength="200"
+                                           name="address1" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address Line 2</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="200"
+                                           name="address2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Postcode</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="5"
+                                           name="zipPostalCode" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Billing Address</h4>
+                        </div>
+                        <input type="checkbox" class="ml-2" id="sameAddress" name="sameAddress" value="sameAddr">
+                        <label for="sameAddress" class="ml-2"> Same as place of residence address</label><br>
+
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Country</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="billingAddress.countryId" textName="billingAddress.countryName"
+                                            placeholder="Country"
+                                            data-sourceurl="/api/pro/source/country"
+                                            data-id="id" data-text="name" disabled required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">State</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="billingAddress.stateProvinceId" textName="billingAddress.stateProvinceName"
+                                            placeholder="State"
+                                            data-sourceurl="/api/pro/source/stateProvince"
+                                            data-dependent="countryId:billingAddress.countryId"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">City</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="billingAddress.cityId" textName="billingAddress.cityName"
+                                            placeholder="City"
+                                            data-sourceurl="/api/pro/source/city"
+                                            data-dependent="stateProvinceId:billingAddress.stateProvinceId"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address Line 1</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="200"
+                                           name="billingAddress.address1" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Address Line 2</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="200"
+                                           name="billingAddress.address2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 billing-section">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Postcode</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" maxlength="5"
+                                           name="billingAddress.zipPostalCode" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                        <div class="col-12">
+                            <h4 class="font-weight-bolder">Other Info</h4>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-form-label">Interest &amp; Hobbies</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2 select"
+                                            name="interestHobbies" textName="interestHobbyName"
+                                            multiple="multiple"
+                                            placeholder="Interest & Hobby"
+                                            data-sourceurl="/api/pro/source/interestHobby"
+                                            data-id="id" data-text="name" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mb-4" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  justify-content-md-center">
+                <div class="col-12 area-agreement">
+                    <div class="form-group row">
+                        <div class="col-sm-12 text-center">
+                            <div class="radio d-inline-block mr-4">
+                                <label class="col-form-label form-check-label">
+                                    <input type="checkbox" name="agreement" required>
+                                    <span>I acknowledge that I have read and agreed to be bound by <a class="link-ref" href="/privacy-policy" target="_blank">Privacy Policy</a></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <input type="hidden" name="id" value="0" />
+
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <button type="button" class="btn btn-cancel">Cancel</button>
+                </div>
+                <div class="col-12">
+                    <br />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="_FormComponent" />
+
+@section StyleLibs{
+    <link href="/lib/the-datepicker/0.7.4/the-datepicker.css" rel="stylesheet" />
+    <link href="/lib/intl-tel-input/17.0.12/css/intlTelInput.min.css" rel="stylesheet" />
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="/lib/fineuploader/fine-uploader.min.css" rel="stylesheet" />
+}
+@section ScriptLibs{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/select2/js/select2.full.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/utils.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput.min.js"></script>
+    <script src="/lib/intl-tel-input/17.0.12/js/intlTelInput-jquery.min.js"></script>
+    <script src="/lib/the-datepicker/0.7.4/the-datepicker.min.js"></script>
+    <script src="/lib/fineuploader/jquery.fine-uploader.min.js"></script>
+    <script src="/lib/bootstrap-switch/js/bootstrap-switch.js"></script>
+}
+
+@section Scripts{
+    <environment include="Development">
+        <script src="/js/pro/individual/details.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="/js/pro/individual/details.es5.min.js" asp-append-version="true"></script>
+    </environment>
+}

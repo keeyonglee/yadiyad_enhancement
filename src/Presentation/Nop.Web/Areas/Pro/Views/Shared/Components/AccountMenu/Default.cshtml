@@ -1,0 +1,152 @@
+﻿@using YadiYad.Pro.Web.Contexts
+@using YadiYad.Pro.Web.Enums
+@using Nop.Services.Security
+@using YadiYad.Pro.Web.Models.Attentions
+
+@model MenuAttentionModel
+
+@inject AccountContext accountContext
+@inject IPermissionService permissionService
+@{
+    var hasModeratorFunction = permissionService.Authorize(StandardPermissionProvider.ModeratorReview);
+
+    if ((accountContext.CurrentAccount != null
+        && string.IsNullOrWhiteSpace(accountContext.CurrentAccount.Name) == false)
+        || hasModeratorFunction)
+    {
+        var controllerName = this.ViewContext.RouteData.Values["controller"].ToString().ToLower();
+        var actionName = this.ViewContext.RouteData.Values["action"].ToString().ToLower();
+        var activeMenu = "";
+
+        if (controllerName == "individual" || controllerName == "organization")
+        {
+            activeMenu = "myprofile";
+        }
+        else if ((controllerName == "service" && (actionName == "detail" || actionName == "list"))
+            || (controllerName == "serviceapplication" && (actionName == "receives" || actionName == "hires")))
+        {
+            activeMenu = "sellservice";
+        }
+        else if ((controllerName == "jobseeker")
+            || (controllerName == "job" && (actionName == "search" || actionName == "index" || actionName == "details" || actionName == "profile"))
+            || (controllerName == "jobapplication" && (actionName == "list"))
+            || (controllerName == "jobinvitation" && (actionName == "invites")))
+        {
+            activeMenu = "seekingjobs";
+        }
+        else if ((controllerName == "service" && (actionName == "search"))
+            || (controllerName == "serviceapplication" && (actionName == "requests" || actionName == "confirms")))
+        {
+            activeMenu = "buyservices";
+        }
+        else if ((controllerName == "job" && (actionName == "summary" || actionName == "list" || actionName == "candidate"))
+            || (controllerName == "jobapplication" && (actionName == "applicants" || actionName == "hired"))
+            || (controllerName == "jobinvitation" && (actionName == "invited")))
+        {
+            activeMenu = "jobads";
+        }
+        else if (controllerName == "consultation" && (actionName == "jobadsreview" || actionName == "jobreplyreview" || actionName == "sessionfacilitating") == false)
+        {
+            activeMenu = "consultationjobads";
+        }
+        else if (controllerName == "consultation" && (actionName == "jobadsreview"))
+        {
+            activeMenu = "jobadsreview";
+        }
+        else if (controllerName == "consultation" && (actionName == "jobreplyreview"))
+        {
+            activeMenu = "jobreplyreview";
+        }
+        else if (controllerName == "consultation" && (actionName == "sessionfacilitating"))
+        {
+            activeMenu = "sessionfacilitating";
+        }
+        <div class="account-menu bg-primary">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <div class="float-left d-lg-block d-none">
+                        <span>Welcome, <span>@accountContext.CurrentAccount.Name</span></span>
+                    </div>
+                    <div class="float-lg-right w-lg-auto w-100">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
+                            @if (accountContext.CurrentAccount.AccountType == AccountType.Individual)
+                            {
+                                <ul class="navbar-nav mr-auto">
+                                    <li id="driver-seek-freelance-job" class="nav-item">
+                                        <a class="nav-link @(activeMenu == "seekingjobs" ? "active" : "")" href="@Url.Action("Index", "JobSeeker", new { Area = "Pro" }).ToLower()">
+                                            <span>Seek Freelance Jobs</span>
+                                            @if (Model.IndividualAttentionDTO.HasFreelanceJobAttention)
+                                            {
+                                            <span class="fas fa-circle fa-xs icon-attention"></span>
+                                            }
+                                        </a>
+                                    </li>
+                                    <li id="driver-sell-services" class="nav-item">
+                                        <a class="nav-link @(activeMenu == "sellservice" ? "active" : "")" href="@Url.Action("List", "Service", new { Area = "Pro" }).ToLower()">
+                                            <span>Sell Services</span>
+                                            @if (Model.IndividualAttentionDTO.HasSellServicesAttention)
+                                            {
+                                                <span class="fas fa-circle fa-xs icon-attention"></span>
+                                            }
+                                        </a>
+                                    </li>
+                                    <li id="driver-buy-services" class="nav-item">
+                                        <a class="nav-link @(activeMenu == "buyservices" ? "active" : "")" href="@Url.Action("Search", "Service", new { Area = "Pro" }).ToLower()">
+                                            <span>Buy Services</span>
+                                            @if (Model.IndividualAttentionDTO.HasBuyServiceAttention)
+                                            {
+                                                <span class="fas fa-circle fa-xs icon-attention"></span>
+                                            }
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                            else if (accountContext.CurrentAccount.AccountType == AccountType.Organization)
+                            {
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(activeMenu == "jobads" ? "active" : "")" href="@Url.Action("Summary", "Job", new { Area = "Pro" }).ToLower()">
+                                            <span>Offer Freelance Jobs</span>
+                                            @if (Model.OrganizationAttnetionDTO.HasOfferFreelanceJobsAttention)
+                                            {
+                                                <span class="fas fa-circle fa-xs icon-attention"></span>
+                                            }
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(activeMenu == "consultationjobads" ? "active" : "")" href="@Url.Action("List", "Consultation", new { Area = "Pro" }).ToLower()">
+                                            <span>Seek Consultations</span>
+                                            @if (Model.OrganizationAttnetionDTO.HasSeekConsultationsAttention)
+                                            {
+                                                <span class="fas fa-circle fa-xs icon-attention"></span>
+                                            }
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                            else if (accountContext.CurrentAccount.AccountType == AccountType.Moderator
+                                || permissionService.Authorize(StandardPermissionProvider.ModeratorReview))
+                            {
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(activeMenu == "jobadsreview" ? "active" : "")" href="@Url.Action("JobAdsReview", "Consultation", new { Area = "Pro" }).ToLower()">Review Job</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(activeMenu == "jobreplyreview" ? "active" : "")" href="@Url.Action("JobReplyReview", "Consultation", new { Area = "Pro" }).ToLower()">Review Replies</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(activeMenu == "sessionfacilitating" ? "active" : "")" href="@Url.Action("SessionFacilitating", "Consultation", new { Area = "Pro" }).ToLower()">Facilitate Session</a>
+                                    </li>
+                                </ul>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    }
+}

@@ -1,0 +1,297 @@
+﻿@model ProductFilterViewModel
+@if (Model.CategoryNavigationModel.Categories.Count > 0)
+{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" asp-location="Footer"></script>
+    <form class="page container-product-filter">
+        <div class="block ">
+            <div class="page-title text-left">
+                <strong>@T("Filter")</strong>
+            </div>
+            <div class="page-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="product-filters row-mode">
+                            <div class="product-filter">
+                                <div class="filter-title">
+                                    <strong>@T("Categories")</strong>
+                                </div>
+                                <div class="filter-content">
+                                    <ul class="list">
+                                        @foreach (var category in Model.CategoryNavigationModel.Categories)
+                                        {
+                                            var categoryLineModel = new CategoryNavigationModel.CategoryLineModel
+                                            {
+                                                CurrentCategoryId = Model.CategoryNavigationModel.CurrentCategoryId,
+                                                SelectedCategoryIds = Model.SearchModel.cids,
+                                                Category = category
+                                            };
+                                            @await Html.PartialAsync("_CategoryLine.MultipleSelect", categoryLineModel)
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                            @if (Model.SearchModel.PagingFilteringContext.SpecificationFilter.Enabled)
+                            {
+                                <hr />
+                                @await Html.PartialAsync("/Views/Shared/Components/ProductFilter/_CustomFilterSpecsBox.cshtml", Model.SearchModel.PagingFilteringContext.SpecificationFilter)
+                            }
+                            <hr />
+                            @*<div class="product-filter">
+                                    <div class="filter-title">
+                                        <strong>@T("Ratings")</strong>
+                                    </div>
+                                    <div class="filter-content">
+                                        <div class="rating-range range-container">
+                                            <div class="range-slider" min="@Model.SearchModel.rf" max="@Model.SearchModel.rt"></div>
+                                            <div class="row">
+                                                <div class="col-6 text-left">
+                                                    <span class="min-range"></span>
+                                                </div>
+                                                <div class="col-6 text-right">
+                                                    <span class="max-range "></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <hr />*@
+                            <div class="product-filter">
+                                <div class="filter-title">
+                                    <strong>@T("PriceRange")</strong>
+                                </div>
+                                <div class="filter-content">
+                                    <div class="price-range">
+                                        <div class="row">
+                                            <div class="col-5 text-left">
+                                                <input type="number" placeholder="@T("MinPrice")" name="minPrice" class="min-price w-100" min="0" value="@Model.SearchModel.pf" />
+                                            </div>
+                                            <div class="col-2 text-center">
+                                                <span>to</span>
+                                            </div>
+                                            <div class="col-5 text-right">
+                                                <input type="number" placeholder="@T("MaxPrice")" name="maxPrice" class="max-price w-100" min="0" value="@Model.SearchModel.pt" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="lat" value="@Model.SearchModel.lat" />
+                            <input type="hidden" name="lng" value="@Model.SearchModel.lng" />
+
+                            <div class="buttons">
+                                <button class="btn btn-primary w-auto btn-apply">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript" asp-location="Footer">
+        var ComponentProductFilter = function (options) {
+            var base = this;
+            var event = {
+                onChange: [],
+                onSearch: []
+            };
+
+            var defaultOptions = {
+                delayTrigger: 500,
+                minRating: 1,
+                maxRating: 5
+            };
+
+            var model = {
+                minPrice: '',
+                maxPrice: '',
+                minRating: '',
+                maxRating: '',
+                categoryIds: [],
+                specificationAttributeOptionIds: []
+            };
+
+            Object.defineProperty(base, 'data', {
+                get: function get() {
+                    return model;
+                }
+            });
+
+            options = $.extend({}, defaultOptions, options);
+
+            //event handler
+            base.on = function (eventText, func) {
+                if (eventText) {
+                    eventText = eventText.toLowerCase();
+                    if (!event[eventText]) {
+                        event[eventText] = [];
+                    }
+                    event[eventText].push(func);
+                }
+            };
+
+            //event
+            var delayedTrigger = null;
+            function onTrigger(eventName, target) {
+                if (delayedTrigger) {
+                    clearTimeout(delayedTrigger);
+                }
+
+                delayedTrigger = setTimeout(function () {
+                    if (event[eventName]) {
+                        var eventData = {
+                            target: target,
+                            data: model
+                        };
+
+                        $.each(event[eventName], function (i, item) {
+                            item(eventData);
+                        });
+                    }
+                }, options.delayTrigger);
+            }
+
+            //setup range input
+            function rangeInput($container, options) {
+                function updateRangeValue(target, min, max, noDecimal) {
+                    var $txtMin = $(target).closest('.range-container').find('.min-range');
+                    var $txtMax = $(target).closest('.range-container').find('.max-range');
+
+                    $txtMin.text(min.toFixed(noDecimal | 0));
+                    $txtMax.text(max.toFixed(noDecimal | 0));
+                }
+
+                var $rangeSlider = $container.find('.range-slider');
+                $rangeSlider.slider({
+                    range: true,
+                    min: options.min,
+                    max: options.max,
+                    values: [$rangeSlider.attr('min') || options.min, $rangeSlider.attr('max') || options.max],
+                    slide: function (e, ui) {
+                        var minValue = ui.values[0];
+                        var maxValue = ui.values[1];
+
+                        updateRangeValue(e.target, minValue, maxValue, options.noDecimal);
+
+                        model.minRating = minValue;
+                        model.maxRating = maxValue;
+
+                        onTrigger('change', e.target);
+                    }
+                });
+
+                updateRangeValue($container.find('.range-slider'), options.min, options.max, options.noDecimal);
+            }
+
+            //init component
+            function initComponents(options) {
+                var $form = $('.container-product-filter');
+                var $priceContainer = $(".price-range");
+                var $ratingSlider = $(".rating-range");
+
+                //show category
+                $form.on('click', '.checkbox > .btn-expand', function (e) {
+                    var $target = $(e.target);
+                    var $checkboxContainer = $target.closest('.checkbox');
+                    var $sublist = $checkboxContainer.children('.sublist');
+                    var $btnExpand = $checkboxContainer.children('.btn-expand');
+                    var $btnCollapse = $checkboxContainer.children('.btn-collapse');
+
+                    $sublist.addClass('show');
+                    $btnExpand.addClass('hidden');
+                    $btnCollapse.removeClass('hidden');
+                });
+
+                //hide category
+                $form.on('click', '.checkbox > .btn-collapse', function (e) {
+                    var $target = $(e.target);
+                    var $checkboxContainer = $target.closest('.checkbox');
+                    var $sublist = $checkboxContainer.children('.sublist');
+                    var $btnExpand = $checkboxContainer.children('.btn-expand');
+                    var $btnCollapse = $checkboxContainer.children('.btn-collapse');
+
+                    $sublist.removeClass('show');
+                    $btnExpand.removeClass('hidden');
+                    $btnCollapse.addClass('hidden');
+                });
+
+                //update parent checkbox
+                $form.on('click', '.checkbox', function (e) {
+                    var $target = $(e.target);
+                    var $checkboxContainer = $target.closest('.checkbox');
+                    var $sublist = $checkboxContainer.children('.sublist');
+                    var $parentCheckboxContainer = $checkboxContainer.parent('.sublist').closest('.checkbox');
+                    var $checkbox = $checkboxContainer.children('input[type="checkbox"]');
+                    var checked = $checkbox.prop('checked');
+
+                    //check/uncheck all child checkbox
+                    $sublist.children('.checkbox').children('input[type="checkbox"]').prop('checked', checked);
+
+                    if ($parentCheckboxContainer && $parentCheckboxContainer.length) {
+                        //uncheck parent checkbox if unchecked
+                        if (!checked) {
+                            $parentCheckboxContainer.children('input[type="checkbox"]').prop('checked', false);
+                        } else {
+
+                            //check parent checkbox if all checked.
+                            var noUncheckedCheckbox = $parentCheckboxContainer.find('.sublist').find('input[type="checkbox"]:not(:checked)').length;
+
+                            if (!noUncheckedCheckbox) {
+                                $parentCheckboxContainer.children('input[type="checkbox"]').prop('checked', true);
+                            }
+                        }
+                    }
+
+                    var $checkboxContainer = $(e.target).closest('.list');
+
+                    model.categoryIds = [];
+
+                    $checkboxContainer.find('input[type="checkbox"]:checked').each(function () {
+                        model.categoryIds.push($(this).val());
+                    });
+
+                    onTrigger('change', e.target);
+                });
+
+                //init slider
+                rangeInput($ratingSlider, {
+                    min: options.minRating,
+                    max: options.maxRating,
+                    noDecimal: 1
+                });
+
+                //init min/max price event
+                $priceContainer.find('.min-price, .max-price').on('change', function (e) {
+                    model.minPrice = $priceContainer.find('.min-price').val();
+                    model.maxPrice = $priceContainer.find('.max-price').val();
+
+                    onTrigger('change', e.target);
+                });
+
+                //init apply button
+                $form.on('click', '.btn-apply', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    onTrigger('search', e.target);
+                });
+
+
+                //init product spec filter
+                $form.on('click', '.product-spec-filter [name="specs"]', function (e) {
+                    model.specificationAttributeOptionIds = [];
+                    $form.find('.product-spec-filter [name="specs"]:checked').each(function () {
+                        model.specificationAttributeOptionIds.push($(this).val());
+                    });
+                });
+            };
+
+            initComponents(options);
+        };
+
+        $("input[name='minPrice'],input[name='maxPrice']").on('input', function (e) {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        });
+    </script>
+}

@@ -1,0 +1,112 @@
+﻿@model AppQueuedPushNotificationSearchModel
+@{
+    ViewBag.PageTitle = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.List").Text;
+
+    Html.SetActiveMenuItemSystemName("AppQueuedPushNotifications");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "QueuedPushNotifications.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<form asp-controller="AppQueuedPushNotification" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.List")
+        </h1>
+        <div class="pull-right">
+            <button type="button" id="delete-sent" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.DeleteSent")
+            </button>
+            <nop-action-confirmation asp-button-id="delete-sent" />
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @{
+                            var gridModel = new DataTablesModel
+                            {
+                                Name = "device-grid",
+                                UrlRead = new DataUrl("GetList", "AppQueuedPushNotification", null),
+                                Length = Model.PageSize,
+                                LengthMenu = Model.AvailablePageSizes
+                            };
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.Title))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.Title").Text,
+                                Width = "150"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.CustomerName))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.Customer").Text,
+                                Width = "100"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.StoreName))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.Store").Text,
+                                Width = "100"
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.CreatedOn))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.CreatedOn").Text,
+                                Width = "50",
+                                Render = new RenderDate()
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.SentOn))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.SentOn").Text,
+                                Width = "50",
+                                Render = new RenderDate()
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.DontSendBeforeDate))
+                            {
+                                Title = T("Admin.NopStation.AppPushNotification.QueuedPushNotifications.Fields.DontSendBeforeDate").Text,
+                                Width = "50",
+                                Render = new RenderDate()
+                            });
+                            gridModel.ColumnCollection.Add(new ColumnProperty(nameof(AppQueuedPushNotificationModel.Id))
+                            {
+                                Title = T("Admin.Common.View").Text,
+                                Width = "80",
+                                ClassName = NopColumnClassDefaults.Button,
+                                Render = new RenderButtonView(new DataUrl("View"))
+                            });
+                        }
+
+                        @await Html.PartialAsync("Table", gridModel)
+
+                        <script>
+                        $(document).ready(function () {
+                            $('#delete-sent-action-confirmation-submit-button').bind('click', function () {
+                                
+                                //addAntiForgeryToken(postData);
+                                $.ajax({
+                                    cache: false,
+                                    type: "GET",
+                                    url: "@(Url.Action("DeleteSentQueuedPushNotification", "AppQueuedPushNotification"))",
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        $('#deleteSentFailed-info').text(errorThrown);
+                                        $('#deleteSentFailed').click();
+                                    },
+                                    complete: function (jqXHR, textStatus) {
+                                        updateTable('#device-grid');
+                                    }
+                                });
+                                $('#delete-sent-action-confirmation').modal('toggle');
+                                return false;
+                            });
+                        });
+                        </script>
+                        <nop-alert asp-alert-id="deleteSentFailed" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

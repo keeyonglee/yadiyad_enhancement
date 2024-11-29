@@ -1,0 +1,53 @@
+@model ReturnRequestModel
+@inject IDownloadService downloadService
+
+@using Nop.Core;
+@using Nop.Services.Media
+@using Nop.Web.Framework.UI;
+
+<style>
+    .preview-img-doc{
+        width: 50%;
+        height: auto;
+    }
+</style>
+
+@{
+    foreach (var item in Model.PictureIds)
+    {
+        var download = downloadService.GetDownloadById(item.PictureId);
+        @if (download != null )
+        {
+            <div class="form-horizontal">
+                 <div class="panel-group">
+                
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <div style="clear: both;">
+                                                <div class="my-auto">
+                                                        @if (download.ContentType.Contains("image"))
+                                                        {
+                                                            <div>
+                                                                <img class="preview-img-doc" src="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))" />
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div>@download.Filename</div>
+                                                        }
+                                                        <a class='btn btn-default margin-t-5' href="@(Url.Content("~/api/pro/Document?downloadGuid="+download.DownloadGuid))" target="_blank"><i class='fa fa-download'></i>@T("Admin.Download.DownloadUploadedFile")</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                </div>
+            </div>
+           
+        }
+    }
+}

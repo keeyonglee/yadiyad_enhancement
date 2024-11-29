@@ -1,0 +1,26 @@
+﻿@model TopicModel
+@using Nop.Core.Domain.Seo
+@inject Nop.Core.IWebHelper webHelper
+@inject SeoSettings seoSettings
+@{
+    Path = "~/Areas/Pro/Views/";
+    Layout = "Shared/_Layout.cshtml";
+    if (seoSettings.CanonicalUrlsEnabled)
+    {
+        var topicUrl = Url.RouteUrl("Topic", new { SeName = Model.SeName }, webHelper.CurrentRequestProtocol).ToLowerInvariant();
+        Html.AddCanonicalUrlParts(topicUrl, seoSettings.QueryStringInCanonicalUrlsEnabled);
+    }
+
+}
+<div class="content">
+    <div class="container">
+        <div class="mt-3 mb-3">
+            <h1 class="text-center font-weight-bolder">@Model.Title</h1>
+        </div>
+        <div class="card">
+            <div class="card-body topic">
+                @Html.Raw(Model.Body)
+            </div>
+        </div>
+    </div>
+</div>
