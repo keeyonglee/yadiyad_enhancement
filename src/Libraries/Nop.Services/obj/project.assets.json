@@ -4632,7 +4632,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Data/4.3.0": {
         "type": "project",
@@ -4651,7 +4654,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Core/1.0.0": {
         "type": "project",
@@ -4665,7 +4671,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -12995,11 +13004,11 @@
   "project": {
     "version": "4.3.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
+      "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
       "projectName": "Nop.Services",
-      "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
+      "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
       "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\obj\\",
+      "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -13010,18 +13019,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
             }
           }
         }
@@ -13088,17 +13096,19 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -13159,6 +13169,16 @@
       "warningLevel": 1,
       "message": "Package 'SixLabors.ImageSharp' 1.0.0-rc0001 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-qxrv-gp6x-rc23",
       "libraryId": "SixLabors.ImageSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Linq.Dynamic.Core' 1.1.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-4cv2-4hjh-77rx",
+      "libraryId": "System.Linq.Dynamic.Core",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"
       ]

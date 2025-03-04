@@ -19,6 +19,12 @@ namespace YadiYad.Pro.Core.Domain.Consultation
         public string Questionnaire { get; set; }
         public double Duration { get; set; }
         public bool? IsApproved { get; set; }
+
+        public int Status { get; set; }
+
+        public string Responses { get; set; }
+        public string Review { get; set; }
+
         public string Remarks { get; set; }
         public bool DeletedFromUser { get; set; }
 

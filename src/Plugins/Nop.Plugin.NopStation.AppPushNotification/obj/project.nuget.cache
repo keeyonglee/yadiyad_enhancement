@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6/1l5w+5llc=",
+  "dgSpecHash": "bJ/0NonJoMY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.NopStation.AppPushNotification\\Nop.Plugin.NopStation.AppPushNotification.csproj",
+  "projectFilePath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.NopStation.AppPushNotification\\Nop.Plugin.NopStation.AppPushNotification.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chong\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\chong\\.nuget\\packages\\autofac\\5.0.0\\autofac.5.0.0.nupkg.sha512",

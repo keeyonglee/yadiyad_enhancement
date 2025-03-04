@@ -28,6 +28,10 @@ using YadiYad.Pro.Services.DTO.Service;
 using YadiYad.Pro.Services.JobSeeker;
 using YadiYad.Pro.Services.Services.Base;
 using YadiYad.Pro.Core.Infrastructure.Cache;
+using DocumentFormat.OpenXml.InkML;
+using YadiYad.Pro.Core.Domain.Deposit;
+using DocumentFormat.OpenXml.Bibliography;
+using Nop.Core.Domain.Payments;
 
 namespace YadiYad.Pro.Services.Job
 {
@@ -63,6 +67,7 @@ namespace YadiYad.Pro.Services.Job
         private readonly IRepository<JobSeekerLicenseCertificate> _jobSeekerLicenseCertificateRepository;
         private readonly IRepository<JobSeekerPreferredLocation> _jobSeekerPreferredLocationRepository;
         private readonly IRepository<PayoutRequest> _payoutRequestRepository;
+        private readonly IRepository<DepositRequest> _depositRequestRepository;
         private readonly JobSeekerProfileService _jobSeekerProfileService;
         //private readonly ICacheKeyService _cacheKeyService;
         //private readonly IStaticCacheManager _staticCacheManager;
@@ -107,6 +112,7 @@ namespace YadiYad.Pro.Services.Job
             IRepository<JobSeekerLicenseCertificate> jobSeekerLicenseCertificateRepository,
             IRepository<JobSeekerPreferredLocation> jobSeekerPreferredLocationRepository,
             IRepository<PayoutRequest> payoutRequestRepository,
+            IRepository<DepositRequest> depositRequestRepository,
             JobSeekerProfileService jobSeekerProfileService)
         {
             _mapper = mapper;
@@ -142,6 +148,7 @@ namespace YadiYad.Pro.Services.Job
             _jobSeekerLicenseCertificateRepository = jobSeekerLicenseCertificateRepository;
             _jobSeekerPreferredLocationRepository = jobSeekerPreferredLocationRepository;
             _payoutRequestRepository = payoutRequestRepository;
+            _depositRequestRepository = depositRequestRepository;
 
             _jobSeekerProfileService = jobSeekerProfileService;
         }
@@ -153,34 +160,41 @@ namespace YadiYad.Pro.Services.Job
 
         public virtual void CreateJobProfile(int actorId, JobProfileDTO dto)
         {
-            var request = _mapper.Map<JobProfile>(dto);
-
-            request.Status =
-                dto.Status == (int)JobProfileStatus.Publish
-                ? (int)JobProfileStatus.Publish
-                : (int)JobProfileStatus.Draft;
-
-            _jobProfileRepository.Insert(request);
-
-            foreach (var milestone in request.JobMilestones)
+            try
             {
-                milestone.JobProfileId = request.Id;
-                CreateAudit(milestone, actorId);
-            }
-            _jobMilestoneRepository.Insert(request.JobMilestones);
+                var request = _mapper.Map<JobProfile>(dto);
 
-            var jobProfileExpertiseRequest = dto.RequiredExpertises
-                .Select(x => new JobProfileExpertise
+                request.Status =
+                    dto.Status == (int)JobProfileStatus.Publish
+                    ? (int)JobProfileStatus.Publish
+                    : (int)JobProfileStatus.Draft;
+
+                _jobProfileRepository.Insert(request);
+
+                foreach (var milestone in request.JobMilestones)
                 {
-                    CustomerId = request.CustomerId,
-                    JobProfieId = request.Id,
-                    ExpertiseId = x.Id,
-                    CreatedById = request.CustomerId,
-                    CreatedOnUTC = DateTime.UtcNow
-                }).ToList();
-            _jobProfileExpertiseRepository.Insert(jobProfileExpertiseRequest);
+                    milestone.JobProfileId = request.Id;
+                    CreateAudit(milestone, actorId);
+                }
+                _jobMilestoneRepository.Insert(request.JobMilestones);
 
-            dto.Id = request.Id;
+                var jobProfileExpertiseRequest = dto.RequiredExpertises
+                    .Select(x => new JobProfileExpertise
+                    {
+                        CustomerId = request.CustomerId,
+                        JobProfieId = request.Id,
+                        ExpertiseId = x.Id,
+                        CreatedById = request.CustomerId,
+                        CreatedOnUTC = DateTime.UtcNow
+                    }).ToList();
+                _jobProfileExpertiseRepository.Insert(jobProfileExpertiseRequest);
+
+                dto.Id = request.Id;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public virtual void PublishJobProfile(int actorId, int jobProfileId)
@@ -1010,6 +1024,114 @@ namespace YadiYad.Pro.Services.Job
 
             return dto;
         }
+
+        /// <summary>
+        /// Send an invitation to an individual for a job profile.
+        /// Requires PVI (Pay-to-View-and-Invite) before sending.
+        /// </summary>
+        public virtual void SendInvitation(int actorId, int jobProfileId, int individualId, int productId)
+        {
+            var jobProfile = _jobProfileRepository.GetById(jobProfileId);
+            if (jobProfile == null || jobProfile.Deleted)
+                throw new KeyNotFoundException($"Job profile not found.");
+
+            // Ensure payment is recorded before sending an invite (PVI)
+            var depositRequest = new DepositRequest
+            {
+                DepositFrom = actorId, 
+                DepositTo = individualId, 
+                Amount = 0, 
+                ProductTypeId = productId, // Using ProductTypeId for PaymentType
+                RefId = jobProfileId, // Reference to JobProfile
+                Status = (int)PaymentStatus.Paid,
+                RequestDate = DateTime.UtcNow,
+                DueDate = DateTime.UtcNow, // Assuming immediate processing
+                BaseDepositNumber = new Random().Next(100000, 999999), // Example Deposit Number
+                DepositNumber = $"PVI-{Guid.NewGuid().ToString().Substring(0, 8)}",
+                PaymentChannelId = 1 
+            };
+
+            _depositRequestRepository.Insert(depositRequest);
+
+            var invitation = new JobInvitation
+            {
+                JobProfileId = jobProfileId,
+                JobSeekerProfileId = individualId,
+                JobInvitationStatus = 1, // Pending
+                CreatedOnUTC = DateTime.UtcNow
+            };
+
+            _JobInvitationRepository.Insert(invitation);
+        }
+
+        /// <summary>
+        /// Pay-to-View-and-Invite (PVI) process before sending invitations.
+        /// </summary>
+        public virtual bool PayToViewAndInvite(int actorId, int jobProfileId, int individualId, int productId)
+        {
+            var depositRequest = new DepositRequest
+            {
+                DepositFrom = actorId,
+                DepositTo = individualId,
+                Amount = 0, // If applicable, set PVI fee
+                ProductTypeId = productId,
+                RefId = jobProfileId,
+                Status = (int)PaymentStatus.Paid,
+                RequestDate = DateTime.UtcNow,
+                DueDate = DateTime.UtcNow,
+                BaseDepositNumber = new Random().Next(100000, 999999),
+                DepositNumber = $"PVI-{Guid.NewGuid().ToString().Substring(0, 8)}",
+                PaymentChannelId = 1
+            };
+
+            _depositRequestRepository.Insert(depositRequest);
+            return true; // Assuming successful insert means payment is completed.
+        }
+
+        /// <summary>
+        /// Hire an individual and process the 1st month professional fee payment.
+        /// </summary>
+        public virtual void HireIndividual(int actorId, int jobProfileId, int individualId, decimal amount, int productId)
+        {
+            var jobProfile = _jobProfileRepository.GetById(jobProfileId);
+            if (jobProfile == null || jobProfile.Deleted)
+                throw new KeyNotFoundException($"Job profile not found.");
+
+            var invitation = _JobInvitationRepository.Table
+                .FirstOrDefault(x => x.JobProfileId == jobProfileId && x.JobSeekerProfileId == individualId && x.JobInvitationStatus == 1);
+
+            if (invitation == null)
+                throw new KeyNotFoundException("No pending invitation found for this individual.");
+
+            // Insert record for 1st month professional fee payment
+            var professionalFeePayment = new DepositRequest
+            {
+                DepositFrom = actorId,
+                DepositTo = individualId,
+                Amount = amount, // Example fee, replace with actual fee logic
+                ProductTypeId = productId,
+                RefId = jobProfileId,
+                Status = (int)PaymentStatus.Paid,
+                RequestDate = DateTime.UtcNow,
+                DueDate = DateTime.UtcNow,
+                BaseDepositNumber = new Random().Next(100000, 999999),
+                DepositNumber = $"FMP-{Guid.NewGuid().ToString().Substring(0, 8)}",
+                PaymentChannelId = 1
+            };
+
+            _depositRequestRepository.Insert(professionalFeePayment);
+
+            // Mark the individual as hired
+            invitation.JobInvitationStatus = 2; // Hired
+            _JobInvitationRepository.Update(invitation);
+
+            // Update job profile status to "Hired"
+            jobProfile.Status = (int)JobProfileStatus.Hired;
+            jobProfile.UpdateAudit(actorId);
+            _jobProfileRepository.Update(jobProfile);
+        }
+
+
 
         #endregion
     }

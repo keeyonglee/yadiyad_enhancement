@@ -12,4 +12,8 @@
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\Payment\" />
+  </ItemGroup>
+
 </Project>

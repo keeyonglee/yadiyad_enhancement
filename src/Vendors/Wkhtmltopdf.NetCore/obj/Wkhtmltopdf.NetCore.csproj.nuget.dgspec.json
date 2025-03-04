@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {}
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
       "version": "3.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
         "projectName": "Wkhtmltopdf.NetCore",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
@@ -23,7 +23,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,8 +77,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -98,11 +96,14 @@
             }
           ],
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     }

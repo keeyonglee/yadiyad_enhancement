@@ -367,5 +367,74 @@ namespace YadiYad.Pro.Services.Services.Moderator
             var query = GetConsultationEngagementEditById(id);
             return query.FirstOrDefault();
         }
+
+        public void ApproveConsultationRequest(int id)
+        {
+            var consultation = _ConsultationInvitationRepository.GetById(id);
+            if (consultation == null) throw new Exception("Consultation request not found.");
+
+            consultation.IsApproved = true;
+            _ConsultationInvitationRepository.Update(consultation);
+        }
+
+        // Approve Consultant Questionnaire Response
+        public void ApproveConsultantResponse(int responseId)
+        {
+            var response = _ConsultationInvitationRepository.GetById(responseId);
+            if (response == null) throw new Exception("Response not found.");
+
+            response.IsApproved = true;
+            _ConsultationInvitationRepository.Update(response);
+        }
+
+        // Setup Consultation Appointment
+        public void SetupConsultationAppointment(int id, DateTime start, DateTime end, String status_remark)
+        {
+            var consultation = _ConsultationInvitationRepository.GetById(id);
+            if (consultation == null) throw new Exception("Consultation not found.");
+
+            consultation.AppointmentStartDate = start;
+            consultation.AppointmentEndDate = end;
+            consultation.StatusRemarks = status_remark;
+
+            _ConsultationInvitationRepository.Update(consultation);
+        }
+
+        // Reschedule Consultation Appointment
+        public void RescheduleConsultation(int id, DateTime newStart, DateTime newEnd)
+        {
+            var consultation = _ConsultationInvitationRepository.GetById(id);
+            if (consultation == null) throw new Exception("Consultation not found.");
+
+            consultation.AppointmentStartDate = newStart;
+            consultation.AppointmentEndDate = newEnd;
+
+            _ConsultationInvitationRepository.Update(consultation);
+        }
+
+        // Cancel Consultation Appointment
+        public void CancelConsultation(int id, int cancelledBy, int reasonId, string status_remark, string remarks)
+        {
+            var consultation = _ConsultationInvitationRepository.GetById(id);
+            if (consultation == null) throw new Exception("Consultation not found.");
+
+            consultation.StatusRemarks = status_remark;
+            consultation.CancellationReasonId = reasonId;
+            consultation.CancellationRemarks = remarks;
+
+            _ConsultationInvitationRepository.Update(consultation);
+        }
+
+        // Allow Rehiring After Cancellation
+        public void AllowRehireAfterCancellation(int engagementId, int newConsultantId, string status_remark)
+        {
+            var consultation = _ConsultationInvitationRepository.GetById(engagementId);
+            if (consultation == null) throw new Exception("Consultation not found.");
+
+            consultation.ConsultationProfileId = newConsultantId;
+            consultation.StatusRemarks = status_remark;
+
+            _ConsultationInvitationRepository.Update(consultation);
+        }
     }
 }

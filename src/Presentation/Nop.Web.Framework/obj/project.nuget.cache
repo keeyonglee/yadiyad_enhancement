@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9M2vJmM14u0=",
+  "dgSpecHash": "bMO+X8KoWy8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
+  "projectFilePath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chong\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\chong\\.nuget\\packages\\autofac\\5.0.0\\autofac.5.0.0.nupkg.sha512",

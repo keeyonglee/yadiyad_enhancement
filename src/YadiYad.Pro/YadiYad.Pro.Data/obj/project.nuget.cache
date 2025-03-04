@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0fwNxor1ONw=",
+  "dgSpecHash": "gy0Ba0sfrsk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
+  "projectFilePath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chong\\.nuget\\packages\\autofac\\5.0.0\\autofac.5.0.0.nupkg.sha512",
     "C:\\Users\\chong\\.nuget\\packages\\autofac.extensions.dependencyinjection\\6.0.0\\autofac.extensions.dependencyinjection.6.0.0.nupkg.sha512",

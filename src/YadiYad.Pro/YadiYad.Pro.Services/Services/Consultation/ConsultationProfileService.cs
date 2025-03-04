@@ -5,6 +5,7 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Directory;
 using Nop.Data;
 using Nop.Services.Caching;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,6 +137,48 @@ namespace YadiYad.Pro.Services.Consultation
             model.UpdatedOnUTC = DateTime.UtcNow;
             _ConsultationProfileRepository.Update(model);
         }
+
+
+        public virtual void ReviewConsultationResponses(int actorId, int consultationProfileId, List<QuestionDTO> responses)
+        {
+            var profile = _ConsultationProfileRepository.Table.FirstOrDefault(x => x.Id == consultationProfileId && !x.Deleted);
+            if (profile == null) throw new KeyNotFoundException();
+            profile.Responses = JsonConvert.SerializeObject(responses);
+            profile.UpdateAudit(actorId);
+            _ConsultationProfileRepository.Update(profile);
+        }
+
+        public virtual void HireConsultant(int actorId, int consultationProfileId, int consultantId, decimal fee)
+        {
+            var profile = _ConsultationProfileRepository.Table.FirstOrDefault(x => x.Id == consultationProfileId && !x.Deleted);
+            if (profile == null) throw new KeyNotFoundException();
+            profile.OrganizationProfileId = consultantId;
+            profile.IsApproved = true;
+            profile.UpdateAudit(actorId);
+            _ConsultationProfileRepository.Update(profile);
+        }
+
+        public virtual void RehireConsultant(int actorId, int consultationProfileId, int newConsultantId)
+        {
+            var profile = _ConsultationProfileRepository.Table.FirstOrDefault(x => x.Id == consultationProfileId && !x.Deleted);
+            if (profile == null) throw new KeyNotFoundException();
+
+            profile.OrganizationProfileId = newConsultantId;
+            profile.IsApproved = true;
+            profile.UpdateAudit(actorId);
+            _ConsultationProfileRepository.Update(profile);
+        }
+
+        public virtual void SubmitConsultationReview(int actorId, int consultationProfileId, ConsultationInvitationReviewDTO review)
+        {
+            var profile = _ConsultationProfileRepository.Table.FirstOrDefault(x => x.Id == consultationProfileId && !x.Deleted);
+            if (profile == null) throw new KeyNotFoundException();
+            profile.Review = JsonConvert.SerializeObject(review);
+            profile.Status = (int)ConsultationHiringStatus.Completed;
+            profile.UpdateAudit(actorId);
+            _ConsultationProfileRepository.Update(profile);
+        }
+
 
         public ConsultationProfileDTO GetConsultationProfileById(int id)
         {

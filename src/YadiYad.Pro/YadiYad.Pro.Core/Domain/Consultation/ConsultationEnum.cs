@@ -42,4 +42,18 @@ namespace YadiYad.Pro.Core.Domain.Consultation
         [Description("Cancelled By Seller")]
         CancelledBySeller = 4
     }
+
+    public enum ConsultationHiringStatus
+    {
+        [Description("New")]
+        New = 1,
+        [Description("Accepted")]
+        Accepted = 2,
+        [Description("Declined")]
+        Declined = 3,
+        [Description("Hired")]
+        Hired = 4,
+        [Description("Completed")]
+        Completed = 5,
+    }
 }

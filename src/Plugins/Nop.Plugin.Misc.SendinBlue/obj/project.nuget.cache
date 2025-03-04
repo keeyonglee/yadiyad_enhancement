@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WN0m05Upiro=",
+  "dgSpecHash": "mqYE0/rU250=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Misc.SendinBlue\\Nop.Plugin.Misc.SendinBlue.csproj",
+  "projectFilePath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Misc.SendinBlue\\Nop.Plugin.Misc.SendinBlue.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chong\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\chong\\.nuget\\packages\\autofac\\5.0.0\\autofac.5.0.0.nupkg.sha512",

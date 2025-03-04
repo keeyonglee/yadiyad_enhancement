@@ -1567,7 +1567,7 @@ namespace YadiYad.Pro.Services.Payout
         }
 
         public virtual string GeneratePayoutBatchCSVContent(
-            PayoutBatchDTO payoutBatchDTO,
+            PayoutBatchDTO payoutBatchDTO,s
             PagedList<PayoutGroupDTO> payoutGroupDTOs,
             DateTime generationDateTime
             )

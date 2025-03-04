@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/guEM+vQBhE=",
+  "dgSpecHash": "EarQd2uzi+8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
+  "projectFilePath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\chong\\.nuget\\packages\\autofac\\5.0.0\\autofac.5.0.0.nupkg.sha512",
     "C:\\Users\\chong\\.nuget\\packages\\autofac.extensions.dependencyinjection\\6.0.0\\autofac.extensions.dependencyinjection.6.0.0.nupkg.sha512",

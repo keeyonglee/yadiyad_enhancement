@@ -5578,7 +5578,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Data/4.3.0": {
         "type": "project",
@@ -5597,7 +5600,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Services/4.3.0": {
         "type": "project",
@@ -5621,7 +5627,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Web/4.3.0": {
         "type": "project",
@@ -5666,7 +5675,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Web.Framework.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.Borzo/1.0.0": {
         "type": "project",
@@ -5681,7 +5693,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.Borzo.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.JnT/1.0.0": {
         "type": "project",
@@ -5697,7 +5712,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.JnT.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.LalaMove/1.0.0": {
         "type": "project",
@@ -5712,7 +5730,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.LalaMove.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Wkhtmltopdf.NetCore/3.0.0": {
         "type": "project",
@@ -5730,7 +5751,10 @@
         },
         "runtime": {
           "bin/placeholder/Wkhtmltopdf.NetCore.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Core/1.0.0": {
         "type": "project",
@@ -5744,7 +5768,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Data/1.0.0": {
         "type": "project",
@@ -5758,7 +5785,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Services/1.0.0": {
         "type": "project",
@@ -5774,7 +5804,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Web/1.0.0": {
         "type": "project",
@@ -15065,11 +15098,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\Nop.Plugin.Payments.PayPalSmartPaymentButtons.csproj",
+      "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\Nop.Plugin.Payments.PayPalSmartPaymentButtons.csproj",
       "projectName": "Nop.Plugin.Payments.PayPalSmartPaymentButtons",
-      "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\Nop.Plugin.Payments.PayPalSmartPaymentButtons.csproj",
+      "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\Nop.Plugin.Payments.PayPalSmartPaymentButtons.csproj",
       "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\obj\\",
+      "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Payments.PayPalSmartPaymentButtons\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -15080,15 +15113,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj"
             }
           }
         }
@@ -15127,8 +15159,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -15140,7 +15171,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
       }
     }
   },

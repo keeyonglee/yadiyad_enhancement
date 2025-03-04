@@ -6029,7 +6029,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Data/4.3.0": {
         "type": "project",
@@ -6048,7 +6051,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Plugin.StorageMedia.AmazonS3/1.0.0": {
         "type": "project",
@@ -6064,7 +6070,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Plugin.StorageMedia.AmazonS3.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Services/4.3.0": {
         "type": "project",
@@ -6088,7 +6097,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Services.Tests/4.3.0": {
         "type": "project",
@@ -6104,7 +6116,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Services.Tests.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Tests/4.3.0": {
         "type": "project",
@@ -6122,7 +6137,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Tests.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Web/4.3.0": {
         "type": "project",
@@ -6167,7 +6185,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Web.Framework.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.Borzo/1.0.0": {
         "type": "project",
@@ -6182,7 +6203,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.Borzo.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.JnT/1.0.0": {
         "type": "project",
@@ -6198,7 +6222,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.JnT.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "QB.Shipping.LalaMove/1.0.0": {
         "type": "project",
@@ -6213,7 +6240,10 @@
         },
         "runtime": {
           "bin/placeholder/QB.Shipping.LalaMove.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Wkhtmltopdf.NetCore/3.0.0": {
         "type": "project",
@@ -6231,7 +6261,10 @@
         },
         "runtime": {
           "bin/placeholder/Wkhtmltopdf.NetCore.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Core/1.0.0": {
         "type": "project",
@@ -6245,7 +6278,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Data/1.0.0": {
         "type": "project",
@@ -6259,7 +6295,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Services/1.0.0": {
         "type": "project",
@@ -6275,7 +6314,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Web/1.0.0": {
         "type": "project",
@@ -16253,11 +16295,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\YadiYad.Pro.Integration.Tests\\YadiYad.Pro.Integration.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\YadiYad.Pro.Integration.Tests\\YadiYad.Pro.Integration.Tests.csproj",
       "projectName": "YadiYad.Pro.Integration.Tests",
-      "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\YadiYad.Pro.Integration.Tests\\YadiYad.Pro.Integration.Tests.csproj",
+      "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\YadiYad.Pro.Integration.Tests\\YadiYad.Pro.Integration.Tests.csproj",
       "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\YadiYad.Pro.Integration.Tests\\obj\\",
+      "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\YadiYad.Pro.Integration.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -16268,39 +16310,38 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.StorageMedia.AmazonS3\\Nop.Plugin.StorageMedia.AmazonS3.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.StorageMedia.AmazonS3\\Nop.Plugin.StorageMedia.AmazonS3.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.StorageMedia.AmazonS3\\Nop.Plugin.StorageMedia.AmazonS3.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.StorageMedia.AmazonS3\\Nop.Plugin.StorageMedia.AmazonS3.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj"
             },
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
             }
           }
         }
@@ -16345,8 +16386,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -16358,7 +16398,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
       }
     }
   },

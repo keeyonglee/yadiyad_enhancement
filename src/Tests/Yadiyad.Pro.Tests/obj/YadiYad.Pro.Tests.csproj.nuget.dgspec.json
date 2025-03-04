@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj": {}
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj",
         "projectName": "Nop.Core",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -101,28 +100,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj",
         "projectName": "Nop.Data",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -133,18 +134,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
               }
             }
           }
@@ -191,28 +191,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
         "projectName": "Nop.Services",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -223,18 +225,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
               }
             }
           }
@@ -301,28 +302,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj",
         "projectName": "Nop.Plugin.Shipping.FixedByWeightByTotal",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -333,18 +336,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
               }
             }
           }
@@ -369,8 +371,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -382,18 +383,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
         "projectName": "QB.Shipping.Borzo",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -404,15 +405,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               }
             }
           }
@@ -447,28 +447,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj",
         "projectName": "QB.Shipping.JnT",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -479,15 +481,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               }
             }
           }
@@ -526,28 +527,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj",
         "projectName": "QB.Shipping.LalaMove",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -558,15 +561,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               }
             }
           }
@@ -601,28 +603,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
         "projectName": "Nop.Web.Framework",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -633,21 +637,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               }
             }
           }
@@ -690,28 +693,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj",
         "projectName": "Nop.Web",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -722,39 +727,38 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.Borzo\\QB.Shipping.Borzo.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj"
               }
             }
           }
@@ -789,8 +793,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -802,18 +805,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj",
         "projectName": "Nop.Services.Tests",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -824,18 +827,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
               }
             }
           }
@@ -876,28 +878,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
       "version": "4.3.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj",
         "projectName": "Nop.Tests",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -908,18 +912,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               }
             }
           }
@@ -968,28 +971,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj",
         "projectName": "YadiYad.Pro.Tests",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Pro.Tests\\YadiYad.Pro.Tests.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Pro.Tests\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Pro.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1000,36 +1005,35 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\Nop.Plugin.Shipping.FixedByWeightByTotal\\Nop.Plugin.Shipping.FixedByWeightByTotal.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.JnT\\QB.Shipping.JnT.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Plugins\\QB.Shipping.LalaMove\\QB.Shipping.LalaMove.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
               }
             }
           }
@@ -1074,8 +1078,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -1087,18 +1090,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj",
         "projectName": "Yadiyad.Tests",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\Yadiyad.Tests.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Yadiyad.Tests\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Yadiyad.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1109,24 +1112,23 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web\\Nop.Web.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web\\Nop.Web.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Services.Tests\\Nop.Services.Tests.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
               }
             }
           }
@@ -1151,8 +1153,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -1164,18 +1165,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
       "version": "3.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
         "projectName": "Wkhtmltopdf.NetCore",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
@@ -1187,7 +1188,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -1242,8 +1242,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -1262,22 +1261,25 @@
             }
           ],
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj",
         "projectName": "YadiYad.Pro.Core",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1288,15 +1290,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Core\\Nop.Core.csproj"
               }
             }
           }
@@ -1327,28 +1328,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
         "projectName": "YadiYad.Pro.Data",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1359,18 +1362,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Data\\Nop.Data.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
               }
             }
           }
@@ -1395,28 +1397,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj",
         "projectName": "YadiYad.Pro.Services",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1427,21 +1431,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Libraries\\Nop.Services\\Nop.Services.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Core\\YadiYad.Pro.Core.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Data\\YadiYad.Pro.Data.csproj"
               }
             }
           }
@@ -1472,28 +1475,30 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj": {
+    "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj",
+        "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj",
         "projectName": "YadiYad.Pro.Web",
-        "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj",
+        "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\YadiYad.Pro.Web.csproj",
         "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\obj\\",
+        "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Web\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1504,21 +1509,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Presentation\\Nop.Web.Framework\\Nop.Web.Framework.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Vendors\\Wkhtmltopdf.NetCore\\Wkhtmltopdf.NetCore.csproj"
               },
-              "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
-                "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
+              "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj": {
+                "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\YadiYad.Pro\\YadiYad.Pro.Services\\YadiYad.Pro.Services.csproj"
               }
             }
           }
@@ -1557,8 +1561,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -1570,7 +1573,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     }

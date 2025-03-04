@@ -5116,7 +5116,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Data/4.3.0": {
         "type": "project",
@@ -5135,7 +5138,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Services/4.3.0": {
         "type": "project",
@@ -5159,7 +5165,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Nop.Tests/4.3.0": {
         "type": "project",
@@ -5177,7 +5186,10 @@
         },
         "runtime": {
           "bin/placeholder/Nop.Tests.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "YadiYad.Pro.Core/1.0.0": {
         "type": "project",
@@ -5191,7 +5203,10 @@
         },
         "runtime": {
           "bin/placeholder/YadiYad.Pro.Core.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -14159,11 +14174,11 @@
   "project": {
     "version": "4.3.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Core.Tests\\Nop.Core.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Core.Tests\\Nop.Core.Tests.csproj",
       "projectName": "Nop.Core.Tests",
-      "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Core.Tests\\Nop.Core.Tests.csproj",
+      "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Core.Tests\\Nop.Core.Tests.csproj",
       "packagesPath": "C:\\Users\\chong\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Core.Tests\\obj\\",
+      "outputPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Core.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\chong\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -14174,15 +14189,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
-              "projectPath": "C:\\Users\\chong\\Downloads\\Yadiyad\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
+            "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj": {
+              "projectPath": "C:\\Users\\chong\\Downloads\\yadiyad restore\\yadiyad_restore\\src\\Tests\\Nop.Tests\\Nop.Tests.csproj"
             }
           }
         }
@@ -14223,17 +14237,19 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
       }
     }
   },
